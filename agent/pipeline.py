@@ -58,7 +58,7 @@ def _detail(name: str, out) -> str:
     if name == "brief":
         return f"{len(out['claims'])} claims via {out.get('model')}"
     if name == "eval":
-        return out["explanation"]
+        return "; ".join(f"{e['name']}={e['score'] if e['score'] is not None else 'n/a'}" for e in out)
     return ""
 
 
@@ -140,14 +140,17 @@ def investigate(query: str, on_step=None) -> dict:
 
         def evaluate():
             ev = grounding_eval(briefing, context)
-            tracing.log_eval(ev["name"], ev["score"], ev["label"], ev["explanation"])
-            return ev
+            faith = llm.judge_faithfulness(briefing, context)
+            for e in (ev, faith):
+                tracing.log_eval(e["name"], e["score"] if e["score"] is not None else 0.0, e["label"], e["explanation"])
+            return [ev, faith]
 
-        ev = run("eval", evaluate, "EVALUATOR")
-        if ev:
-            tracing.log_eval(ev["name"], ev["score"], ev["label"], ev["explanation"])  # also on the root span
+        evs = run("eval", evaluate, "EVALUATOR") or []
+        for e in evs:
+            tracing.log_eval(e["name"], e["score"] if e["score"] is not None else 0.0, e["label"], e["explanation"])  # also on the root span
+        ev = evs[0] if evs else None
         result.update(live=live, memory=memory, analysis=analysis, changes=changes, briefing=briefing, eval=ev,
-                      flags=analysis.get("flags") or [],
+                      evals=evs, flags=analysis.get("flags") or [],
                       sandbox={"ran_in": analysis.get("ran_in"), "sandbox_id": analysis.get("sandbox_id")})
         tracing.set_output(root, {"briefing": briefing.get("text"), "risk": analysis.get("risk")})
     return result
