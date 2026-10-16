@@ -36,13 +36,14 @@ def _parse(raw: str) -> dict:
     return {"text": str(data["text"]).strip(), "claims": claims}
 
 
-def _bedrock(context: dict) -> dict:
+def _converse(system: str, user_text: str, max_tokens: int = 1000) -> tuple[str, str]:
+    """One Bedrock Converse call. Returns (raw_text, model_used); raises on failure."""
     import boto3
 
     client = boto3.client("bedrock-runtime", region_name=env("AWS_REGION", "us-west-2"))
     model = env("BEDROCK_MODEL_ID", DEFAULT_MODEL)
-    kwargs = dict(system=[{"text": SYSTEM}], inferenceConfig={"maxTokens": 1000},
-                  messages=[{"role": "user", "content": [{"text": "Context:\n" + json.dumps(context, default=str)}]}])
+    kwargs = dict(system=[{"text": system}], inferenceConfig={"maxTokens": max_tokens},
+                  messages=[{"role": "user", "content": [{"text": user_text}]}])
     try:
         resp = client.converse(modelId=model, **kwargs)
     except client.exceptions.ValidationException as e:
@@ -52,6 +53,11 @@ def _bedrock(context: dict) -> dict:
         model = "us." + model
         resp = client.converse(modelId=model, **kwargs)
     raw = next(b["text"] for b in resp["output"]["message"]["content"] if "text" in b)
+    return raw, model
+
+
+def _bedrock(context: dict) -> dict:
+    raw, model = _converse(SYSTEM, "Context:\n" + json.dumps(context, default=str))
     return {**_parse(raw), "model": model, "available": True}
 
 
@@ -81,3 +87,40 @@ def brief(context: dict) -> dict:
     except Exception as e:
         log.warning("bedrock failed: %s", e)
         return _template(context, f"bedrock failed: {type(e).__name__}: {e}"[:200])
+
+
+JUDGE_SYSTEM = (
+    "You are a strict fact-checker reviewing a sanctions investigator's briefing. You are given the JSON context "
+    "the investigator gathered and the claims it made from that context, each citing a source URL. For each claim, "
+    "judge whether its text is actually supported by the context the source points to (not just that the URL "
+    "appears somewhere, but that the claim does not overstate, invent, or contradict what that context says). "
+    "Use only the given context, no outside knowledge. Reply with JSON only, no prose around it: "
+    '{"score": <fraction 0-1 of claims that are faithful>, '
+    '"label": "faithful"|"partially_faithful"|"unfaithful", '
+    '"explanation": "<one sentence, e.g. 2/3 claims faithful; claim 2 overstates the flag change>"}'
+)
+
+
+def judge_faithfulness(briefing: dict, context: dict) -> dict:
+    """LLM-as-judge: do the briefing's claims say only what the gathered context supports?
+    Complements `claims_grounded` (which only checks the source URL is present) with a content check."""
+    claims = briefing.get("claims") or []
+    if not claims:
+        return {"name": "claims_faithful", "score": 0.0, "label": "no_claims",
+                "explanation": "no claims to judge", "model": None, "available": False}
+    if not _creds_available():
+        return {"name": "claims_faithful", "score": None, "label": "unavailable",
+                "explanation": "AWS credentials not set", "model": None, "available": False}
+    try:
+        payload = json.dumps({"claims": claims, "context": context}, default=str)
+        raw, model = _converse(JUDGE_SYSTEM, payload, max_tokens=400)
+        data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+        score = round(float(data["score"]), 3)
+        label = str(data.get("label") or ("faithful" if score == 1 else "unfaithful" if score == 0 else "partially_faithful"))
+        explanation = str(data.get("explanation") or "")
+        return {"name": "claims_faithful", "score": score, "label": label,
+                "explanation": explanation, "model": model, "available": True}
+    except Exception as e:
+        log.warning("faithfulness judge failed: %s", e)
+        return {"name": "claims_faithful", "score": None, "label": "unavailable",
+                "explanation": f"judge failed: {type(e).__name__}: {e}"[:200], "model": None, "available": False}
