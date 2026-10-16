@@ -20,7 +20,7 @@ from .config import AGENT_DIR
 NAME = "flagstate-agent"
 REGION = "us-west-2"
 REPO = "https://github.com/Ttheegela/flagstate.git"
-DEPS = ("fastapi 'uvicorn[standard]' httpx python-dotenv boto3 daytona surrealdb elevenlabs "
+DEPS = ("fastapi python-multipart 'uvicorn[standard]' httpx python-dotenv boto3 daytona surrealdb elevenlabs "
         "arize-otel openinference-instrumentation-bedrock opentelemetry-sdk opentelemetry-exporter-otlp")
 SKIP = {"AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN", "AWS_DEFAULT_REGION", "AWS_REGION"}
 

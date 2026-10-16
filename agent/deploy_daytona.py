@@ -18,7 +18,7 @@ from .config import AGENT_DIR, REPO_ROOT, env
 NAME = "flagstate-agent"
 PORT = 8787
 APP = "/home/daytona/flagstate"
-DEPS = ("fastapi 'uvicorn[standard]' httpx python-dotenv boto3 daytona surrealdb elevenlabs "
+DEPS = ("fastapi python-multipart 'uvicorn[standard]' httpx python-dotenv boto3 daytona surrealdb elevenlabs "
         "arize-otel openinference-instrumentation-bedrock opentelemetry-sdk opentelemetry-exporter-otlp")
 
 

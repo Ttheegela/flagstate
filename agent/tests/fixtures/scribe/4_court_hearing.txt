@@ -1,0 +1,7 @@
+Prosecutor: Your Honour, the defendant arranged payments for the vessel Skif-V, IMO 8858087, through a front company.
+
+Defence: My client has never met Ali Rakhbarmadani and has no link to that ship.
+
+Prosecutor: Then explain the invoice for IMO 1234567, a hull that appears in no registry we could find.
+
+Judge: Noted. Counsel, please continue.

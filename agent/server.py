@@ -5,12 +5,12 @@ import threading
 from functools import lru_cache
 import uuid
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from pydantic import BaseModel
 
-from . import lookup, pipeline, tracing
+from . import lookup, pipeline, scribe, tracing
 from .config import env
 
 app = FastAPI(title="Flagstate agent")
@@ -159,3 +159,38 @@ def tool_status(body: JobRef):
     briefing = (res.get("briefing") or {}).get("text") or "The investigation finished but produced no briefing."
     return {"say": briefing, "status": "done", "job_id": job["id"], "steps": steps,
             "risk": (res.get("analysis") or {}).get("risk"), "top_flags": flags}
+
+
+# Scribe: check a recording or a pasted transcript for ships, companies and people on record.
+MAX_AUDIO = 25 * 1024 * 1024
+MAX_TRANSCRIPT = 200_000
+
+
+class Transcript(BaseModel):
+    text: str
+
+
+@app.post("/scribe")
+def scribe_audio(file: UploadFile = File(...), hints: str = Form("")):
+    kind = (file.content_type or "").split(";")[0]
+    if kind and not kind.startswith(("audio/", "video/")) and kind != "application/octet-stream":
+        raise HTTPException(415, "upload an audio or video file")
+    audio = file.file.read(MAX_AUDIO + 1)
+    if not audio:
+        raise HTTPException(400, "empty file")
+    if len(audio) > MAX_AUDIO:
+        raise HTTPException(413, "file is over 25 MB")
+    try:
+        return scribe.check_audio(audio, file.filename or "audio", kind or None,
+                                  [h.strip() for h in hints.split(",") if h.strip()][:50])
+    except scribe.ScribeUnavailable as e:
+        raise HTTPException(503, f"transcription unavailable: {e}") from e
+
+
+@app.post("/scribe/text")
+def scribe_text(body: Transcript):
+    if not body.text.strip():
+        raise HTTPException(400, "empty transcript")
+    if len(body.text) > MAX_TRANSCRIPT:
+        raise HTTPException(413, "transcript is over 200,000 characters")
+    return scribe.check_text(body.text)

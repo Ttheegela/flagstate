@@ -28,7 +28,8 @@ So a ship can sit on three sanctions lists and still sail under a flag none of t
    - **Remember**: the new facts. A new value supersedes the old one and the history is kept.
    - **Brief**: a short spoken-style briefing grounded only in what was gathered, with a source for every claim.
    - **Evaluate**: a check that every claim in the briefing cites a source the agent actually gathered.
-3. **Ask by voice.** A voice agent answers questions like "Is TASSOS sanctioned, and has it changed flag?" using the same tools: quick search, start an investigation, check its progress, read the briefing.
+3. **Check a recording.** Drop in a radio call, press conference, hearing or podcast (or paste a transcript). ElevenLabs Scribe transcribes it with speakers and timestamps, biased towards the ship and company names in the data, and every ship, company or person on record is marked, checked against the lists and one click from a live investigation. IMO numbers count only when their check digit is valid, and an old name is resolved to the ship's current one ("heard as Front Balder, on record as TASSOS").
+4. **Ask by voice.** A voice agent answers questions like "Is TASSOS sanctioned, and has it changed flag?" using the same tools: quick search, start an investigation, check its progress, read the briefing.
 
 ### What it found
 
@@ -56,7 +57,7 @@ browser (static site, Vercel)            ElevenLabs voice agent
 | Analyse | **Daytona** | Runs the risk analysis as code inside a Daytona sandbox, reused across runs; the sandbox id is shown in the UI |
 | Brief | **AWS Bedrock** (Claude Haiku 4.5) | Writes the briefing from the gathered context only, returning each claim with its source URL |
 | Eval | **Arize AX** | Traces every investigation (agent, tool, LLM and evaluator spans) and logs a grounding score: the share of claims whose source was actually gathered |
-| Voice | **ElevenLabs** | Reads the briefing aloud, and powers the conversational voice agent |
+| Voice | **ElevenLabs** | Reads the briefing aloud, powers the conversational voice agent, and transcribes recordings with Scribe (diarization, word timestamps, keyterms from the sanctions data) |
 
 Each step fails on its own. A missing key or a failed call marks that step `skipped` or `error`, and the investigation carries on with what it has.
 
