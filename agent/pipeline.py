@@ -62,6 +62,23 @@ def _detail(name: str, out) -> str:
     return ""
 
 
+RESEARCH_SNAPSHOT = "2026-09-25T00:00:00+00:00"  # date of the research index in data/
+
+
+def history_changes(memory: list[dict]) -> list[dict]:
+    """Pair each superseded fact with the value that replaced it (same field, observed when the old one ended)."""
+    out = []
+    for old in memory:
+        if not old.get("superseded_at"):
+            continue
+        new = next((m for m in memory if m.get("field") == old.get("field")
+                    and m.get("observed_at") == old["superseded_at"]), None)
+        if new:
+            out.append({"field": old["field"], "old": old.get("value"), "new": new.get("value"),
+                        "old_observed_at": old.get("observed_at"), "changed_at": old["superseded_at"]})
+    return out
+
+
 def investigate(query: str, on_step=None) -> dict:
     on_step = on_step or (lambda step: None)
     steps: list[dict] = []
@@ -102,15 +119,21 @@ def investigate(query: str, on_step=None) -> dict:
         analysis = run("analyse", lambda: sandbox.run_analysis({"lookup": lk, "live": live, "memory": memory}), "TOOL") or {}
 
         def remember():
+            mem = _require("memory")
+            baseline = {k: top.get(k) for k in ("name", "flag", "manager") if top and top.get(k)}
+            research_src = (top["sources"][-1]["url"] if top and top.get("sources") else "") or ""
+            if not memory and baseline:  # first check: the research snapshot is the earlier observation
+                mem.remember(key, baseline, research_src, RESEARCH_SNAPSHOT)
             facts, source = live.get("facts") or {}, (live.get("sources") or [None])[0]
-            if not facts and top:  # no live data: seed memory with the research record as a baseline
-                facts = {k: top.get(k) for k in ("name", "flag", "manager") if top.get(k)}
-                source = top["sources"][-1]["url"] if top.get("sources") else None
             if not facts:
-                raise Skipped("no facts to remember")
-            return _require("memory").remember(key, facts, source or "", datetime.now(timezone.utc).isoformat())
+                if memory or not baseline:
+                    raise Skipped("no live facts to remember")
+                return []
+            return mem.remember(key, facts, source or "", datetime.now(timezone.utc).isoformat())
 
         changes = run("remember", remember, "TOOL") or []
+        if not changes:  # nothing new this run: show the changes memory already holds for this subject
+            changes = history_changes(memory)
         context = {"query": query, "subject": subject, "imo": imo, "research": lk["research"][:2],
                    "lists": lk["lists"][:5], "live": live, "analysis": analysis, "changes": changes}
         briefing = run("brief", lambda: llm.brief(context), "LLM", context) or {"text": "", "claims": []}

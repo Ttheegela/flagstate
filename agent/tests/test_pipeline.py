@@ -55,3 +55,14 @@ def test_grounding_eval_counts_ungrounded_claims():
     ev = pipeline.grounding_eval({"claims": [{"text": "a", "source": "https://a.example"},
                                              {"text": "b", "source": "https://made.up"}]}, ctx)
     assert ev["score"] == 0.5 and ev["label"] == "partially_grounded"
+
+
+def test_history_changes_pairs_superseded_facts():
+    mem = [
+        {"field": "flag", "value": "Liberia", "observed_at": "2026-09-25T00:00:00+00:00", "superseded_at": "2026-10-16T16:50:00+00:00"},
+        {"field": "flag", "value": "Cameroon", "observed_at": "2026-10-16T16:50:00+00:00", "superseded_at": None},
+        {"field": "name", "value": "TASSOS", "observed_at": "2026-09-25T00:00:00+00:00", "superseded_at": None},
+    ]
+    assert pipeline.history_changes(mem) == [{"field": "flag", "old": "Liberia", "new": "Cameroon",
+                                               "old_observed_at": "2026-09-25T00:00:00+00:00",
+                                               "changed_at": "2026-10-16T16:50:00+00:00"}]
