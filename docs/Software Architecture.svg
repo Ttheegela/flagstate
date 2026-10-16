@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1280" viewBox="0 0 1600 1280" role="img" aria-labelledby="title desc">
+<title id="title">Flagstate — Agent System Design</title>
+<desc id="desc">Static Vercel frontend and FastAPI service, evidence intake, the sequential lookup, recall, browse, analyse, remember, brief and evaluation pipeline, and cited results with optional audio.</desc>
+<defs>
+<marker id="blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#3275e9"/></marker>
+<marker id="teal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#00a497"/></marker>
+<marker id="green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#15945b"/></marker>
+<marker id="orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#e48a07"/></marker>
+<marker id="red" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#dc5639"/></marker>
+</defs><style>
+text{font-family:Segoe UI,Arial,sans-serif;fill:#193652}
+.title{font-size:36px;font-weight:750}.sub{font-size:17px;fill:#6c7e94}
+.heading{font-size:23px;font-weight:700}.cardtitle{font-size:19px;font-weight:700}
+.body{font-size:16px;fill:#576d83}.small{font-size:14px;fill:#6c7e94}
+.tag{font-size:13px;font-weight:700;letter-spacing:1.7px}
+</style><rect width="1600" height="1280" fill="#f7f9fc"/>
+<text x="60" y="58" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#193652">Flagstate — Agent System Design</text>
+<text x="60" y="88" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#6c7e94">How a name, IMO number or recording becomes a sourced sanctions investigation</text>
+<text x="1322" y="55" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#3275e9">SOFTWARE ARCHITECTURE</text>
+<text x="1390" y="81" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">October 2026</text>
+<rect x="60" y="132" width="230" height="117" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="60" y="132" width="230" height="5" rx="2.5" fill="#3275e9"/>
+<text x="78" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">User / Analyst</text>
+<text x="78" y="191" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Ship, company or person</text>
+<text x="78" y="214" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Text, voice or recording</text>
+<rect x="330" y="132" width="270" height="117" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="330" y="132" width="270" height="5" rx="2.5" fill="#3275e9"/>
+<text x="348" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Static Frontend</text>
+<text x="348" y="191" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">HTML + CSS + JavaScript</text>
+<text x="348" y="214" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Vercel · search + dossiers</text>
+<rect x="650" y="132" width="280" height="117" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="650" y="132" width="280" height="5" rx="2.5" fill="#3275e9"/>
+<text x="668" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">FastAPI Service</text>
+<text x="668" y="191" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Python · in-memory jobs</text>
+<text x="668" y="214" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">One worker thread per job</text>
+<rect x="980" y="132" width="250" height="117" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="980" y="132" width="250" height="5" rx="2.5" fill="#3275e9"/>
+<text x="998" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Pipeline Runner</text>
+<text x="998" y="191" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Seven ordered steps</text>
+<text x="998" y="214" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Step status + elapsed time</text>
+<rect x="1280" y="132" width="260" height="117" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="1280" y="132" width="260" height="5" rx="2.5" fill="#3275e9"/>
+<text x="1298" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Voice Agent</text>
+<text x="1298" y="191" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">ElevenLabs Conversational AI</text>
+<text x="1298" y="214" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">/tools/search · investigate</text>
+<text x="1298" y="237" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">/tools/status</text>
+<path d="M290 190H330" fill="none" stroke="#3275e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="330.0,190.0 321.0,186.0 321.0,194.0" fill="#3275e9"/>
+<path d="M600 190H650" fill="none" stroke="#3275e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="650.0,190.0 641.0,186.0 641.0,194.0" fill="#3275e9"/>
+<path d="M930 190H980" fill="none" stroke="#3275e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="980.0,190.0 971.0,186.0 971.0,194.0" fill="#3275e9"/>
+<path d="M1410 132V113H790V132" fill="none" stroke="#3275e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="790.0,132.0 794.0,123.0 786.0,123.0" fill="#3275e9"/>
+<text x="858" y="107" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">Voice webhooks</text>
+<text x="654" y="274" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">POST /investigate → job_id     ·     GET /jobs/{id} → progress + result</text>
+<rect x="60" y="296" width="1480" height="48" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<text x="81" y="326" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Design principle:</text>
+<text x="250" y="326" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Python detects changes and risk; the LLM writes from gathered evidence; every briefing claim carries a source.</text>
+<rect x="60" y="370" width="1480" height="66" rx="12" fill="#e7f6f3" stroke="#00a497" stroke-width="1.4"/>
+<rect x="69" y="381" width="6" height="44" rx="3" fill="#00a497"/>
+<text x="90" y="399" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#193652">Layer 1 · Evidence and Intake</text>
+<text x="90" y="421" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">Separate access paths for quick dossiers, live investigation inputs and recorded speech</text>
+<rect x="90" y="457" width="450" height="145" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="90" y="457" width="450" height="5" rx="2.5" fill="#00a497"/>
+<text x="108" y="489" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Research + Official Lists</text>
+<text x="108" y="516" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Research snapshot + US / UK / EU / UN</text>
+<text x="108" y="539" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">data/research-index.json + data/lists/*.json</text>
+<text x="108" y="562" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Used by browser search and pipeline lookup</text>
+<rect x="575" y="457" width="450" height="145" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="575" y="457" width="450" height="5" rx="2.5" fill="#00a497"/>
+<text x="593" y="489" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Wider Search + Connections</text>
+<text x="593" y="516" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">OpenSanctions + US lobbying filings</text>
+<text x="593" y="539" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Vercel /api/search + /api/connections</text>
+<text x="593" y="562" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Cached assets from GitHub data-latest release</text>
+<rect x="1060" y="457" width="450" height="145" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="1060" y="457" width="450" height="5" rx="2.5" fill="#00a497"/>
+<text x="1078" y="489" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Recording / Transcript</text>
+<text x="1078" y="516" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">ElevenLabs Scribe · speakers + timestamps</text>
+<text x="1078" y="539" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">POST /scribe or /scribe/text</text>
+<text x="1078" y="562" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Match aliases + valid IMOs → select an entity</text>
+<text x="580" y="626" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#00a497">Dossier enrichment in the frontend</text>
+<path d="M220 602V670" fill="none" stroke="#00a497" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="220.0,670.0 224.0,661.0 216.0,661.0" fill="#00a497"/>
+<text x="232" y="647" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#00a497">Local lookup inputs</text>
+<path d="M1285 602V652H330V670" fill="none" stroke="#00a497" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/>
+<polygon points="330.0,670.0 334.0,661.0 326.0,661.0" fill="#00a497"/>
+<text x="1094" y="644" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#00a497">User starts investigation</text>
+<rect x="60" y="670" width="1480" height="66" rx="12" fill="#eaf6ee" stroke="#15945b" stroke-width="1.4"/>
+<rect x="69" y="681" width="6" height="44" rx="3" fill="#15945b"/>
+<text x="90" y="699" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#193652">Layer 2 · Live Investigation</text>
+<text x="90" y="721" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">Sequential execution · each step records done, skipped or error and continues with available context</text>
+<rect x="90" y="758" width="260" height="150" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="90" y="758" width="260" height="5" rx="2.5" fill="#15945b"/>
+<text x="108" y="786" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#15945b">01</text>
+<text x="108" y="815" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Lookup</text>
+<text x="108" y="842" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Resolve name / IMO</text>
+<text x="108" y="865" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Research + list matches</text>
+<text x="108" y="888" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">lookup.py</text>
+<path d="M350 833H380" fill="none" stroke="#15945b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="380.0,833.0 371.0,829.0 371.0,837.0" fill="#15945b"/>
+<rect x="380" y="758" width="260" height="150" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="380" y="758" width="260" height="5" rx="2.5" fill="#15945b"/>
+<text x="398" y="786" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#15945b">02</text>
+<text x="398" y="815" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Recall</text>
+<text x="398" y="842" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">SurrealDB Agent Memory</text>
+<text x="398" y="865" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Previous facts + history</text>
+<text x="398" y="888" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">memory.py</text>
+<path d="M640 833H670" fill="none" stroke="#15945b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="670.0,833.0 661.0,829.0 661.0,837.0" fill="#15945b"/>
+<rect x="670" y="758" width="260" height="150" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="670" y="758" width="260" height="5" rx="2.5" fill="#15945b"/>
+<text x="688" y="786" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#15945b">03</text>
+<text x="688" y="815" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Browse</text>
+<text x="688" y="842" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Anchor Browser</text>
+<text x="688" y="865" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">VesselFinder / OpenCorporates</text>
+<text x="688" y="888" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">browse.py</text>
+<path d="M930 833H960" fill="none" stroke="#15945b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="960.0,833.0 951.0,829.0 951.0,837.0" fill="#15945b"/>
+<rect x="960" y="758" width="260" height="150" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="960" y="758" width="260" height="5" rx="2.5" fill="#15945b"/>
+<text x="978" y="786" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#15945b">04</text>
+<text x="978" y="815" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Analyse</text>
+<text x="978" y="842" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Daytona sandbox · Python</text>
+<text x="978" y="865" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Risk flags + change detection</text>
+<text x="978" y="888" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">sandbox.py / analysis.py</text>
+<path d="M1220 833H1250" fill="none" stroke="#15945b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1250.0,833.0 1241.0,829.0 1241.0,837.0" fill="#15945b"/>
+<rect x="1250" y="758" width="260" height="150" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="1250" y="758" width="260" height="5" rx="2.5" fill="#15945b"/>
+<text x="1268" y="786" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#15945b">05</text>
+<text x="1268" y="815" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Remember</text>
+<text x="1268" y="842" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">SurrealDB Agent Memory</text>
+<text x="1268" y="865" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">New facts supersede old ones</text>
+<text x="1268" y="888" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">memory.py</text>
+<path d="M1380 908V938H220V960" fill="none" stroke="#e48a07" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="220.0,960.0 224.0,951.0 216.0,951.0" fill="#e48a07"/>
+<rect x="595" y="921" width="410" height="32" rx="3" fill="#f7f9fc" stroke="#f7f9fc" stroke-width="1.4"/>
+<text x="614" y="943" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#e48a07">Gathered context + risk flags + change history</text>
+<rect x="60" y="960" width="1480" height="66" rx="12" fill="#fff5e6" stroke="#e48a07" stroke-width="1.4"/>
+<rect x="69" y="971" width="6" height="44" rx="3" fill="#e48a07"/>
+<text x="90" y="989" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#193652">Layer 3 · Briefing, Evaluation and Delivery</text>
+<text x="90" y="1011" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">Synthesize the evidence, measure citation coverage and return a readable or spoken result</text>
+<path d="M245 1026V1048" fill="none" stroke="#e48a07" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="245.0,1048.0 249.0,1039.0 241.0,1039.0" fill="#e48a07"/>
+<rect x="90" y="1048" width="310" height="143" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="90" y="1048" width="310" height="5" rx="2.5" fill="#e48a07"/>
+<text x="108" y="1076" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e48a07">06</text>
+<text x="108" y="1105" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Brief</text>
+<text x="108" y="1132" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">AWS Bedrock · Claude Haiku 4.5</text>
+<text x="108" y="1155" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Gathered context only</text>
+<text x="108" y="1178" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Short briefing + cited claims</text>
+<rect x="450" y="1048" width="310" height="143" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="450" y="1048" width="310" height="5" rx="2.5" fill="#dc5639"/>
+<text x="468" y="1076" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#dc5639">07</text>
+<text x="468" y="1105" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Evaluate</text>
+<text x="468" y="1132" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Claim source URLs vs. context</text>
+<text x="468" y="1155" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Grounding score logged to Arize</text>
+<text x="468" y="1178" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Measures coverage, not truth</text>
+<rect x="810" y="1048" width="310" height="143" rx="12" fill="#edf3ff" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="810" y="1048" width="310" height="5" rx="2.5" fill="#3275e9"/>
+<text x="828" y="1080" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Investigation Result</text>
+<text x="828" y="1107" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Briefing + numbered sources</text>
+<text x="828" y="1130" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Risk flags + change timeline</text>
+<text x="828" y="1153" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Returned through job polling</text>
+<rect x="1170" y="1048" width="340" height="143" rx="12" fill="white" stroke="#c8d5e6" stroke-width="1.4"/>
+<rect x="1170" y="1048" width="340" height="5" rx="2.5" fill="#e48a07"/>
+<text x="1188" y="1080" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Spoken Briefing</text>
+<text x="1188" y="1107" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">ElevenLabs text-to-speech</text>
+<text x="1188" y="1130" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">GET /jobs/{id}/audio</text>
+<text x="1188" y="1153" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Optional playback from the result</text>
+<path d="M400 1120H450" fill="none" stroke="#e48a07" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="450.0,1120.0 441.0,1116.0 441.0,1124.0" fill="#e48a07"/>
+<path d="M760 1120H810" fill="none" stroke="#3275e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="810.0,1120.0 801.0,1116.0 801.0,1124.0" fill="#3275e9"/>
+<path d="M1120 1120H1170" fill="none" stroke="#e48a07" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/>
+<polygon points="1170.0,1120.0 1161.0,1116.0 1161.0,1124.0" fill="#e48a07"/>
+<text x="60" y="1223" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#193652">Observability:</text>
+<text x="201" y="1223" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#576d83">Arize AX traces the full investigation: agent, tool, LLM and evaluator spans.</text>
+<text x="60" y="1253" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#6c7e94">Fallbacks: local JSON memory · local Python analysis · template briefing. Agent hosting is configured separately from Vercel.</text>
+</svg>

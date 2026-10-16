@@ -36,6 +36,14 @@ So a ship can sit on three sanctions lists and still sail under a flag none of t
 - **MERU (IMO 9187227)**: flagged Comoros in the 25 September 2026 research snapshot; its public registry page now shows Equatorial Guinea. Flagstate caught this on the first live check.
 - **TASSOS (IMO 9408695)**: listed by the US (Iran), the EU and the UK (Russia), recorded as Liberian-flagged; the live registry page shows Cameroon. Flagstate stores the change and shows it on every later check.
 
+## Agent system design
+
+Flagstate connects a static frontend to a FastAPI investigator that gathers evidence, compares historical observations, and returns a sourced briefing. The diagram shows the seven-stage pipeline, sponsor integrations, and separate search, recording, and voice paths.
+
+![Flagstate agent system design: evidence intake, live investigation, briefing, evaluation, and delivery](docs/Software%20Architecture.png)
+
+[View full-resolution diagram](docs/Software%20Architecture.png) · [Editable SVG](docs/Software%20Architecture.svg)
+
 ## How it works
 
 ```
