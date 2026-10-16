@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About the data · Flagstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../app/style.css">
+<style>
+  /* Page styles on the main site's system (app/style.css tokens only) · hero + Long Document body */
+  .doc { max-width: 46rem; padding-bottom: var(--space-3xl); }
+  .doc h2 { font-weight: 700; font-size: var(--text-lg); margin: var(--space-2xl) 0 var(--space-sm); padding-top: var(--space-sm); border-top: 2px solid var(--color-ink); }
+  .doc p, .doc li { font-family: var(--font-serif); font-size: var(--text-lg); line-height: 1.6; color: var(--color-ink); }
+  .doc ul { padding-left: 1.2em; }
+  .doc li::marker { color: var(--color-accent); }
+  .doc a { text-decoration-color: var(--color-accent); }
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../#research">Research</a></li>
+    <li><a href="about-the-data.html" aria-current="page">About the data</a></li>
+  </ul></nav>
+</header>
+<main class="wrap">
+<section class="hero">
+  <p class="label">About the data</p>
+  <h1>What we check, <span>and what a match means.</span></h1>
+</section>
+<div class="doc">
+  <h2>What we check</h2>
+  <ul>
+    <li><strong>Our research</strong>: 1,724 ships, 1,007 companies and 25 people in the shadow-fleet network, 8 officially listed companies from our semiconductor chip research and the listed companies and intermediaries in our lobbying research. A snapshot from the VeilTrace build day, 25 September 2026.</li>
+    <li><strong>United States</strong>: the Consolidated Screening List, which includes the Treasury's OFAC sanctions list and Commerce export-control lists.</li>
+    <li><strong>United Kingdom</strong>: the UK Sanctions List.</li>
+    <li><strong>European Union</strong>: the consolidated list of persons, groups and entities subject to EU financial sanctions.</li>
+    <li><strong>United Nations</strong>: the Security Council consolidated list.</li>
+    <li><strong>OpenSanctions</strong>: consolidated sanctions data from 95 sources worldwide, refreshed nightly from OpenSanctions' free bulk data. CC BY-NC 4.0.</li>
+    <li><strong>Connections</strong>: owners, managers and linked companies from the official sanctions lists (via OpenSanctions' relationship data), and US lobbying from Lobbying Disclosure Act filings (<a href="https://lda.gov/api/redoc/v1/">lda.gov API</a>) for a tracked list of companies, both refreshed nightly. Lobbyists are named only from their own disclosures. No filing found is not proof of no influence.</li>
+  </ul>
+
+  <h2>How matching works</h2>
+  <p>Names are compared after removing accents, punctuation and company endings such as LLC, Ltd or OOO, so small spelling differences still match. A seven-digit number, with or without "IMO" in front, is treated as a ship's IMO number and matched exactly. Names written only in non-Latin script cannot be matched; type them in Latin letters.</p>
+
+  <h2>What a match means</h2>
+  <p>A name match is a possible match, not proof. Ships and companies share names. Open the numbered source before you publish. This site describes documented conduct and makes no legal findings. It is not legal advice.</p>
+
+  <h2>Known limits</h2>
+  <ul>
+    <li>EU bans on individual ships sit in an annex to Regulation 833/2014, not in the EU financial sanctions file. Those ship listings appear under "In our research", not under the official EU list.</li>
+    <li>The US Consolidated Screening List often gives no listing date; the table then shows a dash.</li>
+    <li>The US, UK and UN files have no link per record, so "List" opens the official list page.</li>
+    <li>Our research is a snapshot and is not refreshed nightly.</li>
+  </ul>
+
+  <h2>How the lists stay current</h2>
+  <p>Every night at 04:00 UTC the four official lists are downloaded and checked. A list that fails to download, changes shape, or shrinks by more than a fifth keeps yesterday's copy, and the page says "Some lists may be out of date". The other lists still update.</p>
+
+  <h2>Corrections and removal requests</h2>
+  <p>We name companies and people only as official sanctions lists, government documents or, for lobbyists, their own US lobbying filings name them. A company known to us only from other sources is shown by a description, such as "unlisted ship manager", not by its name.</p>
+  <p>To ask for a correction or removal, <a href="https://github.com/Ttheegela/flagstate/issues/new?title=Correction%20request">open an issue on GitHub</a>. Issues are public, so do not include sensitive personal data. We aim to respond within 7 days. While we check a request, we remove disputed content that does not come from an official source.</p>
+
+  <h2>Credits and full notes</h2>
+  <p>Research by the VeilTrace team at the Trace the Unseen build day, 25 September 2026 (<a href="https://github.com/Ttheegela/veil-trace">original repo</a>). Full notes: <a href="sources/RESEARCH_AND_SOURCES.md">research and sources</a>, <a href="sources/METHODS_LOG.md">methods log</a>.</p>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>Research by the VeilTrace team, Trace the Unseen, 25 Sep 2026</span>
+  <a href="about-the-data.html">About the data</a>
+  <a href="sources/METHODS_LOG.md">Methods</a>
+  <a href="https://github.com/Ttheegela/veil-trace">Original research repo</a>
+  <span>Not legal advice</span>
+</footer>
+</body>
+</html>

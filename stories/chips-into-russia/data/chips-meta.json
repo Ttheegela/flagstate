@@ -1,0 +1,36 @@
+{
+  "outputs": {
+    "routes": {
+      "sources": [
+        "https://comtradeapi.un.org/public/v1/getDA/C/A/HS",
+        "https://comtradeapi.un.org/public/v1/preview/C/A/HS?partnerCode=643&cmdCode=8542&flowCode=X&period=YYYY",
+        "https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?format=JSON&freq=A&reporter=EU27_2020&partner=RU&partner=TR&partner=KZ&partner=KG&partner=AM&partner=AE&product=8542&flow=2&indicators=VALUE_IN_EUROS&sinceTimePeriod=2019"
+      ],
+      "checked_at": "2026-10-15T08:23:38Z",
+      "status": "fresh",
+      "updated_at": "2026-10-15T08:23:38Z",
+      "row_count": 98
+    },
+    "coverage": {
+      "sources": [
+        "https://comtradeapi.un.org/public/v1/getDA/C/A/HS",
+        "https://comtradeapi.un.org/public/v1/preview/C/A/HS?partnerCode=643&cmdCode=8542&flowCode=X&period=YYYY",
+        "https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?format=JSON&freq=A&reporter=EU27_2020&partner=RU&partner=TR&partner=KZ&partner=KG&partner=AM&partner=AE&product=8542&flow=2&indicators=VALUE_IN_EUROS&sinceTimePeriod=2019"
+      ],
+      "checked_at": "2026-10-15T08:23:38Z",
+      "status": "fresh",
+      "updated_at": "2026-10-15T08:23:38Z",
+      "row_count": 1118
+    },
+    "listing_lag": {
+      "sources": [
+        "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN_ADVANCED.XML",
+        "https://www.trade.gov/consolidated-screening-list (via data/lists/us.json)"
+      ],
+      "checked_at": "2026-10-15T08:23:38Z",
+      "status": "fresh",
+      "updated_at": "2026-10-15T08:23:38Z",
+      "row_count": 64
+    }
+  }
+}

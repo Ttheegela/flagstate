@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How sanctions work · Flagstate</title>
+<meta name="description" content="How sanctions work, how they are evaded, and how evasion can be tracked. A plain-language explainer with diagrams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../app/style.css">
+<style>
+  /* Hallmark · redesign: explainer on the main site's system (app/style.css tokens only) · macrostructure: Long Document
+   * nav: N9 edge-aligned (shared) · footer: Ft2 inline (shared) · enrichment: hand-built SVG diagrams, recoloured via tokens */
+  .hero h1 { max-width: 16ch; }
+  .hero-meta { font-size: var(--text-xs); }
+
+  .explainer { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); border-top: var(--rule-hair) solid var(--color-rule); padding-bottom: var(--space-3xl); }
+  .toc { padding-top: var(--space-lg); }
+  .toc ol { margin: var(--space-sm) 0 0; padding: 0; list-style: none; counter-reset: toc; display: grid; gap: var(--space-2xs) var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); font-size: var(--text-sm); }
+  .toc li { counter-increment: toc; display: flex; gap: var(--space-xs); padding: var(--space-xs) 0; border-top: var(--rule-hair) solid var(--color-rule); }
+  .toc li::before { content: counter(toc); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); min-width: 1.2em; }
+  .toc a { color: var(--color-muted); text-decoration: none; }
+  .toc a:hover { color: var(--color-ink); }
+  @media (min-width: 64rem) {
+    .explainer { grid-template-columns: minmax(0, 46rem) minmax(0, 15rem); justify-content: space-between; }
+    .toc { grid-column: 2; grid-row: 1; position: sticky; top: var(--space-lg); align-self: start; }
+    .toc ol { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .article section { padding-top: var(--space-2xl); scroll-margin-top: var(--space-md); }
+  .article section + section { margin-top: var(--space-xl); border-top: 2px solid var(--color-ink); padding-top: var(--space-sm); }
+  .article h2 { font-weight: 800; font-size: var(--text-2xl); letter-spacing: -0.025em; line-height: 1.1; margin: var(--space-xs) 0 var(--space-lg); }
+  .article h3 { font-weight: 700; font-size: var(--text-lg); margin: var(--space-2xl) 0 var(--space-sm); }
+  .article p, .article .plain li, .methods li { font-family: var(--font-serif); font-size: var(--text-lg); line-height: 1.6; }
+  .article p { margin: 0 0 var(--space-md); }
+  .article p.label { font-family: var(--font-mono); font-size: var(--text-2xs); line-height: 1.5; margin: 0; }
+  .article strong { font-weight: 700; }
+  .article a { text-decoration-color: var(--color-accent); }
+  .article sup a { font-family: var(--font-mono); font-size: 0.62em; color: var(--color-accent); text-decoration: none; padding-inline: 0.1em; }
+  .plain { margin: 0; padding-left: 1.2em; }
+  .plain li { margin-bottom: var(--space-sm); }
+  .plain li::marker { color: var(--color-accent); }
+  .note { color: var(--color-neutral); font-size: var(--text-sm) !important; font-family: var(--font-display) !important; }
+
+  /* Cards: hairline grid, like the home page's research rows */
+  .grid { display: grid; border-top: var(--rule-hair) solid var(--color-rule); border-left: var(--rule-hair) solid var(--color-rule); margin: var(--space-md) 0 var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  .card { border-right: var(--rule-hair) solid var(--color-rule); border-bottom: var(--rule-hair) solid var(--color-rule); padding: var(--space-lg) var(--space-md); }
+  .card h4 { margin: 0 0 var(--space-xs); font-size: var(--text-base); font-weight: 700; }
+  .article .card p { margin: 0; font-size: var(--text-sm); line-height: 1.5; color: var(--color-muted); }
+  .card .tag { display: block; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral); margin-bottom: var(--space-xs); }
+
+  /* Tactics */
+  .tactics { list-style: none; padding: 0; margin: var(--space-lg) 0; }
+  .tactics li { border-top: var(--rule-hair) solid var(--color-rule); padding: var(--space-md) 0 var(--space-sm); }
+  .tactics h4 { margin: 0 0 var(--space-xs); font-size: var(--text-lg); font-weight: 700; }
+  .ours { border-left: 2px solid var(--color-accent); padding-left: var(--space-md); }
+  .article .ours { font-size: var(--text-base); color: var(--color-muted); }
+  .ours b { color: var(--color-ink); font-family: var(--font-display); font-weight: 700; }
+
+  /* Figures: diagrams scroll inside their frame on narrow screens */
+  figure { margin: var(--space-xl) 0; background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-md) var(--space-md); }
+  .fig-body { overflow-x: auto; }
+  figure svg { display: block; width: 100%; min-width: 26rem; max-width: 34rem; height: auto; margin: 0 auto; font-family: var(--font-display); }
+  figcaption { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-muted); }
+  figcaption b { color: var(--color-ink); font-weight: 700; }
+
+  /* SVG vocabulary: main-site tokens only. Listed/blocked = accent; evading = dashed muted; neutral = paper-3 */
+  .t { fill: var(--color-ink); font-size: 15px; font-weight: 500; }
+  .t-b { fill: var(--color-ink); font-size: 15px; font-weight: 700; }
+  .t-s { fill: var(--color-muted); font-size: 13px; }
+  .t-acc { fill: var(--color-accent); font-size: 14px; font-weight: 700; }
+  .t-dan { fill: var(--color-accent); font-size: 13px; font-weight: 700; }
+  .t-warn { fill: var(--color-ink); font-size: 13px; font-weight: 700; }
+  .box { fill: var(--color-paper-3); stroke: var(--color-rule); stroke-width: 1.2; }
+  .box-acc { fill: var(--color-paper-3); stroke: var(--color-muted); stroke-width: 1.5; }
+  .box-dan { fill: var(--color-accent-dim); stroke: var(--color-accent); stroke-width: 1.5; }
+  .box-warn { fill: var(--color-paper); stroke: var(--color-muted); stroke-width: 1.5; stroke-dasharray: 6 4; }
+  .ln { stroke: var(--color-neutral); stroke-width: 1.6; fill: none; }
+  .ln-d { stroke: var(--color-muted); stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+  .ln-x { stroke: var(--color-neutral); stroke-width: 1.4; fill: none; stroke-dasharray: 3 4; }
+  .ln-dan { stroke: var(--color-accent); stroke-width: 2; fill: none; }
+  .ln-acc { stroke: var(--color-ink); stroke-width: 1.4; fill: none; }
+  .ah { fill: var(--color-neutral); }
+  .ah-w { fill: var(--color-muted); }
+  .f-dan { fill: var(--color-accent); }
+  .f-dan-s { fill: color-mix(in oklab, var(--color-accent) 55%, var(--color-paper-2)); }
+  .f-track { fill: var(--color-paper-3); stroke: var(--color-rule); }
+  .f-hatch { fill: url(#hatch); stroke: var(--color-accent); stroke-dasharray: 4 3; }
+  .hatch-ln { stroke: var(--color-accent); stroke-width: 2; }
+
+  /* Callouts, methods, sources */
+  .callout { border-top: 2px solid var(--color-accent); padding-top: var(--space-sm); margin: var(--space-md) 0 var(--space-lg); }
+  .article .callout p { font-size: var(--text-xl); line-height: 1.45; margin: 0; }
+  .cant { background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-lg); margin: var(--space-xl) 0 0; }
+  .cant ul { margin: 0; padding-left: 1.2em; }
+  .cant li { margin-bottom: var(--space-xs); color: var(--color-muted); }
+  .methods { counter-reset: m; list-style: none; padding: 0; margin: var(--space-md) 0; }
+  .methods li { position: relative; padding: var(--space-md) 0 var(--space-md) 2.6rem; border-top: var(--rule-hair) solid var(--color-rule); }
+  .methods li::before { counter-increment: m; content: counter(m, decimal-leading-zero); position: absolute; left: 0; top: calc(var(--space-md) + 0.35rem); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); }
+  .sources { margin: 0; padding-left: 2em; font-size: var(--text-sm); color: var(--color-muted); }
+  .sources li { margin-bottom: var(--space-xs); overflow-wrap: anywhere; scroll-margin-top: var(--space-lg); }
+  .sources li::marker { font-family: var(--font-mono); color: var(--color-accent); }
+  .sources li:target { color: var(--color-ink); }
+  .sources a { color: var(--color-muted); text-decoration-color: var(--color-neutral); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../#research">Research</a></li>
+    <li><a href="../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Start here · explainer · 5-minute read</p>
+  <h1>A sanctions list is a signal, <span>not a wall.</span></h1>
+  <p class="hero-sub">Governments name companies. Banks, exporters, shippers and insurers do the actual stopping. Evaders work in the gap between the two. This page explains the machine, the tricks, and how they can be tracked in real trade data.</p>
+  <div class="hero-meta"><span>Trace the Unseen climate build day, 25 September 2026. Companies are named only where an official list names them.</span></div>
+</section>
+
+<div class="explainer">
+<nav class="toc" aria-label="Contents">
+  <p class="label">Contents</p>
+  <ol>
+    <li><a href="#how">How sanctions work</a></li>
+    <li><a href="#pieces">What's involved</a></li>
+    <li><a href="#evade">How they're evaded</a></li>
+    <li><a href="#track">How we can track them</a></li>
+    <li><a href="#ethics">Why it matters, and the ethics</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</nav>
+
+<article class="article">
+<!-- 1 -->
+<section id="how">
+  <p class="label">1 · The machine</p>
+  <h2>How sanctions work</h2>
+  <p>A sanction is a government rule that says: <strong>do not do business with this person, company or country</strong>. It is a way to put pressure on someone without firing a shot.</p>
+
+  <h3>Who imposes them</h3>
+  <div class="grid grid-2">
+    <div class="card"><span class="tag">Worldwide</span><h4>UN Security Council</h4><p>Can require every UN member to freeze assets, ban travel and embargo arms. Most often it targets named people and groups.<sup><a href="#s1">1</a></sup></p></div>
+    <div class="card"><span class="tag">United States</span><h4>Treasury (OFAC)</h4><p>The Office of Foreign Assets Control keeps the SDN list (the main US blacklist). Anyone on it is cut off from US dollars and US firms.<sup><a href="#s3">3</a></sup></p></div>
+    <div class="card"><span class="tag">United States</span><h4>Commerce (BIS)</h4><p>The Bureau of Industry and Security runs export controls. Its Entity List means: you need a licence to send US-controlled goods to this company, or even to this address.<sup><a href="#s8">8</a></sup></p></div>
+    <div class="card"><span class="tag">UK and EU</span><h4>OFSI and the EU Council</h4><p>The UK's Office of Financial Sanctions Implementation (part of HM Treasury) enforces asset freezes. The EU adopts sanctions that each member state enforces.<sup><a href="#s9">9</a>,<a href="#s10">10</a></sup></p></div>
+  </div>
+
+  <h3>The main tools</h3>
+  <ul class="plain">
+    <li><strong>Asset freeze (also called blocking).</strong> Nobody may pay, hold or move the target's money or property.<sup><a href="#s9">9</a></sup></li>
+    <li><strong>Export controls.</strong> Sensitive goods need a licence, which is usually refused for listed buyers.<sup><a href="#s8">8</a></sup></li>
+    <li><strong>Sector bans.</strong> Whole kinds of trade are cut, such as buying Russian oil above a price cap.<sup><a href="#s9">9</a></sup></li>
+    <li><strong>Ownership rules.</strong> Companies owned by a listed party can be blocked without being named (section 2).<sup><a href="#s3">3</a></sup></li>
+    <li><strong>Secondary sanctions (pressure on outsiders).</strong> Since Executive Order 14114 (December 2023), the US can sanction a <em>foreign</em> bank that handles significant deals for Russia's military industry.<sup><a href="#s5">5</a>,<a href="#s6">6</a></sup> Foreign banks now have their own reason to check.</li>
+    <li><strong>A battlefield-goods list.</strong> The US, EU, UK and Japan share the Common High Priority List: 50 product types, by customs code, found in Russian missiles and drones. Semiconductor chips (integrated circuits) are in the top tier.<sup><a href="#s7">7</a></sup></li>
+    <li><strong>Humanitarian exemptions.</strong> Since December 2022, food, medicine and aid are carved out of all UN asset freezes, and the US issues matching general licences.<sup><a href="#s2">2</a>,<a href="#s11">11</a></sup></li>
+  </ul>
+
+  <h3>How a sanction actually bites</h3>
+  <p>Governments rarely stop a shipment themselves. The list works because <strong>private gatekeepers check it and refuse</strong>: a bank will not move the money, an exporter will not sell, a shipper will not carry, an insurer will not cover. Each of them faces fines if they get it wrong. So the list is a signal. If a gatekeeper never sees the listed name, the signal never arrives.</p>
+
+  <figure>
+    <div class="fig-body">
+    <svg viewBox="0 0 480 400" role="img" aria-labelledby="d1t d1d">
+      <title id="d1t">Diagram 1: the refusal chain</title>
+      <desc id="d1d">A government lists Company A. Banks, exporters, shippers and insurers check the list and refuse Company A. Company B, the same buyer under a new name, is not on the list and passes the checks.</desc>
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker>
+        <marker id="a1w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah-w"/></marker>
+      </defs>
+      <rect x="90" y="8" width="300" height="62" rx="6" class="box-acc"/>
+      <text x="240" y="35" text-anchor="middle" class="t-b">Government lists "Company A"</text>
+      <text x="240" y="56" text-anchor="middle" class="t-s">UN, US, UK or EU</text>
+      <line x1="240" y1="70" x2="240" y2="104" class="ln" marker-end="url(#a1)"/>
+      <text x="250" y="92" class="t-s">each gatekeeper checks the list</text>
+
+      <rect x="30" y="110" width="200" height="58" rx="6" class="box"/>
+      <text x="130" y="134" text-anchor="middle" class="t-b">Bank</text>
+      <text x="130" y="155" text-anchor="middle" class="t-s">won't move the money</text>
+      <rect x="250" y="110" width="200" height="58" rx="6" class="box"/>
+      <text x="350" y="134" text-anchor="middle" class="t-b">Exporter</text>
+      <text x="350" y="155" text-anchor="middle" class="t-s">won't sell the part</text>
+      <rect x="30" y="180" width="200" height="58" rx="6" class="box"/>
+      <text x="130" y="204" text-anchor="middle" class="t-b">Shipper</text>
+      <text x="130" y="225" text-anchor="middle" class="t-s">won't carry the cargo</text>
+      <rect x="250" y="180" width="200" height="58" rx="6" class="box"/>
+      <text x="350" y="204" text-anchor="middle" class="t-b">Insurer</text>
+      <text x="350" y="225" text-anchor="middle" class="t-s">won't cover the ship</text>
+
+      <line x1="130" y1="238" x2="130" y2="284" class="ln" marker-end="url(#a1)"/>
+      <line x1="350" y1="238" x2="350" y2="284" class="ln-d" marker-end="url(#a1w)"/>
+
+      <rect x="30" y="290" width="200" height="66" rx="6" class="box-dan"/>
+      <text x="130" y="317" text-anchor="middle" class="t-b">Company A</text>
+      <text x="130" y="339" text-anchor="middle" class="t-dan">refused everywhere</text>
+      <rect x="250" y="290" width="200" height="66" rx="6" class="box-warn"/>
+      <text x="350" y="317" text-anchor="middle" class="t-b">"Company B"</text>
+      <text x="350" y="339" text-anchor="middle" class="t-s">same buyer, new name</text>
+      <text x="350" y="382" text-anchor="middle" class="t-warn">not on the list: checks pass</text>
+    </svg>
+    </div>
+    <figcaption><b>Diagram 1.</b> The list only works when a gatekeeper recognises the name. A new name slips through until the list catches up.</figcaption>
+  </figure>
+</section>
+
+<!-- 2 -->
+<section id="pieces">
+  <p class="label">2 · The moving parts</p>
+  <h2>What's involved</h2>
+  <p>Every sanctions case is built from the same seven pieces. Evasion means changing one piece so the others stop lining up.</p>
+  <div class="grid grid-4">
+    <div class="card"><h4>Goods</h4><p>What is traded, identified by a customs product code (codes starting 8542 are chips).</p></div>
+    <div class="card"><h4>Routes</h4><p>Which countries the paperwork says the goods left and entered.</p></div>
+    <div class="card"><h4>Companies</h4><p>The shipper, the buyer, and any middlemen. Their names are what lists match on.</p></div>
+    <div class="card"><h4>Ownership</h4><p>Who owns whom, and by how much. Decides who is blocked without being named.</p></div>
+    <div class="card"><h4>Lists</h4><p>Several, run by different governments, which do not always agree.</p></div>
+    <div class="card"><h4>Time</h4><p>When a company appeared, when it traded, and when it was finally listed.</p></div>
+    <div class="card"><h4>Observers</h4><p>Customs, banks, data companies, journalists. Each sees only part of the picture.</p></div>
+  </div>
+
+  <h3>The 50% rule: blocked without being named</h3>
+  <p>In the US, any company owned <strong>50% or more in total</strong> by listed parties is blocked automatically, even through a chain of other companies. Stakes from different listed owners are added together.<sup><a href="#s3">3</a>,<a href="#s4">4</a></sup> The EU's test is slightly different: <strong>more than 50%</strong>, or "control", such as the power to appoint most of the board.<sup><a href="#s10">10</a></sup> The line is sharp, so where a company sits relative to it matters a lot.</p>
+
+  <figure>
+    <div class="fig-body">
+    <svg viewBox="0 0 480 376" role="img" aria-labelledby="d2t d2d">
+      <title id="d2t">Diagram 2: ownership and the 50% line</title>
+      <desc id="d2d">Example A: two listed owners hold 25% each of Company C, which adds to 50% so C is blocked. Example B: 30% known plus an unknown stake of 0 to 25% gives a range of 30 to 55%, which cannot be cleared.</desc>
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker>
+        <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" class="hatch-ln"/></pattern>
+      </defs>
+      <!-- A -->
+      <text x="0" y="16" class="t-b">A. Two listed owners (OFAC's own example)</text>
+      <rect x="40" y="30" width="160" height="42" rx="6" class="box-dan"/>
+      <text x="120" y="56" text-anchor="middle" class="t">Listed owner X</text>
+      <rect x="280" y="30" width="160" height="42" rx="6" class="box-dan"/>
+      <text x="360" y="56" text-anchor="middle" class="t">Listed owner Y</text>
+      <line x1="120" y1="72" x2="205" y2="108" class="ln" marker-end="url(#a2)"/>
+      <line x1="360" y1="72" x2="275" y2="108" class="ln" marker-end="url(#a2)"/>
+      <text x="146" y="98" text-anchor="end" class="t-acc">25%</text>
+      <text x="334" y="98" class="t-acc">25%</text>
+      <rect x="160" y="110" width="160" height="42" rx="6" class="box"/>
+      <text x="240" y="136" text-anchor="middle" class="t">Company C</text>
+      <text x="240" y="178" text-anchor="middle" class="t-s">50% line</text>
+      <rect x="40" y="186" width="400" height="18" rx="3" class="f-track"/>
+      <rect x="40" y="186" width="100" height="18" rx="3" class="f-dan"/>
+      <rect x="141" y="186" width="99" height="18" class="f-dan-s"/>
+      <line x1="240" y1="182" x2="240" y2="208" class="ln-acc"/>
+      <text x="0" y="228" class="t">25% + 25% = 50%: <tspan class="t-dan" style="font-size:15px">blocked</tspan>, though C is never named</text>
+
+      <!-- B -->
+      <text x="0" y="268" class="t-b">B. Unknown stakes: show a range (illustration)</text>
+      <rect x="40" y="280" width="400" height="18" rx="3" class="f-track"/>
+      <rect x="40" y="280" width="120" height="18" rx="3" class="f-dan"/>
+      <rect x="160" y="280" width="100" height="18" class="f-hatch"/>
+      <line x1="240" y1="276" x2="240" y2="302" class="ln-acc"/>
+      <text x="0" y="322" class="t">30% known + 0 to 25% unknown = 30% to 55%</text>
+      <text x="0" y="346" class="t-acc">Can't clear it: escalate, don't guess</text>
+    </svg>
+    </div>
+    <figcaption><b>Diagram 2.</b> Stakes add up toward a hard line. Solid bars are known stakes; the hatched bar is a stake we can only bound.</figcaption>
+  </figure>
+</section>
+
+<!-- 3 -->
+<section id="evade">
+  <p class="label">3 · The tricks</p>
+  <h2>How countries and companies evade</h2>
+  <p>Almost every trick does the same thing: it breaks the match between a listed name and a transaction. Below are six, each with an example from our own work or an official source.</p>
+
+  <ol class="tactics">
+    <li>
+      <h4>1. Route through a third country</h4>
+      <p>Goods that can no longer go straight to Russia are sold to a neighbour first, then passed on.</p>
+      <p class="ours"><b>Our data:</b> countries' own reports to the UN show chip exports to Russia jumping from almost nothing. Kyrgyzstan: about $0 a year in 2019 to 2021, then $13.5M in 2023. Kazakhstan: $18.3M in 2022. Armenia: $13.1M in 2022.<sup><a href="#s12">12</a></sup></p>
+    </li>
+  </ol>
+
+  <figure>
+    <div class="fig-body">
+    <svg viewBox="0 0 480 390" role="img" aria-labelledby="d3t d3d">
+      <title id="d3t">Diagram 3: third-country routing</title>
+      <desc id="d3d">Chip makers sell to Kyrgyzstan, Kazakhstan and Armenia, which pass the chips on to Russia. Each middle country's own reported chip exports to Russia rose from about zero to more than 13 million dollars. The direct route is restricted after February 2022.</desc>
+      <defs>
+        <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker>
+      </defs>
+      <rect x="4" y="120" width="126" height="110" rx="6" class="box"/>
+      <text x="67" y="160" text-anchor="middle" class="t-b">Chip makers</text>
+      <text x="67" y="182" text-anchor="middle" class="t-s">US, Europe,</text>
+      <text x="67" y="199" text-anchor="middle" class="t-s">Asia</text>
+
+      <rect x="178" y="20" width="150" height="86" rx="6" class="box-acc"/>
+      <text x="253" y="46" text-anchor="middle" class="t-b">Kyrgyzstan</text>
+      <text x="253" y="70" text-anchor="middle" class="t">~$0 → $13.5M</text>
+      <text x="253" y="92" text-anchor="middle" class="t-s">2019-21 → 2023</text>
+      <rect x="178" y="130" width="150" height="86" rx="6" class="box-acc"/>
+      <text x="253" y="156" text-anchor="middle" class="t-b">Kazakhstan</text>
+      <text x="253" y="180" text-anchor="middle" class="t">$0.3M → $18.3M</text>
+      <text x="253" y="202" text-anchor="middle" class="t-s">2019-21 → 2022</text>
+      <rect x="178" y="240" width="150" height="86" rx="6" class="box-acc"/>
+      <text x="253" y="266" text-anchor="middle" class="t-b">Armenia</text>
+      <text x="253" y="290" text-anchor="middle" class="t">~$0 → $13.1M</text>
+      <text x="253" y="312" text-anchor="middle" class="t-s">2019-21 → 2022</text>
+
+      <rect x="376" y="130" width="100" height="86" rx="6" class="box-dan"/>
+      <text x="426" y="178" text-anchor="middle" class="t-b">Russia</text>
+
+      <line x1="130" y1="160" x2="175" y2="66" class="ln" marker-end="url(#a3)"/>
+      <line x1="130" y1="175" x2="175" y2="173" class="ln" marker-end="url(#a3)"/>
+      <line x1="130" y1="190" x2="175" y2="282" class="ln" marker-end="url(#a3)"/>
+      <line x1="328" y1="63" x2="373" y2="160" class="ln" marker-end="url(#a3)"/>
+      <line x1="328" y1="173" x2="373" y2="173" class="ln" marker-end="url(#a3)"/>
+      <line x1="328" y1="283" x2="373" y2="186" class="ln" marker-end="url(#a3)"/>
+
+      <polyline points="67,230 67,352 426,352 426,219" class="ln-x"/>
+      <line x1="238" y1="342" x2="258" y2="362" class="ln-dan"/>
+      <line x1="258" y1="342" x2="238" y2="362" class="ln-dan"/>
+      <text x="248" y="382" text-anchor="middle" class="t-s">direct sales restricted after Feb 2022</text>
+
+      <text x="67" y="84" text-anchor="middle" class="t-warn">Declared countries,</text>
+      <text x="67" y="102" text-anchor="middle" class="t-warn">not physical paths</text>
+    </svg>
+    </div>
+    <figcaption><b>Diagram 3.</b> Chip exports to Russia as each middle country itself reported them to UN Comtrade. The paperwork shows where goods were declared, not the road they took.</figcaption>
+  </figure>
+
+  <ol class="tactics">
+    <li>
+      <h4>2. Set up front companies, then replace them</h4>
+      <p>New firms with no history do the trading. When one gets noticed, another takes over.</p>
+      <p class="ours"><b>Official example:</b> the US Treasury's own entry for RM Design and Development (Kyrgyzstan) says it was established on 17 March 2022, 21 days after the invasion. The US listed it in July 2023.<sup><a href="#s14">14</a></sup></p>
+    </li>
+    <li>
+      <h4>3. Stay just under 50%, or hide a company in the middle</h4>
+      <p>A stake under the line is not blocked automatically, and an unnamed subsidiary does not show up in a name search.</p>
+    </li>
+    <li>
+      <h4>4. Relabel the goods</h4>
+      <p>Describe a controlled item as something harmless, or file it under a different product code.</p>
+      <p class="ours"><b>Official example:</b> in April 2026 the US Treasury described a broker shipping fentanyl ingredients labelled as "safe chemicals".<sup><a href="#s16">16</a></sup></p>
+    </li>
+    <li>
+      <h4>5. Transfer at sea and fly a false flag</h4>
+      <p>Oil is pumped from ship to ship out at sea, and tankers register under flags they are not entitled to.</p>
+      <p class="ours"><b>Official and research examples:</b> 113 tankers under false flags carried €4.7bn of Russian oil in the first nine months of 2025.<sup><a href="#s17">17</a></sup> One tanker in our data changed its name five times.</p>
+    </li>
+    <li>
+      <h4>6. Trade before the list catches up</h4>
+      <p>Listing a company takes an investigation. Until then, trading is easy.</p>
+      <p class="ours"><b>Official example:</b> RM Design and Development was listed on 20 July 2023, at least 16 months after the founding date in its own US Treasury entry.<sup><a href="#s14">14</a></sup> ELEM GROUP (Kazakhstan) went on a US export blacklist in December 2023 and the US sanctions list in February 2024.<sup><a href="#s13">13</a></sup></p>
+    </li>
+  </ol>
+
+
+</section>
+
+<!-- 4 -->
+<section id="track">
+  <p class="label">4 · The response</p>
+  <h2>How we can track them</h2>
+  <div class="callout">
+    <p><strong>Track the need, not the name.</strong> A name is the easiest thing to change. What Russia's weapons industry needs (a specific chip, delivered to a specific factory) changes slowly. So we watch the product, the buyer, the route, and treat company names as a lagging label.</p>
+  </div>
+
+  <h3>The methods</h3>
+  <ol class="methods">
+    <li><strong>Triangulate sources.</strong> We combine official listing pages and government releases with countries' own official trade statistics (UN Comtrade, Eurostat). A claim stands only when two independent sources agree. Comtrade is how we see the middle countries' chip exports to Russia jump after 2022.</li>
+    <li><strong>Alias and ID cross-checks.</strong> Match tax numbers and registration IDs, not just names: a name check alone misses transliterated and shortened names.</li>
+    <li><strong>Sibling finder.</strong> Look for unlisted firms sharing an address and a trading partner with a listed one. On the US list we found 240 pairs of Russia-programme companies at the same address that were listed in separate waves, a median of about 5.5 months apart. Busy addresses (registration agents, business towers) count for less.</li>
+    <li><strong>Listing-lag monitoring.</strong> Start a clock at a firm's first suspicious sign (registration, first shipment) and watch who is still trading with it after it is listed.</li>
+    <li><strong>Weapon-part tracing.</strong> Ukraine's military intelligence (GUR) publishes parts found in Russian weapons. It lists an STM32F765VIT6 microcontroller in the Shahed-136 attack drone.<sup><a href="#s15">15</a></sup> Searching trade records for the full part number, not the maker's name, leads from a weapon to the firms that ship that exact part. <em>A part found in a weapon never proves that a particular shipment reached one.</em></li>
+    <li><strong>A built-in skeptic.</strong> A separate checker re-derives every number from the saved raw data before it is shown. It caught doubled totals (an Armenia figure of $52M that was really $13.1M) and a database start date posing as a listing date.</li>
+  </ol>
+
+  <div class="cant">
+    <p><strong>What the data can't see</strong></p>
+    <ul>
+      <li>Countries' own statistics show totals by country, not which companies shipped.</li>
+      <li>Ship-to-ship transfers and relabelled oil.</li>
+      <li>Cash deals, smuggling, and goods moved inside a country.</li>
+      <li>Whether a shipped chip ended up in a weapon.</li>
+      <li>Being unlisted, or absent from our data, does not mean a company is clean.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="ethics">
+  <p class="label">5 · The stakes</p>
+  <h2>Why it matters, and the ethics</h2>
+  <p>The parts that keep drones and missiles flying are ordinary commercial chips. Closing the gaps in Diagram 1 is how sanctions stop being paperwork. But a tool that points at companies can also hurt the wrong people, so we hold three rules.</p>
+
+  <h3>Leads, not findings</h3>
+  <p>A path in the data is a reason to look, not proof of wrongdoing. We only say a company is sanctioned when an official list says so. Unlisted companies our tools surface go to investigators privately, never onto a slide.</p>
+
+  <h3>Precision, not panic</h3>
+  <p>When gatekeepers are unsure, the cheap answer is to refuse everyone in a region. That falls on families. After US sanctions on Iran returned in 2018, medicine exports to Iran (as partner countries report them) fell by about 35%, from $1.30bn in 2017 to $0.84bn in 2023, even though medicine is meant to be exempt. Medicine exports to Russia stayed flat, about $12bn a year.<sup><a href="#s12">12</a></sup> In 2015 a US bank closed the accounts that carried money home to Somalia, where such transfers are 25% to 45% of the economy.<sup><a href="#s18">18</a></sup> Good targeting means naming the few firms that matter, not cutting off a country.</p>
+
+  <h3>Who pays if a flag is wrong</h3>
+  <p>A false match lands on a real business: big office towers hold hundreds of companies, a few of them listed. Sharing a building is not evidence. So every lead needs two independent signals, shows its evidence rather than a score, and says what the data could not check.</p>
+</section>
+
+<!-- 6 -->
+<section id="sources">
+  <p class="label">6 · Receipts</p>
+  <h2>Sources</h2>
+  <ol class="sources">
+    <li id="s1"><a href="https://main.un.org/securitycouncil/sites/default/files/subsidiary_organs_series_7sep23_.pdf">UN Security Council, Subsidiary Organs fact sheets 2023 (Article 41; asset freeze, travel ban, arms embargo)</a></li>
+    <li id="s2"><a href="https://main.un.org/securitycouncil/en/content/sres2664-2022">UN Security Council, Resolution 2664 (2022): humanitarian carve-out</a></li>
+    <li id="s3"><a href="https://ofac.treasury.gov/faqs/401">OFAC FAQ 401: the 50 Percent Rule and indirect ownership</a></li>
+    <li id="s4"><a href="https://ofac.treasury.gov/faqs/399">OFAC FAQ 399: stakes of blocked persons are added together</a></li>
+    <li id="s5"><a href="https://ofac.treasury.gov/faqs/topic/6626">OFAC FAQs on E.O. 14114 and foreign financial institutions</a></li>
+    <li id="s6"><a href="https://ofac.treasury.gov/media/932436/download?inline=">OFAC advisory for foreign financial institutions, 12 June 2024</a></li>
+    <li id="s7"><a href="https://www.bis.gov/licensing/country-guidance/common-high-priority-items-list-chpl">BIS, Common High Priority Items List</a></li>
+    <li id="s8"><a href="https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/subchapter-C/part-744/section-744.11">15 CFR 744.11: Entity List licence requirements (including listed addresses)</a></li>
+    <li id="s9"><a href="https://www.gov.uk/government/organisations/office-of-financial-sanctions-implementation/about">UK OFSI, About us (asset freezes; oil price cap)</a></li>
+    <li id="s10"><a href="https://data.consilium.europa.eu/doc/document/ST-11618-2024-INIT/en/pdf">Council of the EU, Best practices on restrictive measures (2024): ownership and control</a></li>
+    <li id="s11"><a href="https://ofac.treasury.gov/faqs/1105">OFAC FAQ 1105: humanitarian general licences after UNSCR 2664</a></li>
+    <li id="s12"><a href="https://comtradeplus.un.org/">UN Comtrade (database home; figures from its public API): chip (HS 8542) and medicine (HS 30) trade as reported by countries; VeilTrace hackathon research queries, 25 Sep 2026</a></li>
+    <li id="s13"><a href="https://ofac.treasury.gov/recent-actions/20240223">OFAC recent actions, 23 Feb 2024 (ELEM GROUP)</a></li>
+    <li id="s14"><a href="https://www.federalregister.gov/documents/2023/08/08/2023-16934/notice-of-ofac-sanctions-action">Federal Register 2023-16934: OFAC action of 20 Jul 2023 (RM Design and Development, "Established 17 Mar 2022"; Onelek)</a></li>
+    <li id="s15"><a href="https://war-sanctions.gur.gov.ua/en/components/2090">Ukraine GUR, War and Sanctions: component 2090 (STM32F765VIT6)</a></li>
+    <li id="s16"><a href="https://home.treasury.gov/news/press-releases/sb0468">US Treasury press release sb0468 (April 2026)</a></li>
+    <li id="s17"><a href="https://energyandcleanair.org/publication/flags-of-inconvenience-113-vessels-flying-a-false-flag-transported-eur-4-7-bn-russian-oil-in-first-three-quarters-of-2025/">CREA: 113 false-flag tankers, Q1 to Q3 2025</a></li>
+    <li id="s18"><a href="https://www.oxfamamerica.org/explore/research-publications/hanging-by-a-thread-the-ongoing-threat-to-somalias-remittance-lifeline/">Oxfam: Somalia's remittance lifeline</a></li>
+  </ol>
+  <p class="note">Unnumbered figures (address pairs) come from the VeilTrace hackathon analysis of the US sanctions list on 25 Sep 2026, re-checked by an independent verifier.</p>
+</section>
+</article>
+</div>
+
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>Research by the VeilTrace team, Trace the Unseen, 25 Sep 2026</span>
+  <a href="../about-the-data.html">About the data</a>
+  <a href="../sources/METHODS_LOG.md">Methods</a>
+  <a href="https://github.com/Ttheegela/veil-trace">Original research repo</a>
+  <span>Not legal advice</span>
+</footer>
+</body>
+</html>

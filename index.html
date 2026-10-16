@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagstate · Sanctions lookup</title>
+<meta name="description" content="Check any ship, company or person against sanctions-evasion research and the US, UK, EU and UN sanctions lists. Every answer comes with its source.">
+<meta name="flagstate-agent" content="http://localhost:8787">
+<meta name="flagstate-voice-agent" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app/style.css">
+<script type="module" src="app/main.js"></script>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="#research">Research</a></li>
+    <li><a href="stories/about-the-data.html">About the data</a></li>
+    <li><a href="#" id="nav-walk">Walkthrough</a></li>
+  </ul></nav>
+</header>
+
+<main>
+<section class="wrap hero" id="search">
+  <h1>Names change. <span>The hull doesn't.</span></h1>
+  <p class="hero-sub">Check any ship, company or person against our sanctions-evasion research and the US, UK, EU and UN sanctions lists. Every answer comes with its source.</p>
+  <form class="search" role="search" id="search-form">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <label for="q" class="visually-hidden">Search a ship, IMO number, company or person</label>
+    <input id="q" name="q" type="search" placeholder="Ship name, IMO number, company or person" autocomplete="off" spellcheck="false" maxlength="200">
+    <span class="kbd" aria-hidden="true">/</span>
+  </form>
+  <div class="hero-meta">
+    <span id="lists-date"><span class="live-dot" aria-hidden="true"></span>Checking when the official lists were last updated…</span>
+    <span>Try <a href="#" data-example="TASSOS">TASSOS</a> · <a href="#" data-example="Sovcomflot">Sovcomflot</a> · <a href="#" data-example="9408695">9408695</a></span>
+    <button class="btn btn-accent" type="button" id="start-walk">Follow one tanker, 5 steps</button>
+  </div>
+</section>
+
+<section class="wrap dossier" id="results" aria-live="polite" hidden></section>
+
+<section class="wrap voice" id="voice" aria-labelledby="voice-h" hidden>
+  <p class="label">Ask by voice</p>
+  <h2 id="voice-h">Talk to the investigator</h2>
+  <p class="hero-sub">Ask about a ship, company or person out loud. The voice agent searches the same research and lists, and can start a live investigation. Press the call button to start.</p>
+  <div id="voice-slot"></div>
+</section>
+
+<section class="wrap research" id="research">
+  <p class="label">The research behind the search</p>
+  <h2>Four investigations, one dataset</h2>
+  <ul class="stories">
+    <li class="story"><a href="stories/how-sanctions-work/index.html"><span class="big">Start <small>here</small></span><h3>How sanctions work</h3><p>Lists, licences and the tricks that get around them, in plain language.</p></a></li>
+    <li class="story"><a href="stories/shadow-fleet/network/shadow_fleet_map.html"><span class="big">1,724 <small>ships</small></span><h3>The shadow fleet</h3><p>Tankers and companies behind Russia's and Iran's oil trade, joined by hull number. Interactive map.</p></a></li>
+    <li class="story"><a href="stories/chips-into-russia/viz/index.html"><span class="big"><span id="chips-months">20</span> <small>months · median wait to list a new chip firm</small></span><h3>Semiconductors into Russia</h3><p>Who reported sending semiconductor chips to Russia, and how long US lists took to name suppliers set up after the invasion.</p></a></li>
+    <li class="story"><a href="stories/who-lobbies/influence-network/index.html"><span class="big">1,513 <small>reports</small></span><h3>Who lobbies</h3><p>US lobbying filed for the owners, banks and parents of sanctioned fleets.</p></a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>Research by the VeilTrace team</span>
+  <a href="stories/about-the-data.html">About the data</a>
+  <a href="stories/sources/METHODS_LOG.md">Methods</a>
+  <a href="https://github.com/Ttheegela/veil-trace">Original research repo</a>
+  <span>Not legal advice</span>
+</footer>
+
+<aside class="walk" id="walk" aria-label="Walkthrough" aria-live="polite" hidden>
+  <div class="walk-top"><p class="label" id="walk-step">Walkthrough · 1 of 5</p><div class="walk-bar" id="walk-bar"></div></div>
+  <p class="walk-text" id="walk-text"></p>
+  <div class="walk-ctrl">
+    <button class="btn" type="button" id="walk-back">Back</button>
+    <button class="btn btn-accent" type="button" id="walk-next">Next</button>
+    <button class="btn btn-ghost" type="button" id="walk-exit">Leave</button>
+    <span class="kbd">Esc</span>
+  </div>
+</aside>
+</body>
+</html>

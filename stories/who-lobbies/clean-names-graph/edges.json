@@ -1,0 +1,1327 @@
+[
+ {
+  "id": "org:hikvision|foreign_entity_of|org:hikvision_usa",
+  "source": "org:hikvision",
+  "target": "org:hikvision_usa",
+  "type": "foreign_entity_of",
+  "amount": "573618.62 (one period)",
+  "amount_usd_max": null,
+  "period": "2022-Q2 | 2018-2025",
+  "issue": "export controls/homeland security/science-tech | export controls, homeland security",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live against lda.senate.gov API 2026-09-25)",
+   "[lda-known-listed] efile.fara.gov reg 3731; prior team research: chinese-entity-list-firms.md"
+  ]
+ },
+ {
+  "id": "org:cetc|foreign_entity_of|org:hikvision_usa",
+  "source": "org:cetc",
+  "target": "org:hikvision_usa",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q2",
+  "issue": "export controls/homeland security/science-tech",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live); foreign entity name \"China Electronics Technology Group Co., Ltd (a wholly state-owned Chinese company)\" matches CSL entry \"China Electronics Technology Group Corporation\" (alias CETC), CMIC-EO13959"
+  ]
+ },
+ {
+  "id": "org:hikvision_usa|client_of|firm:elevation_association",
+  "source": "org:hikvision_usa",
+  "target": "firm:elevation_association",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q2",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live)"
+  ]
+ },
+ {
+  "id": "firm:elevation_association|lobbied|gov:us_congress",
+  "source": "firm:elevation_association",
+  "target": "gov:us_congress",
+  "type": "lobbied",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q2",
+  "issue": "DEF, FOR, HOM, INT, SCI",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live)"
+  ]
+ },
+ {
+  "id": "org:huawei|foreign_entity_of|org:futurewei",
+  "source": "org:huawei",
+  "target": "org:futurewei",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q3",
+  "issue": "COM, CPI, CPT, HOM, SCI, TEC, TRD",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing e7429017-7938-42b7-9d37-4dd2da5b4a04 (verified live)"
+  ]
+ },
+ {
+  "id": "org:futurewei|lobbied|gov:us_congress",
+  "source": "org:futurewei",
+  "target": "gov:us_congress",
+  "type": "lobbied",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q3",
+  "issue": "COM, CPI, CPT, HOM, SCI, TEC, TRD",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing e7429017-7938-42b7-9d37-4dd2da5b4a04 (verified live)"
+  ]
+ },
+ {
+  "id": "org:huawei|foreign_entity_of|org:huawei_technologies_usa",
+  "source": "org:huawei",
+  "target": "org:huawei_technologies_usa",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q1",
+  "issue": "COM, HOM, TEC, TRD",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filings 2b98c14b-82a7-48d0-9c9d-fd2d3950a316 / f0290a38-0288-461d-aab5-61435f2cb557 (both verified live)"
+  ]
+ },
+ {
+  "id": "org:huawei_technologies_usa|client_of|firm:squire_patton_boggs",
+  "source": "org:huawei_technologies_usa",
+  "target": "firm:squire_patton_boggs",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q1",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filings 2b98c14b-82a7-48d0-9c9d-fd2d3950a316 / f0290a38-0288-461d-aab5-61435f2cb557 (both verified live)"
+  ]
+ },
+ {
+  "id": "org:dji|foreign_entity_of|org:dji_technology_inc",
+  "source": "org:dji",
+  "target": "org:dji_technology_inc",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2021-Q1 | 2016-2024",
+  "issue": "SCI | drone/UAV regulation, export controls",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Lead"
+   },
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": true,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 1bf15c20-f57c-45f8-87be-1729b884f3c3 (verified live) -- disclosed foreign entities are \"DJI Company Limited\"/\"DJI International Company Limited\", not \"SZ DJI Technology Co., Ltd.\" verbatim; \"DJI Company Limited\" only matches the BIS Entity List row via its short alias \"DJI\" (not an exact alt-name hit), and the client's own name (\"DJI Technology\") closely resembles the listed entity's name -- kept as Lead, not Documented",
+   "[lda-known-listed] lda.senate.gov filings API, client_name=DJI TECHNOLOGY (fe: DJI International Co Ltd, DJI Company Ltd, DJI Europe B.V., iFlight Technology Co Ltd)"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|client_of|firm:squire_patton_boggs",
+  "source": "org:dji_technology_inc",
+  "target": "firm:squire_patton_boggs",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2021-Q1 | 2021-2022",
+  "issue": "drone regulation",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 1bf15c20-f57c-45f8-87be-1729b884f3c3 (verified live)",
+   "[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2021 Q1, 2022 Q1)"
+  ]
+ },
+ {
+  "id": "org:arctic_lng_2|client_of|firm:scarinci_hollenbeck",
+  "source": "org:arctic_lng_2",
+  "target": "firm:scarinci_hollenbeck",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2023-Q1 | 2023 (effective 2023-02-17)",
+  "issue": "ENG, TRD | Export of gas turbines",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-foreign-entities] LDA filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08 (verified live) -- note: listed entity filed as client directly, no clean intermediary observed here",
+   "[fara-principals] lda.senate.gov filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|client_of|firm:avoq",
+  "source": "org:dji_technology_inc",
+  "target": "firm:avoq",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2023",
+  "issue": "drone regulation",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2023 Q3)"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|client_of|firm:porter_wright",
+  "source": "org:dji_technology_inc",
+  "target": "firm:porter_wright",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2024 | 2024-03 (effective 2024-03-19)",
+  "issue": "drone regulation",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2024 Q1)",
+   "[fara-principals] lda.senate.gov filing c2c08c25-46cb-420d-9e82-a0b284a31d3e"
+  ]
+ },
+ {
+  "id": "org:dji|funds|assoc:small_uav_coalition",
+  "source": "org:dji",
+  "target": "assoc:small_uav_coalition",
+  "type": "funds",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2014-2017",
+  "issue": "UAV rulemaking",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, client=Small UAV Coalition, registrant=Akin Gump/McGuireWoods, fe=DJI"
+  ]
+ },
+ {
+  "id": "assoc:small_uav_coalition|client_of|firm:akin_gump",
+  "source": "assoc:small_uav_coalition",
+  "target": "firm:akin_gump",
+  "type": "client_of",
+  "amount": "230000",
+  "amount_usd_max": 230000.0,
+  "period": "2016 Q1",
+  "issue": "UAV rulemaking",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API"
+  ]
+ },
+ {
+  "id": "org:dji|funds|assoc:drone_mfrs_alliance",
+  "source": "org:dji",
+  "target": "assoc:drone_mfrs_alliance",
+  "type": "funds",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2016",
+  "issue": "drone rules",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, registrant=Franklin Square Group"
+  ]
+ },
+ {
+  "id": "org:dji|funds|assoc:alliance_drone_innovation",
+  "source": "org:dji",
+  "target": "assoc:alliance_drone_innovation",
+  "type": "funds",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2018",
+  "issue": "drone rules",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, registrant=Thorn Run Partners"
+  ]
+ },
+ {
+  "id": "org:sberbank|foreign_entity_of|org:sberbank_cib_usa",
+  "source": "org:sberbank",
+  "target": "org:sberbank_cib_usa",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2016",
+  "issue": "financial services/sanctions-adjacent",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, fe=Sberbank of Russia, Troika Dialog Group Ltd, SBGB Cyprus Ltd, SB International S.a.r.l."
+  ]
+ },
+ {
+  "id": "org:sberbank_cib_usa|client_of|firm:madison_group",
+  "source": "org:sberbank_cib_usa",
+  "target": "firm:madison_group",
+  "type": "client_of",
+  "amount": "50000-105000",
+  "amount_usd_max": 105000.0,
+  "period": "2016-2017",
+  "issue": "financial services",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API (2016 Q1-Q4, 2017 Q1)"
+  ]
+ },
+ {
+  "id": "org:sberbank_cib_usa|client_of|firm:podesta_group",
+  "source": "org:sberbank_cib_usa",
+  "target": "firm:podesta_group",
+  "type": "client_of",
+  "amount": "20000-110000",
+  "amount_usd_max": 110000.0,
+  "period": "2016 Q1-Q3",
+  "issue": "financial services",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API"
+  ]
+ },
+ {
+  "id": "org:nord_stream_2|subsidiary_of|org:gazprom",
+  "source": "org:nord_stream_2",
+  "target": "org:gazprom",
+  "type": "subsidiary_of",
+  "amount": "50% of NS2 operating budget",
+  "amount_usd_max": null,
+  "period": "2017 Q3",
+  "issue": "pipeline/energy policy",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, fe=Public Joint Stock Company Gazprom (Roberti Global filing)"
+  ]
+ },
+ {
+  "id": "gov:russian_federation|owns|org:gazprom",
+  "source": "gov:russian_federation",
+  "target": "org:gazprom",
+  "type": "owns",
+  "amount": "38% ownership",
+  "amount_usd_max": null,
+  "period": "2017 Q3",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, fe disclosure text"
+  ]
+ },
+ {
+  "id": "org:nord_stream_2|client_of|firm:capitol_counsel",
+  "source": "org:nord_stream_2",
+  "target": "firm:capitol_counsel",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2017 Q3",
+  "issue": "pipeline permitting",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API"
+  ]
+ },
+ {
+  "id": "org:nord_stream_2|client_of|firm:roberti_global",
+  "source": "org:nord_stream_2",
+  "target": "firm:roberti_global",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2017 Q3",
+  "issue": "pipeline permitting",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API"
+  ]
+ },
+ {
+  "id": "org:vtb_bank|client_of|firm:manatos_manatos",
+  "source": "org:vtb_bank",
+  "target": "firm:manatos_manatos",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2015-2018",
+  "issue": "banking/finance",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings API (continuous 2015 Q2-2018 Q2)"
+  ]
+ },
+ {
+  "id": "gov:russia_finance_ministry|foreign_entity_of|org:vtb_bank",
+  "source": "gov:russia_finance_ministry",
+  "target": "org:vtb_bank",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2015",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filings, fe=Ministry of Finance of the Russian Federation"
+  ]
+ },
+ {
+  "id": "org:en_plus|owns|org:rusal",
+  "source": "org:en_plus",
+  "target": "org:rusal",
+  "type": "owns",
+  "amount": "reported ~48%-57% stake (varies by year/source)",
+  "amount_usd_max": null,
+  "period": "2019-2025",
+  "issue": "aluminum tariffs/trade",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": true,
+  "source_ref": [
+   "[lda-known-listed] prior team research: rusal-en-plus-delisting.md",
+   "[ownership-bridges] public reporting (En+ Group annual report/prospectus); not confirmed via an official record"
+  ]
+ },
+ {
+  "id": "org:en_plus|client_of|firm:mercury_public_affairs",
+  "source": "org:en_plus",
+  "target": "firm:mercury_public_affairs",
+  "type": "client_of",
+  "amount": "108500 then 54250/month | $108,500/month (2/2019-12/2019), reduced to $54,250/month from 1/1/2020",
+  "amount_usd_max": 108500.0,
+  "period": "2019-2022 | 2019-02 to 2022-02-24",
+  "issue": "aluminum trade | foreign principal representation",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] efile.fara.gov reg 6170",
+   "[ownership-bridges] efile.fara.gov reg 6170, Exhibit AB 20200316-80; fee cut and termination per climate-day/ideas/lobbying/rusal-en-plus-delisting.md, cross-checked in _checks.md"
+  ]
+ },
+ {
+  "id": "org:en_plus|client_of|firm:dci_group",
+  "source": "org:en_plus",
+  "target": "firm:dci_group",
+  "type": "client_of",
+  "amount": "10000-40000/quarter | $10,000-$40,000/qtr",
+  "amount_usd_max": 40000.0,
+  "period": "2021-2025 | 2021-Q2 to 2025-Q1",
+  "issue": "low-carbon aluminum, Section 232 tariffs | low-carbon aluminum / Section 232 tariffs",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filing 016bd45e-bce1-4a61-8537-0e0daabdf056",
+   "[ownership-bridges] lda.senate.gov filing 016bd45e-bce1-4a61-8537-0e0daabdf056; confirmed in _checks.md against lda_raw/combo_q0.json"
+  ]
+ },
+ {
+  "id": "gov:bulgaria|lobbies_for|org:lukoil",
+  "source": "gov:bulgaria",
+  "target": "org:lukoil",
+  "type": "lobbies_for",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-2025",
+  "issue": "EU sanctions exemption for Neftochim Burgas refinery",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] politico.eu, prior team research: oil-majors.md (Bulgaria denied acting for Lukoil)"
+  ]
+ },
+ {
+  "id": "org:hikvision_usa|client_of|firm:sidley_austin",
+  "source": "org:hikvision_usa",
+  "target": "firm:sidley_austin",
+  "type": "client_of",
+  "amount": "500000/quarter (peak) | $573,618.62 (as reported; PDF unreadable via automated extraction this pass; amount unverified) | $500,000/qtr",
+  "amount_usd_max": 500000.0,
+  "period": "2018-2021 | through 04/2025 | 2018Q1-2021Q1",
+  "issue": "export controls | export controls / FARA foreign-agent representation | export controls, foreign relations, homeland security",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] lda.senate.gov filing 98f3217a-5f02-4c9f-8803-e80213fe5d0b",
+   "[fara-principals] FARA reg #3731, efile.fara.gov/docs/3731-Supplemental-Statement-20250430-53.pdf; foreign principal of record is 'Hikvision USA, Inc.' itself",
+   "[ownership-bridges] lda.senate.gov filing 98f3217a-5f02-4c9f-8803-e80213fe5d0b; confirmed against local LDA JSON per climate-day/ideas/lobbying/_checks.md (chinese-entity-list-firms)"
+  ]
+ },
+ {
+  "id": "org:smic|client_of|firm:akin_gump",
+  "source": "org:smic",
+  "target": "firm:akin_gump",
+  "type": "client_of",
+  "amount": "50000-140000/quarter | $50,000-$140,000/qtr",
+  "amount_usd_max": 140000.0,
+  "period": "2020-2022 | 2020-Q3 through 2022-Q1 (last filing observed; no termination captured)",
+  "issue": "semiconductor export eligibility | export control eligibility for US-origin semiconductor goods | Export control eligibility for US-origin semiconductor goods",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "lda-known-listed",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[lda-known-listed] prior team research: chinese-entity-list-firms.md",
+   "[ownership-bridges] lda.senate.gov, client name 'AKIN GUMP ON BEHALF OF SEMICONDUCTOR MANUFACTURING INTERNATIONAL CORPORATION'; confirmed in _checks.md (chinese-entity-list-firms)",
+   "[associations-thinktanks] lda.senate.gov filings API, saved smic2.json"
+  ]
+ },
+ {
+  "id": "org:novatek|owns|org:arctic_lng_2",
+  "source": "org:novatek",
+  "target": "org:arctic_lng_2",
+  "type": "owns",
+  "amount": "60% equity ownership",
+  "amount_usd_max": null,
+  "period": "2023 (effective 2023-02-17) | 2023-Q1",
+  "issue": "ENG, TRD",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   },
+   {
+    "angle": "lda-foreign-entities",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08, foreign_entities[0]",
+   "[lda-foreign-entities] LDA filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08 (verified live)"
+  ]
+ },
+ {
+  "id": "org:union_oil_gas_ru|affiliated_with|org:novatek",
+  "source": "org:union_oil_gas_ru",
+  "target": "org:novatek",
+  "type": "affiliated_with",
+  "amount": "contribution $50,000 (orig.)/$24,000 (amended); 0% ownership disclosed",
+  "amount_usd_max": 50000.0,
+  "period": "2024 (effective 2024-12-16)",
+  "issue": "represents member/foreign-entity interest",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filing 6ffc9525-2752-4b9f-953b-0340c438e6f3 (foreign entity misspelled 'NOVATECH' in this original filing) corrected by amendment f8516f8c-de77-4fd3-a320-8fa3208bbde2 ('NOVATEK (PUBLICLY TRADED COMPANY ON MOSCOW STOCK EXCHANGE)')"
+  ]
+ },
+ {
+  "id": "org:union_oil_gas_ru|client_of|firm:qorvis_geopols",
+  "source": "org:union_oil_gas_ru",
+  "target": "firm:qorvis_geopols",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2024 (effective 2024-12-16)",
+  "issue": "LNG, sanctions compliance",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filings 6ffc9525-2752-4b9f-953b-0340c438e6f3, f8516f8c-de77-4fd3-a320-8fa3208bbde2"
+  ]
+ },
+ {
+  "id": "firm:qorvis_geopols|lobbied|gov:us_congress",
+  "source": "firm:qorvis_geopols",
+  "target": "gov:us_congress",
+  "type": "lobbied",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2024",
+  "issue": "LNG, sanctions compliance (issue codes ENG/CDT/FUE); no specific government_entities named in filing",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filings 6ffc9525-2752-4b9f-953b-0340c438e6f3, f8516f8c-de77-4fd3-a320-8fa3208bbde2, lobbying_activities[]"
+  ]
+ },
+ {
+  "id": "org:futurewei|subsidiary_of|org:huawei",
+  "source": "org:futurewei",
+  "target": "org:huawei",
+  "type": "subsidiary_of",
+  "amount": "~99.7% (Huawei Technologies Co., Ltd.) / 100% (Huawei Investment & Holding Co., Ltd.)",
+  "amount_usd_max": null,
+  "period": "2023-04-19 to 2024-01-22",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filings 100f4a85-3300-4e3a-b68b-3da44d32e2cf (2023), 2be92317-3bb6-44c3-adf5-261b8899428f (amendment), 7e5dda67-97fb-497e-b194-65b6bb0d68b4 (2024, self-registered)"
+  ]
+ },
+ {
+  "id": "org:futurewei|client_of|firm:squire_patton_boggs",
+  "source": "org:futurewei",
+  "target": "firm:squire_patton_boggs",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2023-04-19",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filing 100f4a85-3300-4e3a-b68b-3da44d32e2cf"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|subsidiary_of|org:dji",
+  "source": "org:dji_technology_inc",
+  "target": "org:dji",
+  "type": "subsidiary_of",
+  "amount": "100% (DJI Co. Ltd/DJI Intl Co. Ltd/DJI Europe/iFlight); 44% Wangdragona Inc./Wang Tao per 4Q2024 report",
+  "amount_usd_max": null,
+  "period": "2024",
+  "issue": "",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filings c2c08c25-46cb-420d-9e82-a0b284a31d3e, 8b480092-2764-44c3-95c2-6a3e32598a2c, 58ceb53f-d2ff-49fb-a408-d95c4b08e850; disclosed foreign-entity names do not literally match BIS Entity List name/aliases for the sanctioned Shenzhen entity; corporate-chain identity not confirmed by an official record this pass"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|client_of|firm:liberty_gov_affairs",
+  "source": "org:dji_technology_inc",
+  "target": "firm:liberty_gov_affairs",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2024-03 (effective 2024-03-19)",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filing 8b480092-2764-44c3-95c2-6a3e32598a2c"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc|client_of|firm:sidley_austin",
+  "source": "org:dji_technology_inc",
+  "target": "firm:sidley_austin",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2024-03 (effective 2024-03-19)",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] lda.senate.gov filing 3c0ed2d1-f087-4c77-8ce7-3c594d275d58, client=DJI TECHNOLOGY INC, registrant=SIDLEY AUSTIN LLP"
+  ]
+ },
+ {
+  "id": "org:hikvision_usa|subsidiary_of|org:hikvision",
+  "source": "org:hikvision_usa",
+  "target": "org:hikvision",
+  "type": "subsidiary_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2018-2025",
+  "issue": "",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "fara-principals",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[fara-principals] C:/Projects/climate-day/ideas/lobbying/chinese-entity-list-firms.md; team's own research note, not an official corporate/regulatory record verified this pass"
+  ]
+ },
+ {
+  "id": "gov:bulgaria|lobbies_for|org:neftochim_burgas",
+  "source": "gov:bulgaria",
+  "target": "org:neftochim_burgas",
+  "type": "lobbies_for",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "EU seaborne-crude sanctions derogation",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[ownership-bridges] politico.eu 'Russia's Lukoil struggle to escape the grip' (press reporting, not a lobbying-register filing); Sofia denies lobbying \"for Lukoil\" per same article; flagged CAN'T VERIFY in climate-day/ideas/lobbying/_checks.md (oil-majors)"
+  ]
+ },
+ {
+  "id": "org:nayara_energy|affiliated_with|org:rosneft",
+  "source": "org:nayara_energy",
+  "target": "org:rosneft",
+  "type": "affiliated_with",
+  "amount": "~49% reported stake",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "ownership-bridges",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[ownership-bridges] public reporting"
+  ]
+ },
+ {
+  "id": "org:smic|foreign_entity_of|firm:capitol_counsel",
+  "source": "org:smic",
+  "target": "firm:capitol_counsel",
+  "type": "foreign_entity_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2020-Q4 to 2021-Q2 (terminated 2021-04-01)",
+  "issue": "Export control eligibility for US-origin semiconductor goods",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] lda.senate.gov filings API, client_name=SMIC, saved smic2.json; Capitol Counsel LLC registration filing (2020 Q4), foreign_entities field lists Semiconductor Manufacturing International Corporation, China"
+  ]
+ },
+ {
+  "id": "assoc:uscbc|client_of|firm:akin_gump",
+  "source": "assoc:uscbc",
+  "target": "firm:akin_gump",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-Q1 to 2026-Q1 (terminated)",
+  "issue": "Export controls, Section 301 tariff exclusion process, outbound investment screening, permanent normal trade relations (PNTR) status",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] lda.senate.gov filings API, client_name='US-China Business Council', saved q1_uscbc.json"
+  ]
+ },
+ {
+  "id": "assoc:uscbc|lobbied|gov:us_congress",
+  "source": "assoc:uscbc",
+  "target": "gov:us_congress",
+  "type": "lobbied",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-2026",
+  "issue": "Export controls / PNTR status",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] q1_uscbc.json"
+  ]
+ },
+ {
+  "id": "org:smic|same_firm_overlap|assoc:uscbc",
+  "source": "org:smic",
+  "target": "assoc:uscbc",
+  "type": "same_firm_overlap",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2020-2026 (SMIC engagement ends ~2022-Q1; USCBC engagement runs 2022-Q1 to 2026-Q1, essentially back-to-back, not years apart)",
+  "issue": "Same firm serves listed entity and then, concurrently/immediately after, an adjacent clean trade association on overlapping export-control/China-trade issues",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] Inference from smic2.json + q1_uscbc.json; no funding link established"
+  ]
+ },
+ {
+  "id": "assoc:awdc|affiliated_with|org:alrosa",
+  "source": "assoc:awdc",
+  "target": "org:alrosa",
+  "type": "affiliated_with",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-04",
+  "issue": "Renewed AWDC-Alrosa trade agreement",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] Brussels Times, brusselstimes.com/207876"
+  ]
+ },
+ {
+  "id": "assoc:awdc|lobbied|gov:eu",
+  "source": "assoc:awdc",
+  "target": "gov:eu",
+  "type": "lobbied",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-09",
+  "issue": "Argued against including diamonds in Russia sanctions package (cited ~30% hit to Antwerp trade)",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] Reuters, reuters.com/article/ukraine-crisis-eu-sanctions-diamonds-idCAKBN2QQ0EL"
+  ]
+ },
+ {
+  "id": "assoc:awdc|lobbies_for|org:alrosa",
+  "source": "assoc:awdc",
+  "target": "org:alrosa",
+  "type": "lobbies_for",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022-09",
+  "issue": "AWDC's anti-sanctions lobbying framed as protecting Antwerp trade, not explicitly framed as protecting Alrosa",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "associations-thinktanks",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[associations-thinktanks] Inferred from timing of Reuters 2022-09 article vs Brussels Times 2022-04 partnership announcement"
+  ]
+ },
+ {
+  "id": "org:nord_stream_ag|client_of|firm:sass_consulting_ag",
+  "source": "org:nord_stream_ag",
+  "target": "firm:sass_consulting_ag",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "energy/pipeline interests",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "org:jsc_russian_railways|client_of|firm:sass_consulting_ag",
+  "source": "org:jsc_russian_railways",
+  "target": "firm:sass_consulting_ag",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "rail/transport interests",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "org:jsc_rusatom_overseas|client_of|firm:sass_consulting_ag",
+  "source": "org:jsc_rusatom_overseas",
+  "target": "firm:sass_consulting_ag",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "nuclear/energy interests",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "org:nord_stream_ag|client_of|firm:brunswick_group",
+  "source": "org:nord_stream_ag",
+  "target": "firm:brunswick_group",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "EU public/regulatory affairs (register text just says 'Nord Stream', unqualified; treated as Nord Stream AG per the fuller wording in the adjacent Sass Consulting entry of the same register)",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "firm:bell_pottinger|client_of|org:gazprom_ep_international",
+  "source": "firm:bell_pottinger",
+  "target": "org:gazprom_ep_international",
+  "type": "client_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2015-10 to 2015-12",
+  "issue": "natural resources, gas export, tariff setting, import quotas",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "org:gazprom_ep_international|subsidiary_of|org:gazprom",
+  "source": "org:gazprom_ep_international",
+  "target": "org:gazprom",
+  "type": "subsidiary_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "",
+  "issue": "",
+  "evidence": "Documented",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Documented"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"
+  ]
+ },
+ {
+  "id": "gov:european_parliament|proposed_deregistration_of|org:phosagro",
+  "source": "gov:european_parliament",
+  "target": "org:phosagro",
+  "type": "proposed_deregistration_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022",
+  "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"
+  ]
+ },
+ {
+  "id": "gov:european_parliament|proposed_deregistration_of|org:acron",
+  "source": "gov:european_parliament",
+  "target": "org:acron",
+  "type": "proposed_deregistration_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022",
+  "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"
+  ]
+ },
+ {
+  "id": "gov:european_parliament|proposed_deregistration_of|firm:rumyantsev_partners",
+  "source": "gov:european_parliament",
+  "target": "firm:rumyantsev_partners",
+  "type": "proposed_deregistration_of",
+  "amount": "",
+  "amount_usd_max": null,
+  "period": "2022",
+  "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered",
+  "evidence": "Lead",
+  "evidence_votes": [
+   {
+    "angle": "eu-uk-registers",
+    "evidence": "Lead"
+   }
+  ],
+  "verifier_conflict": false,
+  "source_ref": [
+   "[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"
+  ]
+ }
+]

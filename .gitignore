@@ -1,0 +1,15 @@
+.superpowers/
+.DS_Store
+node_modules/
+test-results/
+playwright-report/
+__pycache__/
+.pytest_cache/
+*.tmp
+.vercel
+.venv/
+.env*
+build/
+!.env.example
+.memory.json
+agent/.memory.json

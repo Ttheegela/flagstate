@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methods and sources · Who lobbies · Flagstate</title>
+<meta name="description" content="How the sanctions influence map was built: where every ship, company, lobbying report and link comes from, how they were joined, and how sure we are.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<style>
+  /* Page styles on the main site's system (app/style.css tokens only) · hero + Long Document body */
+  .hero h1 { max-width: 16ch; }
+  .doc { max-width: 52rem; padding-bottom: var(--space-3xl); }
+  .doc h2 { font-weight: 800; font-size: var(--text-2xl); letter-spacing: -0.025em; line-height: 1.1; margin: var(--space-2xl) 0 var(--space-md); padding-top: var(--space-sm); border-top: 2px solid var(--color-ink); }
+  .doc p, .doc ul li { font-family: var(--font-serif); font-size: var(--text-lg); line-height: 1.6; }
+  .doc p { margin: 0 0 var(--space-md); }
+  .doc ul { margin: 0 0 var(--space-md); padding-left: 1.2em; }
+  .doc ul li { margin-bottom: var(--space-xs); }
+  .doc ul li::marker { color: var(--color-accent); }
+  .doc b { font-family: var(--font-display); font-weight: 700; }
+  .doc a { text-decoration-color: var(--color-accent); }
+
+  /* Stat row: hairline grid like the home page's research rows */
+  .stats { display: grid; gap: var(--rule-hair); background: var(--color-rule); border: var(--rule-hair) solid var(--color-rule); grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); margin: 0 0 var(--space-sm); }
+  .stat { background: var(--color-paper); padding: var(--space-lg) var(--space-md); display: grid; gap: var(--space-xs); align-content: start; }
+  .stat b { font-family: var(--font-display); font-weight: 800; font-size: var(--text-2xl); letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: var(--text-sm); color: var(--color-muted); }
+  .doc p.as-of { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-neutral); letter-spacing: 0.04em; }
+
+  .tw { overflow-x: auto; margin: 0 0 var(--space-lg); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  th { text-align: left; font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral); padding: 0 var(--space-md) var(--space-xs) 0; }
+  td { text-align: left; vertical-align: top; padding: var(--space-sm) var(--space-md) var(--space-sm) 0; border-top: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); }
+  td:first-child { font-weight: 700; color: var(--color-ink); width: 32%; }
+  td .sub { display: block; font-weight: 400; color: var(--color-neutral); font-size: var(--text-xs); }
+  @media (max-width: 40rem) { td:first-child { width: 38%; } }
+
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: var(--space-md) 0; }
+  .steps li { counter-increment: s; position: relative; padding: var(--space-md) 0 var(--space-md) 2.6rem; border-top: var(--rule-hair) solid var(--color-rule); font-family: var(--font-serif); font-size: var(--text-lg); line-height: 1.6; }
+  .steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: calc(var(--space-md) + 0.4rem); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); }
+  .steps li > b:first-child { display: block; margin-bottom: var(--space-2xs); }
+
+  .conf { display: grid; gap: var(--rule-hair); background: var(--color-rule); border: var(--rule-hair) solid var(--color-rule); margin: var(--space-md) 0 var(--space-lg); }
+  .conf div { background: var(--color-paper-2); padding: var(--space-md); font-family: var(--font-serif); font-size: var(--text-base); color: var(--color-muted); }
+  .conf div > b { display: flex; align-items: center; gap: var(--space-sm); color: var(--color-ink); margin-bottom: var(--space-2xs); }
+  .conf svg { flex: none; }
+  .ln-doc { stroke: var(--color-ink); stroke-width: 2; }
+  .ln-rep { stroke: var(--color-muted); stroke-width: 2; }
+  .ln-lead { stroke: var(--color-neutral); stroke-width: 2; stroke-dasharray: 1 4; }
+
+  .doc code { font-family: var(--font-mono); font-size: 0.85em; background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: 0 0.3em; }
+  .doc .note { border-top: 2px solid var(--color-accent); padding-top: var(--space-sm); margin: var(--space-xl) 0 var(--space-md); font-size: var(--text-base); color: var(--color-muted); }
+  .doc p.credits { font-family: var(--font-display); font-size: var(--text-xs); color: var(--color-neutral); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Trace the Unseen · how we built the map</p>
+  <h1>Methods <span>and sources.</span></h1>
+  <p class="hero-sub">This map joins two worlds that are usually studied apart: the tankers and shipping companies that move sanctioned oil, and the money that companies tied to them spend on lobbying in Washington. This page explains, in plain terms, where every piece came from, how we joined them, and how sure we are.</p>
+  <div class="hero-meta"><a href="index.html">Back to the map</a></div>
+</section>
+
+<div class="doc">
+<div class="stats">
+  <div class="stat"><b>1,547</b><span>sanctioned ships, each identified by its permanent hull number</span></div>
+  <div class="stat"><b>960</b><span>companies that own, run or are named beside them</span></div>
+  <div class="stat"><b>1,513</b><span>US lobbying reports read, out of 3,232 scanned</span></div>
+  <div class="stat"><b>421</b><span>lobbyists, named in their own public reports</span></div>
+  <div class="stat"><b>14</b><span>records that join the lobbying side to the fleet</span></div>
+</div>
+<p class="as-of">Counts as of 25 September 2026.</p>
+
+<h2>The short version</h2>
+<ul>
+  <li>Every ship, company and person on the map comes from a <b>government list or a public filing</b>. We did not add anyone from news stories or guesswork.</li>
+  <li>Every line on the map has a <b>source you can open</b>: click any dot, and each connection shows the record it came from.</li>
+  <li>Lines we inferred ourselves are <b>drawn dotted</b> and labelled "lead". There are 31 of them out of 3,708 lines, and you can switch them off.</li>
+  <li>The main finding is also a limit: <b>the front companies that run the ships never appear in US lobbying records</b>. Their parent companies, banks and state owners do. Only 14 records connect the two.</li>
+</ul>
+
+<h2>Where the data comes from</h2>
+<div class="tw"><table>
+  <tr><th>Source</th><th>What we used it for</th></tr>
+  <tr><td>UK sanctions list<br><span class="sub">report of 21 Sep 2026</span></td><td>Ships the UK has banned, with their hull numbers, current owners or operators, and past flags. <a href="https://www.gov.uk/government/publications/the-uk-sanctions-list">gov.uk</a></td></tr>
+  <tr><td>US sanctions and export lists</td><td>The US Treasury's list of blocked people and companies (the "SDN" list, short for Specially Designated Nationals), plus the US government's combined screening list, which adds lighter restrictions: limits on certain loans and investments, the list of Chinese military companies, and the Commerce Department's export blacklist (the "Entity List"). US ship entries say which company each ship is "linked to". <a href="https://www.trade.gov/consolidated-screening-list">trade.gov</a></td></tr>
+  <tr><td>EU asset-freeze list</td><td>Which ships and companies the European Union has frozen, and when.</td></tr>
+  <tr><td>Ukraine's war-sanctions database</td><td>Former names and flags of ships. It is a research database kept by Ukraine, not a sanctions list, and we never use it to say something is sanctioned.</td></tr>
+  <tr><td>US lobbying reports</td><td>Under the Lobbying Disclosure Act, every paid lobbyist in Washington files public reports each quarter: who hired them, how much they were paid, which bills and agencies they worked on, and any government jobs the lobbyists held before. We downloaded every page of reports for the companies in our story from the official database. <a href="https://lda.gov/api/redoc/v1/">lda.gov API</a></td></tr>
+  <tr><td>Foreign-agent filings</td><td>People who lobby for foreign clients also register under the Foreign Agents Registration Act ("FARA"). We used two of these filings, for En+ Group (the aluminium and energy group in which, its lobbying report states, Oleg Deripaska held 35% of the voting rights) and Hikvision. <a href="https://efile.fara.gov/docs/6170-Exhibit-AB-20200316-80.pdf">En+ Group exhibit</a>, <a href="https://efile.fara.gov/docs/3731-Supplemental-Statement-20250430-53.pdf">Hikvision statement</a></td></tr>
+  <tr><td>US Treasury press releases</td><td>Official statements about who owns whom, for example "Gazprom Neft is majority owned by Gazprom" (release jl2629, 2014) and "Sovcomflot, Russia's state-owned shipping company" (release jy2777, 2025).</td></tr>
+  <tr><td>The VeilTrace team's shadow-fleet map</td><td>The ship and company layer, built by a VeilTrace team member from the lists above and joined by hull number. We use its output as is and follow its rules.</td></tr>
+  <tr><td>The VeilTrace team's lobbying research</td><td>A VeilTrace team member's separate study of lobbying around sanctions, including Europe's lobbying register (for example the Antwerp diamond centre arguing against a diamond ban, and Russian firms' Brussels consultants) and ownership links such as Rosneft's control of its tanker company Rosnefteflot. Where it names the same organisation as ours, the two were merged into one dot; its 32 extra links keep their own sources and labels.</td></tr>
+  <tr><td>God's Eye View (our sanctions layer)</td><td>Our add-on to an open-source 3D globe that matches listed ships to live ship-tracking signals (AIS, the Automatic Identification System that ships broadcast). A snapshot taken at 20:11 UTC on 25 Sep 2026 found 27 listed ships broadcasting; 24 of them are on this map and pulse green.</td></tr>
+</table></div>
+
+<h2>How we built it</h2>
+<ol class="steps">
+  <li><b>Start with the ships.</b> A ship's name can change with paperwork, but its hull number, issued by the International Maritime Organization (the "IMO number"), stays with it for life. We join every list by that number, so one ship with five names is still one dot.</li>
+  <li><b>Attach the companies.</b> The lists say who owns, manages or operates each ship. Those become the lines between ships and companies. 177 listed ships have no owner or operator named on any list, so they are not drawn.</li>
+  <li><b>Choose the lobbying clients.</b> We picked the companies in our story: Russian banks and energy firms such as Sberbank, VTB, Gazprombank, Gazprom, Nord Stream 2, Novatek and Arctic LNG 2; Chinese firms on US blacklists such as Huawei, ZTE, SMIC, Hikvision and DJI; and the US semiconductor industry's trade group and Nvidia. We also searched for the shipping companies themselves.</li>
+  <li><b>Read every report.</b> We pulled all pages of lobbying reports for those names (3,232 reports) and kept the 1,513 whose client really is one of them. Name searches catch look-alikes, such as "ZTEK Corp" for ZTE or turkey farmers for Turkey, so every client is matched against an exact list.</li>
+  <li><b>Count the money once.</b> Lobbying firms often correct a quarter's report, and the corrected version repeats the same fee. We count each firm, client and quarter once, using the latest version that states an amount. When a firm hires a subcontractor, the subcontractor also reports that money; we show that link but do not add it to the client's total, because it is already inside the main firm's fee. We checked one total by hand: Nord Stream 2 paid its Washington firms <b>$13.87 million</b> from 2016 to 2022. Before this cleanup the same data added up to $18.9 million.</li>
+  <li><b>Look up sanctions status by record number.</b> For every lobbying client we found its exact entry on the US and UK lists and recorded the entry number. A solid red ring means a government <b>blocked</b> it (froze its assets). A dashed ring means it is <b>restricted</b>: limits on trade, loans or investment, but not a full freeze. Gazprom, for example, is restricted, not blocked.</li>
+  <li><b>Connect the two sides only with official records.</b> We hand-checked each link between the lobbying side and the fleet against a government source: Treasury's statements of who owns whom, and US list entries that link seven shipping companies to Arctic LNG 2. Each one shows its source when you click it.</li>
+  <li><b>Merge the VeilTrace team's work.</b> A VeilTrace team member's lobbying study and our layer named many of the same organisations. We matched them by name, checked every match by hand (four look-alikes were kept apart, such as Nord Stream AG and Nord Stream 2), and kept one dot per organisation. When both had a link between the same pair, we kept ours because it carries the filing number and amount.</li>
+  <li><b>Record the revolving door.</b> Lobbyists must list the government jobs they held before. We took those words exactly as each lobbyist wrote them, which gives 176 lobbyists with past posts, from former senators to a former counselor to the Secretary of the Treasury.</li>
+</ol>
+
+<h2>How sure we are</h2>
+<p>Every line carries one of three labels.</p>
+<div class="conf">
+  <div><b><svg aria-hidden="true" width="30" height="8"><line class="ln-doc" x1="0" y1="4" x2="30" y2="4"/></svg>Documented</b>An official record says it directly: a sanctions list, a government press release, or the lobbying report itself. 3,679 lines.</div>
+  <div><b><svg aria-hidden="true" width="30" height="8"><line class="ln-rep" x1="0" y1="4" x2="30" y2="4"/></svg>Reported</b>From an official filing we saw summarised but did not re-open ourselves. 1 line.</div>
+  <div><b><svg aria-hidden="true" width="30" height="8"><line class="ln-lead" x1="0" y1="4" x2="30" y2="4"/></svg>Lead</b>Our own inference, for example that "Gazprom Flot" belongs to Gazprom because of its name. A lead is a reason to look closer, not a finding. 31 lines, drawn dotted, and the "Leads" switch hides them.</div>
+</div>
+<p>We describe what records show, in plain words, with the source attached. We do not say anyone broke the law unless a court or government agency has said so. A person who has been charged is "charged", not "convicted".</p>
+
+<h2>Who we name, and who we don't</h2>
+<ul>
+  <li><b>People</b> are named only when a government list or official release names them, in that role, or when they are lobbyists named in their own public lobbying reports. Six people from the shadow-fleet research have not yet had their official source re-checked; they are marked "(?)".</li>
+  <li><b>Unlisted companies</b> known only from non-official sources are not named. They appear as a description, such as "unlisted India ship manager" (27 of them). This follows the VeilTrace team's rule for the shadow-fleet map.</li>
+  <li><b>Hollow shapes</b> are companies that run listed ships but are on no list themselves (375). That is a fact about the lists, not an accusation.</li>
+</ul>
+
+<h2>What the map cannot tell you</h2>
+<ul>
+  <li><b>"No connection found" is not "no connection."</b> The map only knows what is written in the records we used. The path finder says so when it finds nothing.</li>
+  <li><b>No lobbying report does not mean no influence.</b> Influence can also run through foreign-agent filings, European lobbying, embassies or governments. We searched 18 ship managers, front companies and oil traders and found zero US lobbying reports for any of them.</li>
+  <li><b>Lobbying fees are approximate.</b> The law lets firms round their income to the nearest $10,000, and totals are what firms reported, not what we audited.</li>
+  <li><b>Only US lobbying.</b> We did not add Europe's lobbying register or trade-association member lists yet.</li>
+  <li><b>Some searches were impossible.</b> The lobbying database ignores the "+" in "En+ Group", so En+ comes only from an earlier, narrower search.</li>
+  <li><b>Bills are filtered.</b> We show the key bills named in our story and any bill named in three or more reports (125 in total), to keep the picture readable.</li>
+  <li><b>"Live" is a moment, not a record.</b> The green pulse means a ship's transponder was seen at the time of the snapshot. Sanctioned tankers often switch transponders off or broadcast false positions, so a ship without the pulse may still be at sea.</li>
+  <li><b>A snapshot.</b> Lists change every week. Everything here reflects the lists and reports as downloaded on 25 September 2026.</li>
+</ul>
+
+<h2>Check it yourself</h2>
+<p>Click any dot on the map: the side panel lists every connection with its date, record number and a <b>source</b> link to the official page or filing. The raw lobbying reports we downloaded are kept with the date and time of each download. The scripts that rebuild the map from those files sit next to it in <code>scripts/</code>.</p>
+
+<div class="note">This map was built on the day of the event by the VeilTrace team working with AI agents (Claude Code) that did research, cross-checking and building under human direction. Every number above was re-derived from the saved records, and the corrections that checking forced (such as the double-counted lobbying fees) are described on this page.</div>
+
+<p class="credits">Graph drawing: force-graph (MIT licence). Fonts: Inter, Schibsted Grotesk, Source Serif 4 and JetBrains Mono (SIL Open Font Licence). Sanctions and lobbying records are public government data.</p>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>Research by the VeilTrace team, Trace the Unseen, 25 Sep 2026</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../../sources/METHODS_LOG.md">Methods</a>
+  <a href="https://github.com/Ttheegela/veil-trace">Original research repo</a>
+  <span>Not legal advice</span>
+</footer>
+</body>
+</html>

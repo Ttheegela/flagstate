@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+httpx
+python-dotenv
+boto3
+daytona
+anchorbrowser
+playwright
+surrealdb
+elevenlabs
+arize-otel
+openinference-instrumentation-bedrock
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+pytest

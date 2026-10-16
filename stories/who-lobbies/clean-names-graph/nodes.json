@@ -1,0 +1,1126 @@
+[
+ {
+  "id": "org:hikvision",
+  "label": "Hangzhou Hikvision Digital Technology Co., Ltd.",
+  "type": "listed_entity",
+  "country": "CN",
+  "listed": [
+   {
+    "list": "US BIS Entity List",
+    "date": "2019-10-09",
+    "dates_reported": [
+     "2019-10-09",
+     "2019"
+    ],
+    "angles": [
+     "fara-principals",
+     "lda-foreign-entities",
+     "ownership-bridges"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US NS-CMIC (EO13959)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-foreign-entities",
+     "lda-known-listed"
+    ],
+    "note": "confirmed by lda-foreign-entities and lda-known-listed against the consolidated CSL; fara-principals could not confirm it in its trade-CSL extract"
+   }
+  ],
+  "aliases": [
+   "Hangzhou Hikvision Digital Technology",
+   "Hangzhou Hikvision Digital Technology Co."
+  ],
+  "note": "[lda-foreign-entities] BIS Entity List (84 FR 54002; 85 FR 44159); also CMIC-EO13959 [fara-principals] CMIC/EO13959 designation NOT confirmed in this pass; date corrected from 'n/a'",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities",
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:cetc",
+  "label": "China Electronics Technology Group Co. (CETC)",
+  "type": "listed_entity",
+  "country": "CN",
+  "listed": [
+   {
+    "list": "US NS-CMIC (EO13959)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-foreign-entities"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[lda-foreign-entities] CMIC-EO13959 (BIS non-SDN Chinese military-industrial complex list) only; CETC's own top-level entry is not separately on the BIS Entity List (several of its numbered research institutes are, individually)",
+  "angles": [
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "org:hikvision_usa",
+  "label": "Hikvision USA, Inc.",
+  "type": "intermediary",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] clean subsidiary/LDA client [fara-principals] From prior team wave [ownership-bridges] LDA/FARA client of record; not itself listed",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities",
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "firm:elevation_association",
+  "label": "The Elevation Association, LLC",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] LDA registrant",
+  "angles": [
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "org:huawei",
+  "label": "Huawei Technologies Co., Ltd.",
+  "type": "listed_entity",
+  "country": "CN",
+  "listed": [
+   {
+    "list": "US BIS Entity List",
+    "date": "2019-05-21",
+    "dates_reported": [
+     "2019-05-21"
+    ],
+    "angles": [
+     "fara-principals",
+     "lda-foreign-entities"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[lda-foreign-entities] BIS Entity List (84 FR 22963 et al.); the separate CSL entry \"Huawei Investment & Holding Co., Ltd.\" carries CMIC-EO13959, not this exact entity name [fara-principals] CMIC/EO13959 designation NOT confirmed in this pass; dropped",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "org:huawei_technologies_usa",
+  "label": "Huawei Technologies USA, Inc.",
+  "type": "intermediary",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] clean subsidiary/LDA client",
+  "angles": [
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "org:futurewei",
+  "label": "Futurewei Technologies, Inc.",
+  "type": "intermediary",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] clean subsidiary; also its own in-house registrant [fara-principals] Huawei's US R&D subsidiary; the actual FARA client of record",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "firm:squire_patton_boggs",
+  "label": "Squire Patton Boggs",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] LDA registrant for Huawei USA and DJI Technology [fara-principals] FARA registrant for Futurewei, 2023",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:dji",
+  "label": "SZ DJI Technology Co., Ltd. (DJI)",
+  "type": "listed_entity",
+  "country": "CN",
+  "listed": [
+   {
+    "list": "US BIS Entity List",
+    "date": "2020-12-18",
+    "dates_reported": [
+     "2020-12-18"
+    ],
+    "angles": [
+     "fara-principals",
+     "lda-foreign-entities",
+     "lda-known-listed"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US NS-CMIC (EO13959)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-foreign-entities"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [
+   "DJI (SZ DJI Technology Co / DJI group)",
+   "DJI (SZ DJI Technology Co., Ltd.)",
+   "SZ DJI Technology Co., Ltd."
+  ],
+  "note": "[lda-foreign-entities] BIS Entity List (as alias \"DJI\") and separately CMIC-EO13959 [lda-known-listed] Confirmed via team sanctions checker (100.0 match).",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:dji_technology_inc",
+  "label": "DJI Technology, Inc. (US)",
+  "type": "intermediary",
+  "country": "US",
+  "listed": [],
+  "aliases": [
+   "DJI Technology (LDA client)",
+   "DJI Technology, Inc."
+  ],
+  "note": "[lda-foreign-entities] name closely matches listed parent's own name; role as clean vs. same-entity is unresolved [lda-known-listed] Files LDA disclosures naming DJI parent entities as foreign entities, continuing after 2020 listing. [fara-principals] US subsidiary; FARA client of record. Filing discloses parent foreign entities as DJI Company Limited, DJI International Company Limited, DJI Europe B.V., iFlight Technology Company Limited, Wangdragona Inc., Wang Tao; none literally matches the BIS Entity List name/aliases for the sanctioned Shenzhen operating company",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:arctic_lng_2",
+  "label": "LLC Arctic LNG 2",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "2023-11-02",
+    "dates_reported": [
+     "2023-11-02",
+     "n/a"
+    ],
+    "angles": [
+     "fara-principals",
+     "lda-foreign-entities"
+    ],
+    "note": "EO 14024"
+   },
+   {
+    "list": "UK Sanctions List",
+    "date": "2024-02-22",
+    "dates_reported": [
+     "2024-02-22"
+    ],
+    "angles": [
+     "fara-principals"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[lda-foreign-entities] SDN list, RUSSIA-EO14024/UKRAINE-EO13662; filed directly, no clean intermediary [fara-principals] Files FARA directly as its own client",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "org:novatek",
+  "label": "Novatek (OAO Novatek)",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SSI (sectoral, EO13662)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-foreign-entities"
+    ],
+    "note": "verifiers differ on the directive (Directive 2 vs Directive 4); either way a sectoral debt/equity restriction, not a full block"
+   },
+   {
+    "list": "US-OFAC SSI List (Directive 2)",
+    "date": "2014-09-12",
+    "dates_reported": [
+     "2014-09-12"
+    ],
+    "angles": [
+     "fara-principals"
+    ],
+    "note": "EO 13662; restricts new debt >90-day maturity only, no blocking/equity prohibition; NOT an SDN listing"
+   }
+  ],
+  "aliases": [
+   "Novatek (Joint Stock Company)"
+  ],
+  "note": "[lda-foreign-entities] matches CSL entry \"OAO NOVATEK\" (alias \"Novatek\"), UKRAINE-EO13662 sectoral (Directive 4 SSI, not a full block); disclosed as affiliated org [fara-principals] 60% owner of Arctic LNG 2; also named as represented interest by Union of Oil and Gas Producers Russia at 0% disclosed ownership",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "firm:scarinci_hollenbeck",
+  "label": "Scarinci & Hollenbeck, LLC",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-foreign-entities] LDA registrant for Arctic LNG 2 [fara-principals] FARA registrant for Arctic LNG 2",
+  "angles": [
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "gov:us_congress",
+  "label": "US Congress / federal agencies",
+  "type": "government",
+  "country": "US",
+  "listed": [],
+  "aliases": [
+   "US Congress / Executive Branch (lobbying targets)",
+   "US Congress / federal agencies (Commerce, BIS)"
+  ],
+  "note": "[lda-foreign-entities] lobbied entities named in LDA general_issue_code targets [associations-thinktanks] Target of export-control lobbying",
+  "angles": [
+   "associations-thinktanks",
+   "fara-principals",
+   "lda-foreign-entities"
+  ]
+ },
+ {
+  "id": "assoc:small_uav_coalition",
+  "label": "Small UAV Coalition",
+  "type": "association",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[lda-known-listed] Trade coalition, 2014-2017 filings name DJI as foreign entity.",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "assoc:drone_mfrs_alliance",
+  "label": "Drone Manufacturers Alliance",
+  "type": "association",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "assoc:alliance_drone_innovation",
+  "label": "Alliance for Drone Innovation",
+  "type": "association",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:akin_gump",
+  "label": "Akin Gump Strauss Hauer & Feld",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [
+   "Akin Gump (on behalf of SMIC)"
+  ],
+  "note": "[ownership-bridges] LDA client name literally 'Akin Gump on behalf of SMIC' [associations-thinktanks] Registered directly for SMIC 2020-Q3 through at least 2022-Q1; separately for USCBC 2022-Q1 through 2026-Q1 (terminated)",
+  "angles": [
+   "associations-thinktanks",
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "firm:avoq",
+  "label": "AVOQ, LLC",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:porter_wright",
+  "label": "Porter Wright Morris & Arthur LLP",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "fara-principals",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:sberbank",
+  "label": "Sberbank of Russia",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-known-listed"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:sberbank_cib_usa",
+  "label": "Sberbank CIB USA, Inc.",
+  "type": "intermediary",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:madison_group",
+  "label": "The Madison Group",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:podesta_group",
+  "label": "Podesta Group, Inc.",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:gazprom",
+  "label": "Gazprom (PJSC)",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US BIS Entity List",
+    "date": "2014-09-17",
+    "dates_reported": [
+     "2014-09-17"
+    ],
+    "angles": [
+     "eu-uk-registers",
+     "lda-known-listed"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US OFAC Russia programs (EO13662/EO14024)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "eu-uk-registers"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[eu-uk-registers] Confirmed via sanctions.check: 100% match, 'Gazprom, OAO' (BIS Entity List, 2014-09-17) and 'Public Joint Stock Company Gazprom' (alias 'Gazprom PAO'). Also registers directly (in-house) as an EU lobbyist, not via a proxy.",
+  "angles": [
+   "eu-uk-registers",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:nord_stream_2",
+  "label": "Nord Stream 2 AG",
+  "type": "intermediary",
+  "country": "CH",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:capitol_counsel",
+  "label": "Capitol Counsel LLC",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[associations-thinktanks] LDA registration (Q4 2020) discloses SMIC as foreign entity behind Akin Gump; terminated 2021-04-01",
+  "angles": [
+   "associations-thinktanks",
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:roberti_global",
+  "label": "Roberti Global (fka Roberti White)",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "gov:russian_federation",
+  "label": "Government of the Russian Federation",
+  "type": "government",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:vtb_bank",
+  "label": "VTB Bank",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-known-listed"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "firm:manatos_manatos",
+  "label": "Manatos & Manatos",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "gov:russia_finance_ministry",
+  "label": "Ministry of Finance of the Russian Federation",
+  "type": "government",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "lda-known-listed"
+  ]
+ },
+ {
+  "id": "org:rusal",
+  "label": "United Company RUSAL",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "2018-04-06 (delisted 2019-01)",
+    "dates_reported": [
+     "2018-04-06 (delisted 2019-01)",
+     "2018"
+    ],
+    "angles": [
+     "lda-known-listed",
+     "ownership-bridges"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [
+   "United Company Rusal"
+  ],
+  "note": "[ownership-bridges] Zero LDA filings under its own name (confirmed, climate-day/ideas/lobbying/rusal-en-plus-delisting.md); UK 2023 relisting not independently reconciled this pass",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:en_plus",
+  "label": "En+ Group PLC",
+  "type": "intermediary",
+  "country": "JE/RU",
+  "listed": [],
+  "aliases": [
+   "En+ Group"
+  ],
+  "note": "[ownership-bridges] Majority/controlling shareholder of Rusal; not itself sanctioned",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "firm:mercury_public_affairs",
+  "label": "Mercury Public Affairs",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [
+   "Mercury Public Affairs, LLC"
+  ],
+  "note": "[ownership-bridges] FARA reg #6170, client En+ Group; fee cut to $54,250/mo from 1/1/2020, terminated 2/24/2022",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "firm:dci_group",
+  "label": "DCI Group",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [
+   "DCI Group, L.L.C."
+  ],
+  "note": "[ownership-bridges] LDA registrant for En+ Group, 2021-2025; no filings found after the Q1 2025 filing; current status as of 2026 unconfirmed",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:lukoil",
+  "label": "PAO LUKOIL",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "EU/UK sanctions",
+    "date": "2025",
+    "dates_reported": [
+     "2025"
+    ],
+    "angles": [
+     "lda-known-listed"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US OFAC SDN",
+    "date": "2025",
+    "dates_reported": [
+     "2025"
+    ],
+    "angles": [
+     "ownership-bridges"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [
+   "Lukoil"
+  ],
+  "note": "",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "gov:bulgaria",
+  "label": "Government of Bulgaria",
+  "type": "government",
+  "country": "BG",
+  "listed": [],
+  "aliases": [],
+  "note": "[ownership-bridges] Secured EU Druzhba/seaborne-crude derogation for Lukoil-owned refinery; denies lobbying \"for Lukoil\" per same source",
+  "angles": [
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "firm:sidley_austin",
+  "label": "Sidley Austin LLP",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[fara-principals] Also FARA/LDA agent for Hikvision USA (prior team wave) [ownership-bridges] LDA registrant + FARA reg #3731 for Hikvision USA (FARA dollar figure not independently verified this pass)",
+  "angles": [
+   "fara-principals",
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:smic",
+  "label": "SMIC (Semiconductor Manufacturing International Corp)",
+  "type": "listed_entity",
+  "country": "CN",
+  "listed": [
+   {
+    "list": "US NS-CMIC (EO13959)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "lda-known-listed"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US BIS Entity List",
+    "date": "2020-12",
+    "dates_reported": [
+     "2020-12",
+     "2020"
+    ],
+    "angles": [
+     "associations-thinktanks",
+     "ownership-bridges"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [
+   "Semiconductor Manufacturing International Corp",
+   "Semiconductor Manufacturing International Corp (SMIC)"
+  ],
+  "note": "[associations-thinktanks] Added to BIS Entity List, Federal Register 2020-28031, published 2020-12-22",
+  "angles": [
+   "associations-thinktanks",
+   "lda-known-listed",
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:union_oil_gas_ru",
+  "label": "Union of Oil and Gas Producers Russia",
+  "type": "association",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "[fara-principals] Russian trade association; discloses Novatek as represented foreign entity at 0% ownership",
+  "angles": [
+   "fara-principals"
+  ]
+ },
+ {
+  "id": "firm:qorvis_geopols",
+  "label": "Qorvis Holding Inc - GeoPols",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[fara-principals] FARA registrant for Union of Oil and Gas Producers Russia",
+  "angles": [
+   "fara-principals"
+  ]
+ },
+ {
+  "id": "firm:liberty_gov_affairs",
+  "label": "Liberty Government Affairs",
+  "type": "lobby_firm",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "fara-principals"
+  ]
+ },
+ {
+  "id": "org:neftochim_burgas",
+  "label": "LUKOIL Neftohim Burgas",
+  "type": "intermediary",
+  "country": "BG",
+  "listed": [],
+  "aliases": [],
+  "note": "[ownership-bridges] Refinery beneficiary of EU sanctions derogation",
+  "angles": [
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:nayara_energy",
+  "label": "Nayara Energy Limited",
+  "type": "listed_entity",
+  "country": "IN",
+  "listed": [
+   {
+    "list": "EU sanctions",
+    "date": "2025",
+    "dates_reported": [
+     "2025"
+    ],
+    "angles": [
+     "ownership-bridges"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "org:rosneft",
+  "label": "Rosneft",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "2014",
+    "dates_reported": [
+     "2014"
+    ],
+    "angles": [
+     "ownership-bridges"
+    ],
+    "note": "2014 date as reported by ownership-bridges; not re-verified in this merge (2014 US action on Rosneft was a sectoral SSI listing)"
+   }
+  ],
+  "aliases": [],
+  "note": "[ownership-bridges] Reported ~49% Nayara stake (public reporting)",
+  "angles": [
+   "ownership-bridges"
+  ]
+ },
+ {
+  "id": "assoc:uscbc",
+  "label": "US-China Business Council",
+  "type": "association",
+  "country": "US",
+  "listed": [],
+  "aliases": [],
+  "note": "[associations-thinktanks] Trade association; Akin Gump registered lobbyist on export controls/PNTR, 2022-Q1 to 2026-Q1",
+  "angles": [
+   "associations-thinktanks"
+  ]
+ },
+ {
+  "id": "org:alrosa",
+  "label": "Alrosa",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC SDN",
+    "date": "2022-04",
+    "dates_reported": [
+     "2022-04"
+    ],
+    "angles": [
+     "associations-thinktanks"
+    ],
+    "note": ""
+   },
+   {
+    "list": "EU sanctions",
+    "date": "2024-01",
+    "dates_reported": [
+     "2024-01"
+    ],
+    "angles": [
+     "associations-thinktanks"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[associations-thinktanks] State-controlled diamond miner; UK-list claim dropped, unverified",
+  "angles": [
+   "associations-thinktanks"
+  ]
+ },
+ {
+  "id": "assoc:awdc",
+  "label": "Antwerp World Diamond Centre",
+  "type": "association",
+  "country": "BE",
+  "listed": [],
+  "aliases": [],
+  "note": "[associations-thinktanks] Belgian diamond-trade association; announced renewed Alrosa agreement Apr 2022",
+  "angles": [
+   "associations-thinktanks"
+  ]
+ },
+ {
+  "id": "gov:eu",
+  "label": "European Union institutions",
+  "type": "government",
+  "country": "EU",
+  "listed": [],
+  "aliases": [],
+  "note": "[associations-thinktanks] Target of AWDC's anti-diamond-sanctions lobbying, 2022",
+  "angles": [
+   "associations-thinktanks"
+  ]
+ },
+ {
+  "id": "org:nord_stream_ag",
+  "label": "Nord Stream AG",
+  "type": "intermediary",
+  "country": "CH",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] AALEP names 'Nord Stream AG' (Sass Consulting) and 'Nord Stream' (Brunswick, unqualified). This is a distinct Swiss-registered company from 'Nord Stream 2 AG' (US PEESA-EO14039/EO14024). sanctions.check found only a 91.7% fuzzy match to Nord Stream 2 AG, itself flagged 'not a finding of wrongdoing'; not confirmed as the same or as separately listed on the US/UK lists checked this pass.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "org:jsc_russian_railways",
+  "label": "JSC Russian Railways",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "UK Sanctions List",
+    "date": "2022-03-24",
+    "dates_reported": [
+     "2022-03-24"
+    ],
+    "angles": [
+     "eu-uk-registers"
+    ],
+    "note": ""
+   },
+   {
+    "list": "US OFAC Russia programs (EO13662/EO14024)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "eu-uk-registers"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[eu-uk-registers] Confirmed via sanctions.check: 100% match, UK list (RUS1084) and US consolidated (alias 'JSC Russian Railways').",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "org:jsc_rusatom_overseas",
+  "label": "JSC Rusatom Overseas",
+  "type": "listed_entity",
+  "country": "RU",
+  "listed": [
+   {
+    "list": "US OFAC Russia programs (EO13662/EO14024)",
+    "date": "n/a",
+    "dates_reported": [
+     "n/a"
+    ],
+    "angles": [
+     "eu-uk-registers"
+    ],
+    "note": ""
+   },
+   {
+    "list": "UK Sanctions List",
+    "date": "2026-02-24",
+    "dates_reported": [
+     "2026-02-24"
+    ],
+    "angles": [
+     "eu-uk-registers"
+    ],
+    "note": ""
+   }
+  ],
+  "aliases": [],
+  "note": "[eu-uk-registers] CORRECTED: sanctions.check finds 100% match on both US consolidated (RUSATOM OVERSEAS JOINT STOCK COMPANY, alias 'RUSATOM OVERSEAS JSC') and UK list (RUS3421, listed 2026-02-24). Previous pass reported this as unmatched.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "org:gazprom_ep_international",
+  "label": "Gazprom EP International",
+  "type": "intermediary",
+  "country": "NL",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Described in Bell Pottinger's own EU Transparency Register entry as 'a subsidiary of Gazprom'. sanctions.check finds only an 83.7% fuzzy match (different entity, 'Gazprom Neft International SA'); not itself confirmed listed.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "firm:sass_consulting_ag",
+  "label": "Sass Consulting AG",
+  "type": "lobby_firm",
+  "country": "CH",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Owner/Director Sebastian Sass, per EU Transparency Register entry (confirmed in aalep.eu extract).",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "firm:brunswick_group",
+  "label": "Brunswick Group LLP",
+  "type": "lobby_firm",
+  "country": "GB",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] EU relations lead named as Philippe Blanchard, Managing Partner, per register entry (confirmed in aalep.eu extract).",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "firm:bell_pottinger",
+  "label": "Bell Pottinger LLP",
+  "type": "lobby_firm",
+  "country": "GB",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Client relationship Oct-Dec 2015 per register entry (confirmed in aalep.eu extract).",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "org:phosagro",
+  "label": "PhosAgro",
+  "type": "intermediary",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "org:acron",
+  "label": "Acron",
+  "type": "intermediary",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "firm:rumyantsev_partners",
+  "label": "Rumyantsev & Partners",
+  "type": "lobby_firm",
+  "country": "RU",
+  "listed": [],
+  "aliases": [],
+  "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ },
+ {
+  "id": "gov:european_parliament",
+  "label": "European Parliament",
+  "type": "government",
+  "country": "EU",
+  "listed": [],
+  "aliases": [],
+  "note": "",
+  "angles": [
+   "eu-uk-registers"
+  ]
+ }
+]

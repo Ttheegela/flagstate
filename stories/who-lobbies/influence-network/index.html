@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The network behind the sanctions · Flagstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<style>
+/* Hallmark · redesign: graph app on the main site's system (app/style.css tokens only)
+ * nav: N9 edge-aligned (shared brand, compact) · graph colours read from the same tokens in JS (see TOKEN below) */
+/* Page-local data-viz tokens (same hues as the shadow-fleet map). Validated on --color-paper with the dataviz
+ * validator, all pairs: CVD worst dE 8.9 (protan, gov vs accent), normal-vision worst 17.0, every mark >= 3:1. */
+:root {
+  --kg-corp: oklch(74% 0.12 230);   /* blue: companies, ships, listed people (corporate / fleet side) */
+  --kg-infl: oklch(82% 0.15 85);    /* amber: lobbying firms, lobbyists, trade groups (influence side) */
+  --kg-gov:  oklch(64% 0.12 160);   /* green-teal: government bodies, bills and orders */
+  --kg-ctrl: oklch(62% 0.05 230);   /* blue-grey: owns / runs links */
+  --kg-lead: oklch(58% 0.012 250);  /* grey: inferred leads */
+}
+html, body { height: 100%; overflow: hidden; }
+body { font-size: var(--text-sm); }
+#graph { position: fixed; inset: 0; }
+button { font: inherit; color: inherit; }
+.kicker { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral); }
+.card { position: fixed; background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); z-index: 5; box-shadow: 0 20px 40px -20px var(--color-shadow); }
+
+/* Top bar: the site's header row, with the graph tools inline. Wraps instead of overflowing; JS reads its height. */
+#bar { position: fixed; top: 0; left: 0; right: 0; z-index: 8; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-md); padding: var(--space-sm) var(--page-gutter); background: var(--color-paper); border-bottom: var(--rule-hair) solid var(--color-rule); }
+#bar .brand { flex: none; }
+#bar h1 { margin: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-muted); white-space: nowrap; }
+.sep { width: 1px; height: 1.5rem; background: var(--color-rule); flex: none; }
+.spacer { flex: 1; }
+.qbox { position: relative; display: flex; align-items: center; gap: var(--space-xs); background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: 0 var(--space-xs) 0 var(--space-sm); transition: border-color var(--dur-fast) var(--ease-out); }
+.qbox:focus-within { border-color: var(--color-muted); }
+.qbox svg { flex: none; color: var(--color-neutral); }
+.qbox input { width: 16rem; min-width: 0; background: transparent; border: 0; color: var(--color-ink); font: 500 var(--text-sm)/1.2 var(--font-display); padding: 0.55rem 0; }
+.qbox input:focus { outline: none; }
+.qbox input::placeholder { color: var(--color-neutral); }
+#bar .btn, .card .btn { padding: 0.5rem 0.75rem; }
+a.btn { text-decoration: none; display: inline-block; }
+.toggles { display: flex; gap: var(--space-2xs); align-items: center; flex-wrap: wrap; }
+.tog { font: 500 var(--text-xs)/1 var(--font-display); color: var(--color-ink); background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: 0.45rem 0.6rem; cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-xs); white-space: nowrap; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.tog:hover { border-color: var(--color-muted); }
+.tog[aria-pressed=false] { background: transparent; color: var(--color-neutral); }
+.tog[aria-pressed=false]:not(#liveBtn) { text-decoration: line-through; }
+.tog i { width: 0.5rem; height: 0.5rem; border-radius: 50%; display: inline-block; border: 1.5px solid var(--color-ink); }
+.tog[aria-pressed=true] i { background: var(--color-ink); }
+#pathPop { top: calc(var(--bar-h, 3.5rem) + var(--space-xs)); display: none; padding: var(--space-sm); gap: var(--space-xs); align-items: center; flex-wrap: wrap; width: min(35rem, calc(100vw - 2 * var(--page-gutter))); }
+#pathPop input { background: var(--color-paper); border: var(--rule-hair) solid var(--color-rule); color: var(--color-ink); border-radius: var(--radius-sm); padding: 0.45rem 0.6rem; font: var(--text-sm) var(--font-display); width: 12rem; min-width: 0; flex: 1 1 9rem; }
+#pathPop input:focus { outline: none; border-color: var(--color-muted); }
+#pathmsg { font-size: var(--text-xs); color: var(--color-muted); width: 100%; }
+
+/* Legend */
+#legend { left: var(--page-gutter); top: calc(var(--bar-h, 3.5rem) + var(--space-sm)); width: 19rem; padding: var(--space-sm) var(--space-md); font-size: var(--text-xs); color: var(--color-muted); }
+#legend .ttl { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2xs); }
+#legend .ttl button { background: none; border: 0; color: var(--color-neutral); cursor: pointer; font-size: var(--text-xs); text-decoration: underline; text-underline-offset: 0.2em; }
+#legend .g { display: grid; grid-template-columns: 1fr 1fr; gap: 3px var(--space-sm); margin: var(--space-2xs) 0 var(--space-xs); }
+#legend .it { display: flex; align-items: center; gap: var(--space-xs); white-space: nowrap; }
+#legend .it.wide { grid-column: 1 / -1; white-space: normal; }
+#legend svg { flex: none; }
+#legend .counts { border-top: var(--rule-hair) solid var(--color-rule); padding-top: var(--space-xs); margin-top: var(--space-2xs); color: var(--color-neutral); }
+#legend.min .body { display: none; }
+/* Legend swatches: the same tokens the canvas draws with */
+.k-corp { fill: var(--kg-corp); } .k-infl { fill: var(--kg-infl); } .k-gov { fill: var(--kg-gov); }
+.k-hollow { fill: none; stroke: var(--kg-corp); stroke-width: 2; }
+.k-sanc { fill: none; stroke: var(--color-accent); stroke-width: 2; } .k-restr { fill: none; stroke: var(--color-accent); stroke-width: 1.6; stroke-dasharray: 2 2; }
+.k-nolob { fill: none; stroke: var(--color-muted); }
+.k-live { fill: none; stroke: var(--color-ink); stroke-width: 1.5; stroke-dasharray: 3 2; }
+.k-ctrl { stroke: var(--kg-ctrl); stroke-width: 1.5; } .k-money { stroke: var(--kg-infl); stroke-width: 2; stroke-dasharray: 5 3; }
+.k-govl { stroke: var(--kg-gov); stroke-width: 1.5; stroke-dasharray: 4 2; } .k-lead { stroke: var(--kg-lead); stroke-width: 1.5; stroke-dasharray: 1 3; }
+.k-bridge { stroke: var(--color-ink); stroke-width: 2.2; }
+
+/* Story caption: the home page's walkthrough card, wider */
+#story { left: 50%; transform: translateX(-50%); bottom: var(--space-md); width: min(52rem, calc(100% - 2 * var(--page-gutter))); padding: var(--space-md) var(--space-lg) var(--space-sm); background: var(--color-paper-3); }
+#story h2 { margin: var(--space-2xs) 0 var(--space-xs); font-size: var(--text-xl); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+#story .txt { font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.5; }
+#story .txt b { font-family: var(--font-display); font-weight: 700; }
+#story .srcline { margin-top: var(--space-xs); color: var(--color-neutral); font-size: var(--text-xs); }
+#story .nav { display: flex; gap: var(--space-xs); align-items: center; margin-top: var(--space-sm); }
+#story .dots { display: flex; gap: 3px; flex: 1; min-width: 0; justify-content: center; }
+#story .dots button { flex: 0 1 1.25rem; min-width: 4px; height: 3px; border: 0; background: var(--color-rule); padding: 0; cursor: pointer; background-clip: content-box; padding-block: 6px; box-sizing: content-box; }
+#story .dots button.on { background-color: var(--color-accent); }
+#storyPill { left: 50%; transform: translateX(-50%); bottom: var(--space-md); padding: 0.55rem 0.9rem; display: none; cursor: pointer; font-weight: 700; color: var(--color-ink); background: var(--color-paper-3); }
+#storyPill:hover { border-color: var(--color-muted); }
+
+/* Details drawer */
+#side { top: calc(var(--bar-h, 3.5rem) + var(--space-sm)); right: var(--page-gutter); bottom: var(--space-md); width: 24rem; overflow-y: auto; overflow-x: hidden; overflow-wrap: anywhere; padding: var(--space-md); transform: translateX(calc(100% + 2 * var(--page-gutter))); transition: transform var(--dur-base) var(--ease-out); z-index: 7; }
+#side.open { transform: none; }
+#side h3 { margin: var(--space-2xs) 0 var(--space-xs); font-size: var(--text-xl); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; padding-right: var(--space-lg); }
+#side .badge { display: inline-block; font-family: var(--font-mono); font-size: var(--text-2xs); padding: 2px 7px; border-radius: var(--radius-sm); margin: var(--space-xs) var(--space-xs) 0 0; }
+.b-blocked { border: var(--rule-hair) solid var(--color-accent); background: var(--color-accent-dim); color: var(--color-ink); }
+.b-restricted { border: var(--rule-hair) dashed var(--color-accent); color: var(--color-accent); }
+.b-nolobby { border: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); }
+.b-live { border: var(--rule-hair) dashed var(--color-ink); color: var(--color-ink); }
+.b-unv { border: var(--rule-hair) dotted var(--color-neutral); color: var(--color-muted); }
+#side table { width: 100%; border-collapse: collapse; font-size: var(--text-xs); margin-top: var(--space-sm); }
+#side td { padding: var(--space-2xs) 0; vertical-align: top; border-top: var(--rule-hair) solid var(--color-rule); }
+#side td:first-child { color: var(--color-neutral); width: 6.5rem; padding-right: var(--space-xs); }
+#side .grp { margin-top: var(--space-md); font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral); }
+#side .ln { padding: var(--space-xs) 0; border-top: var(--rule-hair) solid var(--color-rule); font-size: var(--text-sm); }
+#side .ln .who { color: var(--color-ink); cursor: pointer; font-weight: 700; } #side .ln .who:hover { text-decoration: underline; }
+#side .ln .q { font-family: var(--font-serif); color: var(--color-muted); font-size: var(--text-sm); margin-top: 2px; }
+#side .ln .meta { color: var(--color-neutral); font-family: var(--font-mono); font-size: var(--text-2xs); margin-top: 2px; }
+#side .sanc-dot { color: var(--color-accent); }
+#side a { color: var(--color-ink); text-decoration-color: var(--color-accent); }
+#side .close { position: absolute; top: var(--space-xs); right: var(--space-xs); background: none; border: 0; color: var(--color-neutral); font-size: var(--text-xl); line-height: 1; padding: var(--space-2xs) var(--space-xs); cursor: pointer; }
+#side .close:hover { color: var(--color-ink); }
+
+#tip { position: fixed; pointer-events: none; background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-xs) var(--space-sm); font-size: var(--text-xs); display: none; z-index: 9; max-width: 20rem; }
+#tip b { display: block; font-size: var(--text-sm); } #tip span { color: var(--color-muted); }
+#loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--color-muted); font-family: var(--font-mono); font-size: var(--text-xs); z-index: 20; background: var(--color-paper); }
+@media (max-width: 68.75rem) { #bar h1, #bar .sep { display: none; } .qbox input { width: 11rem; } #legend { display: none; } }
+@media (max-width: 47.5rem) {
+  /* Three rows: brand + methods / search / tools, with the filters in a sideways-scrolling strip */
+  #bar { padding-block: var(--space-xs); gap: var(--space-xs); }
+  #bar .methods { margin-left: auto; padding-inline: 0; }
+  .spacer { display: none; }
+  .qbox { flex: 1 1 100%; order: 1; } .qbox input { width: 100%; }
+  #pathBtn, #fitBtn { order: 2; }
+  .toggles { order: 3; flex: 1 1 0; min-width: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  #side { width: calc(100% - 2 * var(--page-gutter)); top: auto; height: 55vh; }
+  #story { padding: var(--space-sm) var(--space-md); }
+  #story h2 { font-size: var(--text-lg); }
+  #story .txt { font-size: var(--text-sm); }
+}
+</style>
+</head>
+<body>
+<div id="loading">Laying out companies, ships, people and lobbyists…</div>
+<div id="graph"></div>
+
+<header id="bar">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <div class="sep"></div>
+  <h1>The network behind the sanctions</h1>
+  <div class="qbox"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="text" list="names" placeholder="Search company, ship, person, IMO" autocomplete="off" aria-label="Search"><span class="kbd" aria-hidden="true">/</span></div>
+  <datalist id="names"></datalist>
+  <button class="btn" id="pathBtn" aria-expanded="false">Find a path</button>
+  <button class="btn" id="fitBtn" title="Show everything (key 0)">Overview</button>
+  <a class="btn btn-ghost methods" href="methods.html">Methods &amp; sources</a>
+  <div class="spacer"></div>
+  <div class="toggles" role="group" aria-label="Filters">
+    <button class="tog" data-prog="russia" aria-pressed="true">Russia</button>
+    <button class="tog" data-prog="iran" aria-pressed="true">Iran</button>
+    <button class="tog" data-prog="china" aria-pressed="true">China &amp; semiconductors</button>
+    <button class="tog" data-prog="other" aria-pressed="true">Other</button>
+    <button class="tog" data-vis="lead" aria-pressed="true" title="Links we inferred ourselves (dotted)">Leads</button>
+    <button class="tog" id="liveBtn" aria-pressed="false" title="Ships seen live on AIS in the God's Eye snapshot, and who runs them"><i></i>Live on AIS</button>
+  </div>
+</header>
+
+<div id="pathPop" class="card">
+  <input id="pa" type="text" list="names" placeholder="From…" aria-label="From"><input id="pb" type="text" list="names" placeholder="To…" aria-label="To">
+  <button class="btn" id="pgo">Show path</button><button class="btn btn-ghost" id="pclear">Clear</button>
+  <div id="pathmsg">Shortest chain of recorded links between two names.</div>
+</div>
+
+<aside id="legend" class="card">
+  <div class="ttl"><span class="kicker">Key</span><button id="legBtn">hide</button></div>
+  <div class="body">
+    <div class="g">
+      <span class="it"><svg width="12" height="12"><rect class="k-corp" x="1" y="1" width="10" height="10" rx="2"/></svg>Company</span>
+      <span class="it"><svg width="12" height="12"><path class="k-corp" d="M6 1 L11 11 L1 11Z"/></svg>Ship (by hull no.)</span>
+      <span class="it"><svg width="12" height="12"><path class="k-infl" d="M6 0 L12 6 L6 12 L0 6Z"/></svg>Lobbying firm</span>
+      <span class="it"><svg width="12" height="12"><circle class="k-infl" cx="6" cy="6" r="5"/></svg>Lobbyist</span>
+      <span class="it"><svg width="12" height="12"><path class="k-gov" d="M6 0.5 L11 3.3 L11 8.7 L6 11.5 L1 8.7 L1 3.3Z"/></svg>Government body</span>
+      <span class="it"><svg width="12" height="12"><rect class="k-gov" x="1" y="3" width="10" height="6" rx="1"/></svg>Bill or order</span>
+      <span class="it"><svg width="12" height="12"><circle class="k-corp" cx="6" cy="6" r="5"/></svg>Person (listed)</span>
+      <span class="it"><svg width="14" height="14"><circle class="k-nolob" cx="7" cy="7" r="4"/><line class="k-nolob" x1="4" y1="10" x2="10" y2="4"/></svg>No lobbying found</span>
+      <span class="it"><svg width="14" height="14"><circle class="k-sanc" cx="7" cy="7" r="5"/></svg>Blocked</span>
+      <span class="it"><svg width="14" height="14"><circle class="k-restr" cx="7" cy="7" r="5"/></svg>Restricted</span>
+      <span class="it wide"><svg width="12" height="12"><rect class="k-hollow" x="1.5" y="1.5" width="9" height="9" rx="2"/></svg>Hollow: runs listed ships, but on no list itself</span>
+      <span class="it wide"><svg width="14" height="14"><circle class="k-corp" cx="7" cy="7" r="3"/><circle class="k-live" cx="7" cy="7" r="5.5"/></svg><span id="liveKey">Pulsing ring: seen live on the God's Eye globe</span></span>
+    </div>
+    <div class="g">
+      <span class="it"><svg width="24" height="8"><line class="k-ctrl" x1="0" y1="4" x2="24" y2="4"/></svg>Owns / runs</span>
+      <span class="it"><svg width="24" height="8"><line class="k-money" x1="0" y1="4" x2="24" y2="4"/></svg>Hired ($)</span>
+      <span class="it"><svg width="24" height="8"><line class="k-govl" x1="0" y1="4" x2="24" y2="4"/></svg>Lobbied / worked at</span>
+      <span class="it"><svg width="24" height="8"><line class="k-lead" x1="0" y1="4" x2="24" y2="4"/></svg>Lead (inferred)</span>
+      <span class="it wide"><svg width="24" height="8"><line class="k-bridge" x1="0" y1="4" x2="24" y2="4"/></svg>Bridge: joins the lobbying side to the fleet</span>
+    </div>
+    <div class="counts" id="counts"></div>
+  </div>
+</aside>
+
+<section id="story" class="card" aria-live="polite">
+  <div class="kicker" id="stepk"></div>
+  <h2 id="stept"></h2>
+  <div class="txt" id="stepx"></div>
+  <div class="srcline" id="steps"></div>
+  <div class="nav">
+    <button class="btn" id="prev">Back</button>
+    <div class="dots" id="dots"></div>
+    <button class="btn btn-ghost" id="free" title="Hide the story and explore">Explore</button>
+    <button class="btn btn-accent" id="next">Next</button>
+  </div>
+</section>
+<button id="storyPill" class="card">Show the story</button>
+
+<aside id="side" class="card" aria-label="Details"><button class="close" id="sclose" aria-label="Close">×</button><div id="sbody"></div></aside>
+<div id="tip"></div>
+
+<script src="kg_data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/force-graph@1.51.4/dist/force-graph.min.js" integrity="sha384-Hm6GpQcTNI5VqGgGS7lLxTGtEFcxu/kOVV0B7ozIZRu9blWVvigv5httJQZ2qZmY" crossorigin="anonymous"></script>
+<script>
+(function(){
+"use strict";
+const KG = window.KG;
+// Graph colours, read once: site tokens (app/style.css) + this page's --kg-* data-viz tokens. Accent = sanctioned only.
+const TOKEN = (() => { const cs = getComputedStyle(document.documentElement), v = k => cs.getPropertyValue("--" + k).trim();
+  return {paper:v("color-paper"), neutral:v("color-neutral"), muted:v("color-muted"), ink:v("color-ink"), accent:v("color-accent"),
+          corp:v("kg-corp"), infl:v("kg-infl"), gov:v("kg-gov"), ctrl:v("kg-ctrl"), lead:v("kg-lead")}; })();
+const alpha = (c, a) => c.replace(/\)$/, ` / ${a})`);   // oklch(L C H) -> oklch(L C H / a)
+const C = {corp:TOKEN.corp, infl:TOKEN.infl, gov:TOKEN.gov, sanc:TOKEN.accent, live:TOKEN.ink};
+const $ = id => document.getElementById(id);
+
+// ================= data =================
+const FAMILY = {
+  owns:"ctrl", controls:"ctrl", director_of:"ctrl", manages:"ctrl", operates:"ctrl", linked_to:"ctrl", formerly_operated:"ctrl",
+  sister_shell_of:"ctrl", sold_to:"ctrl", foreign_entity_of:"ctrl", carried_cargo_for:"ctrl", transferred_cargo_with:"ctrl",
+  hired:"money", foreign_agent_for:"money", lobbied_in_house:"money",
+  lobbied:"gov", lobbied_on:"gov", formerly_served_in:"door", lobbyist_at:"staff", lobbied_for:"staff"
+};
+const VERB = {
+  owns:"owns", controls:"controls", director_of:"director of", manages:"manages", operates:"operates", linked_to:"linked to (US list entry)",
+  formerly_operated:"formerly operated", sister_shell_of:"sister company of", sold_to:"sold to", foreign_entity_of:"named as foreign owner / interest of",
+  carried_cargo_for:"carried cargo for", transferred_cargo_with:"transferred cargo with", hired:"hired", foreign_agent_for:"registered foreign agent",
+  lobbied_in_house:"lobbied in-house", lobbied:"lobbied", lobbied_on:"lobbied on", formerly_served_in:"used to work at",
+  lobbyist_at:"lobbyist at", lobbied_for:"lobbied for"
+};
+const TYPE = {ship:"Ship", company:"Company", person:"Person", lobbyfirm:"Lobbying firm", association:"Trade association", government:"Government body", bill:"Bill or order"};
+const links = KG.edges.map((e, i) => ({...e, id:i, source:e.s, target:e.t, fam:FAMILY[e.y] || "ctrl"}));
+const nodes = KG.nodes.map(n => ({...n}));
+const nodeById = new Map(nodes.map(n => [n.id, n]));
+const adj = new Map(nodes.map(n => [n.id, []]));
+links.forEach(l => { adj.get(l.s).push(l); adj.get(l.t).push(l); });
+
+nodes.forEach(n => {
+  n.side = (n.t === "lobbyfirm" || n.t === "association" || (n.t === "person" && n.L === "lobby")) ? "infl"
+         : (n.t === "government" || n.t === "bill") ? "gov" : "corp";
+  n.r = n.t === "ship" ? 2.4 : Math.max(3, Math.min(15, 2 + Math.sqrt(n.k) * 1.3));
+});
+// Programme per node: ships carry it; fleet companies take their ships' majority; lobbying clients carry a story group.
+const LIST_HOME = /^https?:\/\/[^\/]+\/?$|\/Home\/SdnList$|\/consolidated-screening-list$|\/the-uk-sanctions-list$/; // a home page, not the record itself
+const PROG = g => g === "russia" ? ["russia"] : g === "iran" ? ["iran"] : g === "both" ? ["russia", "iran"] : g === "china" || g === "chips" ? ["china"] : ["other"];
+nodes.forEach(n => { if (n.t === "ship") n.prog = PROG(n.g); });
+nodes.forEach(n => {
+  if (n.prog) return;
+  if (n.L === "fleet" || n.L === "bridge"){
+    const c = {};
+    adj.get(n.id).forEach(l => { const o = nodeById.get(l.s === n.id ? l.t : l.s); (o.prog || []).forEach(p => c[p] = (c[p] || 0) + 1); });
+    const best = Object.entries(c).sort((a, b) => b[1] - a[1])[0];
+    n.prog = best ? [best[0]] : (n.g && n.g !== "other" ? PROG(n.g) : n.L === "bridge" ? ["russia"] : ["other"]);
+  } else if (n.t === "company" || n.t === "association") n.prog = n.g ? PROG(n.g) : null;
+});
+
+// ================= columns =================
+// Left to right: Washington -> lobbyists -> firms -> clients -> parents -> the fleet.
+const hires = new Set(links.filter(l => l.y === "hired" || l.y === "lobbied_in_house" || l.y === "foreign_agent_for").map(l => l.s));
+const LANES = [
+  {key:"gov",    x:-3300, w:80,  title:"Government"},
+  {key:"bill",   x:-2750, w:220, title:"Bills & orders"},
+  {key:"people", x:-2050, w:460, title:"Lobbyists"},
+  {key:"firm",   x:-1300, w:260, title:"Lobbying firms"},
+  {key:"client", x:-700,  w:200, title:"Clients"},
+  {key:"parent", x:-250,  w:200, title:"Parent companies"},
+  {key:"bridge", x:150,   w:80,  title:"Bridge"},
+];
+const GALAXY = {russia:{x:1000, y:-150, title:"Shadow fleet · Russia"}, iran:{x:2150, y:-150, title:"Shadow fleet · Iran"}, other:{x:1575, y:750, title:"Other programmes"}};
+function laneOf(n){
+  if (n.t === "government") return (/^gov:(us-|white-house)/.test(n.id) || n.hub) ? LANES[0] : LANES[5];
+  if (n.t === "bill") return LANES[1];
+  if (n.t === "person" && n.L === "lobby") return LANES[2];
+  if (n.t === "lobbyfirm") return LANES[3];
+  if (n.L === "lobby") return hires.has(n.id) ? LANES[4] : LANES[5];
+  return null;
+}
+nodes.forEach(n => {
+  n.lane = laneOf(n);
+  if (!n.lane){
+    const p = n.prog && n.prog.length === 2 ? {x:(GALAXY.russia.x + GALAXY.iran.x) / 2, y:-500} : GALAXY[(n.prog || ["other"])[0]] || GALAXY.other;
+    n.gx = p.x; n.gy = p.y;
+  }
+  // seed positions near the target so the layout converges fast and deterministically
+  const seed = (s => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) | 0; return h; })(n.id);
+  const jx = ((seed & 1023) / 1023 - 0.5), jy = (((seed >> 10) & 1023) / 1023 - 0.5);
+  n.x = n.lane ? n.lane.x + jx * n.lane.w : n.gx + jx * 500;
+  n.y = n.lane ? jy * 1400 : n.gy + jy * 500;
+});
+
+// ================= state =================
+let hlNodes = null, hlLinks = null, hover = null, selected = null, pathLinks = null, storyActive = true;
+const vis = {lead:true, prog:{russia:true, iran:true, china:true, other:true}};
+function nodeVisible(n){
+  if (!n.prog) return true;              // lobbyists, firms, government: always shown
+  return n.prog.some(p => vis.prog[p]);
+}
+function linkVisible(l){
+  if (!vis.lead && l.c === "L") return false;
+  const a = typeof l.source === "object" ? l.source : nodeById.get(l.source), b = typeof l.target === "object" ? l.target : nodeById.get(l.target);
+  return nodeVisible(a) && nodeVisible(b);
+}
+
+// ================= drawing =================
+function shape(ctx, n, r){
+  ctx.beginPath();
+  const x = n.x, y = n.y;
+  if (n.t === "ship"){ ctx.moveTo(x, y - r*1.2); ctx.lineTo(x + r, y + r*.8); ctx.lineTo(x - r, y + r*.8); ctx.closePath(); }
+  else if (n.t === "company" || n.t === "association"){ const s = r*.9; if (ctx.roundRect) ctx.roundRect(x-s, y-s, 2*s, 2*s, s*.3); else ctx.rect(x-s, y-s, 2*s, 2*s); }
+  else if (n.t === "lobbyfirm"){ const s = r*1.25; ctx.moveTo(x, y-s); ctx.lineTo(x+s, y); ctx.lineTo(x, y+s); ctx.lineTo(x-s, y); ctx.closePath(); }
+  else if (n.t === "government"){ for (let i = 0; i < 6; i++){ const a = Math.PI/6 + i*Math.PI/3; ctx[i ? "lineTo" : "moveTo"](x + r*1.2*Math.cos(a), y + r*1.2*Math.sin(a)); } ctx.closePath(); }
+  else if (n.t === "bill"){ ctx.rect(x - r*1.3, y - r*.65, r*2.6, r*1.3); }
+  else ctx.arc(x, y, r, 0, 2*Math.PI);
+}
+const faded = n => hlNodes && !hlNodes.has(n.id);
+function drawNode(n, ctx, scale){
+  if (!nodeVisible(n)) return;
+  const r = n.r, f = faded(n), focus = hlNodes && !f && hlNodes.size < 250;
+  ctx.globalAlpha = f ? 0.07 : 1;
+  if (focus){ ctx.shadowColor = C[n.side]; ctx.shadowBlur = 14; }
+  shape(ctx, n, r);
+  // In the fleet nearly every company is listed, so the exception is what we draw: hollow = on no list.
+  const hollow = n.L !== "lobby" && !n.s && (n.t === "company" || n.t === "person");
+  if (hollow){ ctx.fillStyle = TOKEN.paper; ctx.fill(); ctx.lineWidth = Math.max(1.2/scale, r * .28); ctx.strokeStyle = C[n.side]; ctx.stroke(); }
+  else { ctx.fillStyle = C[n.side]; ctx.fill(); }
+  ctx.shadowBlur = 0;
+  if (n.t === "association"){ ctx.lineWidth = 1.2/scale; ctx.strokeStyle = C.infl; ctx.stroke(); }
+  if (n.s && (n.t !== "ship" || n === hover || n === selected)){
+    const quiet = n.L === "fleet" && !(hlNodes && hlNodes.has(n.id)) && n !== hover && n !== selected;
+    ctx.globalAlpha = f ? 0.07 : quiet ? 0.35 : 1;
+    ctx.beginPath(); ctx.arc(n.x, n.y, r + 2 + 1.5/scale, 0, 2*Math.PI);
+    ctx.lineWidth = quiet ? Math.max(0.8/scale, r * .12) : Math.max(1.3/scale, r * .2); ctx.strokeStyle = C.sanc;
+    ctx.setLineDash(n.s === "restricted" ? [Math.max(2/scale, r*.35), Math.max(1.5/scale, r*.25)] : []); ctx.stroke(); ctx.setLineDash([]);
+    ctx.globalAlpha = f ? 0.07 : 1;
+  }
+  if (n.nolobby && !f){
+    const bx = n.x + r + 3, by = n.y - r - 3, br = 2.8;
+    ctx.beginPath(); ctx.arc(bx, by, br, 0, 2*Math.PI); ctx.fillStyle = TOKEN.paper; ctx.fill();
+    ctx.lineWidth = 0.9; ctx.strokeStyle = TOKEN.muted; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx - br*.7, by + br*.7); ctx.lineTo(bx + br*.7, by - br*.7); ctx.stroke();
+  }
+  if (n.live && !f){
+    const ph = (performance.now() / 1400) % 1;
+    ctx.beginPath(); ctx.arc(n.x, n.y, r + 3 + 2/scale, 0, 2*Math.PI); ctx.lineWidth = 1.6/scale; ctx.strokeStyle = C.live; ctx.setLineDash([3/scale, 2/scale]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.globalAlpha = (f ? 0.07 : 1) * (1 - ph);
+    ctx.beginPath(); ctx.arc(n.x, n.y, r + 3 + (4 + 14 * ph)/scale, 0, 2*Math.PI); ctx.lineWidth = 1.2/scale; ctx.stroke();
+    ctx.globalAlpha = f ? 0.07 : 1;
+  }
+  if (n === selected || n === hover){ ctx.beginPath(); ctx.arc(n.x, n.y, r + 5 + 2/scale, 0, 2*Math.PI); ctx.lineWidth = 1.5/scale; ctx.strokeStyle = TOKEN.ink; ctx.stroke(); }
+  ctx.globalAlpha = 1;
+}
+function linkColor(l){
+  if (hlLinks && !hlLinks.has(l.id)) return alpha(TOKEN.neutral, 0.025);
+  if (l.br && l.c !== "L") return alpha(TOKEN.ink, hlLinks ? 0.95 : 0.8);
+  if (l.c === "L") return alpha(TOKEN.lead, l.br ? 0.9 : 0.7);
+  const on = !!hlLinks;
+  switch (l.fam){
+    case "money": return alpha(TOKEN.infl, on ? 0.95 : 0.7);
+    case "gov":   return alpha(TOKEN.gov, on ? 0.9 : 0.3);
+    case "door":  return alpha(TOKEN.gov, on ? 0.95 : 0.5);
+    case "staff": return alpha(TOKEN.infl, on ? 0.5 : 0.12);
+    default:      return alpha(on ? TOKEN.corp : TOKEN.ctrl, on ? 0.9 : 0.7);   // owner/operator: visible at any zoom
+  }
+}
+function linkWidth(l){
+  let w = l.fam === "money" ? 1 + Math.min(4, Math.log10(1 + (l.a || 0)) / 1.6) : l.fam === "staff" ? 0.5 : l.fam === "ctrl" ? 1.2 : 0.8;
+  if (hlLinks && hlLinks.has(l.id)) w *= 1.8;
+  if (l.br) w = Math.max(w, 2.2);
+  if (pathLinks && pathLinks.has(l.id)) w = 4;
+  return w;
+}
+
+// ---- labels: one pass after the nodes, highest priority first, no overlaps ----
+const senior = /senator|member of congress|us ?congress|u\.s\. representative|representative,|representative for|ambassador|counselor to secretary|general counsel|assistant secretary|asst\.? sec|deputy asst|deputy assistant to the pres|dpty ast to pres|special asst\.? to potus|wh natl econ|national economic council/i;
+nodes.forEach(n => {
+  n.seniorDoor = n.t === "person" && n.L === "lobby" && n.info.covered_positions && senior.test(n.info.covered_positions.join(" "));
+  n.base = n.t === "ship" ? (n.live ? 70 : 0) : n.k + (n.L !== "fleet" ? 30 : 0) + (n.s ? 20 : 0) + (n.seniorDoor ? 25 : 0) + (n.t === "government" ? 60 : 0) + (n.info && n.info.title ? 40 : 0);
+});
+function labelText(n){ let s = n.n.length > 34 ? n.n.slice(0, 32) + "…" : n.n; if (n.unverified_person) s += " (?)"; return s; }
+function drawLabels(ctx, scale){
+  const cand = [];
+  const W = el.clientWidth, H = el.clientHeight, tl = Graph.screen2GraphCoords(0, 0), br = Graph.screen2GraphCoords(W, H);
+  for (const n of nodes){
+    if (n.x < tl.x || n.x > br.x || n.y < tl.y || n.y > br.y || !nodeVisible(n) || faded(n)) continue;
+    let p = -1;
+    if (n === selected || n === hover) p = 1e7;
+    else if (pathLinks && hlNodes && hlNodes.has(n.id)) p = 1e6 + n.base;
+    else if (hlNodes && hlNodes.has(n.id)) p = (n.t === "ship" && hlNodes.size > 60) ? (scale > 2.5 ? 1 : -1) : 1e5 + n.base;
+    else if (n.base * scale > 22 || scale > 5) p = n.base;
+    if (p >= 0) cand.push([p, n]);
+  }
+  cand.sort((a, b) => b[0] - a[0]);
+  const placed = [], fs = 12 / scale, pad = 2 / scale;
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (const [p, n] of cand.slice(0, 450)){
+    const big = p >= 1e5 || n.base > 60;
+    ctx.font = `${big ? 700 : 500} ${fs}px "Schibsted Grotesk", system-ui, sans-serif`;
+    const t = labelText(n), w = ctx.measureText(t).width, x0 = n.x - w/2 - pad, y0 = n.y + n.r + 3/scale, x1 = x0 + w + 2*pad, y1 = y0 + fs * 1.25;
+    if (p < 1e7 && placed.some(b => x0 < b[2] && x1 > b[0] && y0 < b[3] && y1 > b[1])) continue;
+    placed.push([x0, y0, x1, y1]);
+    ctx.lineWidth = 3.2/scale; ctx.strokeStyle = alpha(TOKEN.paper, 0.92); ctx.strokeText(t, n.x, y0);
+    ctx.fillStyle = big ? TOKEN.ink : TOKEN.muted; ctx.fillText(t, n.x, y0);
+  }
+}
+// ---- column and cluster headings, drawn in graph space ----
+function drawHeadings(ctx, scale){
+  ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+  const fs = Math.min(40, 13 / scale);
+  ctx.font = `500 ${fs}px "JetBrains Mono", monospace`;
+  const top = {}, gal = {};
+  for (const n of nodes){
+    if (!nodeVisible(n)) continue;
+    if (n.lane){ const k = n.lane.key; top[k] = Math.min(top[k] ?? Infinity, n.y - n.r); }
+    else { const g = n.prog && n.prog.length === 2 ? null : (n.prog || ["other"])[0];
+      if (g && GALAXY[g] && Math.abs(n.x - GALAXY[g].x) < 350 && Math.abs(n.y - GALAXY[g].y) < 900){ gal[g] = gal[g] || {y:Infinity}; gal[g].y = Math.min(gal[g].y, n.y); } }
+  }
+  ctx.fillStyle = TOKEN.neutral;
+  for (const L of LANES){ if (top[L.key] !== undefined && L.key !== "bridge") ctx.fillText(L.title.toUpperCase(), L.x, top[L.key] - 30 / scale); }
+  for (const [g, v] of Object.entries(gal)){ if (GALAXY[g] && isFinite(v.y)) ctx.fillText(GALAXY[g].title.toUpperCase(), GALAXY[g].x, v.y - 30 / scale); }
+}
+
+// ================= graph =================
+const el = $("graph");
+const Graph = ForceGraph()(el)
+  .width(el.clientWidth || innerWidth || 1280).height(el.clientHeight || innerHeight || 720)
+  .backgroundColor("rgba(0,0,0,0)")
+  .graphData({nodes, links})
+  .nodeId("id")
+  .nodeVal(n => n.r * n.r / 4)
+  .nodeCanvasObject(drawNode)
+  .nodePointerAreaPaint((n, color, ctx) => { if (!nodeVisible(n)) return; ctx.fillStyle = color; ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 3, 0, 2*Math.PI); ctx.fill(); })
+  .onRenderFramePost((ctx, scale) => { drawLabels(ctx, scale); drawHeadings(ctx, scale); })
+  .linkVisibility(linkVisible)
+  .linkColor(linkColor)
+  .linkWidth(linkWidth)
+  .linkLineDash(l => l.c === "L" ? [1, 3] : l.fam === "money" ? [5, 3] : l.fam === "gov" || l.fam === "door" ? [4, 2] : null)
+  .linkCurvature(l => l.fam === "door" ? 0.2 : 0)
+  .linkDirectionalParticles(l => (l.br && !hlLinks) || (l.fam === "money" && (!hlLinks || hlLinks.has(l.id))) || (pathLinks && pathLinks.has(l.id)) || (hlLinks && hlLinks.has(l.id) && hlLinks.size < 400 && l.fam !== "staff") ? 2 : 0)
+  .linkDirectionalParticleWidth(l => l.fam === "money" ? 2.8 : 2.2)
+  .linkDirectionalParticleSpeed(0.005)
+  .linkDirectionalParticleColor(l => l.br ? TOKEN.ink : l.fam === "money" ? TOKEN.infl : l.fam === "gov" || l.fam === "door" ? TOKEN.gov : TOKEN.corp)
+  .d3AlphaDecay(0.022).d3VelocityDecay(0.38)
+  .warmupTicks(260).cooldownTicks(160)
+  .onNodeHover(n => { hover = n || null; el.style.cursor = n ? "pointer" : null; showTip(n); hoverHighlight(); })
+  .onNodeClick(n => { select(n); flyTo([...hlNodes]); })
+  .onBackgroundClick(() => { if (!storyActive) clearFocus(); else select(null); })
+  .onZoom(() => hideTip());
+
+const charge = Graph.d3Force("charge"), linkF = Graph.d3Force("link");
+// Ships repel weakly so they sit tight around their operator; operators repel more so each group stays distinct.
+charge.strength(n => n.t === "ship" ? -4 : n.lane ? -130 : -24 - 3 * Math.sqrt(n.k)).distanceMax(380);
+linkF.distance(l => l.fam === "staff" ? 50 : l.fam === "ctrl" ? 9 + 1.2 * Math.sqrt(Math.max(l.source.k || 1, l.target.k || 1)) : 70).strength(l => {
+  // links that cross columns only pull vertically in practice (the column force wins on x)
+  return l.fam === "staff" ? 0.15 : l.fam === "ctrl" ? 1 : 0.3;
+});
+Graph.d3Force("center", null);
+Graph.d3Force("columns", alpha => {
+  for (const n of nodes){
+    if (n.lane){
+      // Hard band: whatever the other forces want, the next x stays inside the column.
+      const half = n.lane.w / 2, keep = 1 - 0.38;   // d3 multiplies v by (1 - velocityDecay) before moving
+      const nx = Math.max(n.lane.x - half, Math.min(n.lane.x + half, n.x + n.vx * keep));
+      n.vx = (nx - n.x) / keep;
+      n.vy -= n.y * 0.004 * alpha;
+    } else {
+      const g = n.t === "ship" ? 0.008 : 0.03;   // ships follow their operator; operators are pulled to their cluster
+      n.vx += (n.gx - n.x) * g * alpha; n.vy += (n.gy - n.y) * g * alpha;
+    }
+  }
+});
+
+// ================= tooltip =================
+const tip = $("tip");
+const statusText = n => n.s === "blocked" ? "Blocked (asset freeze)" : n.s === "restricted" ? "Restricted (trade or investment limits)" : "";
+function showTip(n){
+  if (!n){ hideTip(); return; }
+  const p = Graph.graph2ScreenCoords(n.x, n.y);
+  tip.innerHTML = `<b>${esc(n.n)}</b><span>${TYPE[n.t]}${n.info && n.info.imo ? " · IMO " + n.info.imo : ""}${statusText(n) ? " · " + statusText(n) : ""} · ${n.k} link${n.k === 1 ? "" : "s"}. Click for records.</span>`;
+  tip.style.display = "block";
+  tip.style.left = Math.min(innerWidth - 330, p.x + 14) + "px"; tip.style.top = (p.y + 12) + "px";
+}
+function hideTip(){ tip.style.display = "none"; }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+// ================= focus helpers =================
+function neighborhood(ids, hops, fams){
+  const ns = new Set(ids), ls = new Set(); let frontier = [...ids];
+  for (let h = 0; h < hops; h++){
+    const next = [];
+    for (const id of frontier) for (const l of adj.get(id) || []){
+      if (fams && !fams.includes(l.fam)) continue;
+      if (!linkVisible(l)) continue;
+      ls.add(l.id);
+      const o = l.s === id ? l.t : l.s;
+      if (!ns.has(o)){ ns.add(o); next.push(o); }
+    }
+    frontier = next;
+  }
+  return {ns, ls};
+}
+let hoverSaved = null;
+function hoverHighlight(){
+  if (storyActive || selected || pathLinks) return;           // only while exploring with nothing pinned
+  if (hover){ const nb = neighborhood([hover.id], 1); hlNodes = nb.ns; hlLinks = nb.ls; }
+  else { hlNodes = hlLinks = null; }
+}
+function clearFocus(){ selected = null; pathLinks = null; hlNodes = hlLinks = null; closeSide(); }
+
+// Fit nodes into the free area: under the top bar, above the story bar, left of the drawer.
+function flyTo(ids, pad){
+  const pts = ids.map(id => nodeById.get(id)).filter(n => n && n.x != null && nodeVisible(n));
+  if (!pts.length) return;
+  const W = el.clientWidth, H = el.clientHeight;
+  const story = $("story"), storyH = story.style.display === "none" ? 40 : story.offsetHeight + 24;
+  const leg = $("legend"), legOpen = getComputedStyle(leg).display !== "none" && !leg.classList.contains("min");
+  const L = legOpen ? leg.getBoundingClientRect().right + 10 : 20;
+  const side = $("side"), R = W - (side.classList.contains("open") && innerWidth > 760 ? side.offsetWidth + 30 : 20), T = $("bar").offsetHeight + 16, B = H - storyH;
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  pts.forEach(n => { x0 = Math.min(x0, n.x); x1 = Math.max(x1, n.x); y0 = Math.min(y0, n.y); y1 = Math.max(y1, n.y); });
+  const m = 70 * (pad || 1), bw = Math.max(60, x1 - x0), bh = Math.max(60, y1 - y0);
+  const k = Math.max(0.05, Math.min(5, (R - L - 2*m) / bw, (B - T - 2*m) / bh));
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, ax = (L + R) / 2, ay = (T + B) / 2;
+  tweenCamera(k, cx - (ax - W/2) / k, cy - (ay - H/2) / k, 850);
+}
+// One tween for zoom + pan (two separate animated calls cancel each other).
+let camAnim = 0;
+function tweenCamera(k1, x1, y1, ms){
+  const k0 = Graph.zoom(), c0 = Graph.centerAt(), t0 = performance.now(), id = ++camAnim;
+  if (document.hidden || !ms || window.__noAnim){ Graph.zoom(k1); Graph.centerAt(x1, y1); return; }   // no animation frames while hidden
+  const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  (function frame(now){
+    if (id !== camAnim) return;
+    const t = Math.min(1, (now - t0) / ms), e = ease(t);
+    const k = Math.exp(Math.log(k0) + (Math.log(k1) - Math.log(k0)) * e);
+    Graph.zoom(k); Graph.centerAt(c0.x + (x1 - c0.x) * e, c0.y + (y1 - c0.y) * e);
+    if (t < 1) requestAnimationFrame(frame);
+  })(t0);
+}
+
+// ================= details drawer =================
+const sideEl = $("side"), sbody = $("sbody");
+$("sclose").onclick = () => { select(null); };
+function closeSide(){ sideEl.classList.remove("open"); }
+function select(n){
+  selected = n || null;
+  if (!n){ closeSide(); if (!storyActive){ hlNodes = hlLinks = null; } else go(step, true); return; }
+  pathLinks = null;
+  const nb = neighborhood([n.id], 1); hlNodes = nb.ns; hlLinks = nb.ls;
+  renderSide(n); sideEl.classList.add("open");
+}
+// ISO country codes ("mh", "AE") -> full English names ("Marshall Islands", "United Arab Emirates").
+const regionNames = (() => { try { return new Intl.DisplayNames(["en"], {type:"region"}); } catch (e) { return null; } })();
+const COUNTRY_FIX = {XK:"Kosovo", UK:"United Kingdom", EU:"European Union"};
+function countryName(c){
+  const code = String(c || "").trim().toUpperCase();
+  if (!/^[A-Z]{2}$/.test(code)) return String(c || "");
+  if (COUNTRY_FIX[code]) return COUNTRY_FIX[code];
+  try { const name = regionNames && regionNames.of(code); return name && name !== code ? name : code; } catch (e) { return code; }
+}
+function renderSide(n){
+  const rows = [], inf = n.info || {};
+  if (inf.imo) rows.push(["IMO number", inf.imo + " (permanent hull number)"]);
+  if (inf.role) rows.push(["Role", inf.role]);
+  if (inf.title) rows.push(["Full title", inf.title]);
+  if (inf.aliases && inf.aliases.length > 1) rows.push(["Other names", [...new Set(inf.aliases)].slice(0, 6).join(", ")]);
+  if (inf.ship_type) rows.push(["Type", inf.ship_type + (inf.year_built ? ", built " + inf.year_built : "")]);
+  if (inf.country) rows.push(["Country", countryName(inf.country)]);
+  if (inf.flag_now) rows.push(["Flag now", countryName(inf.flag_now)]);
+  if (inf.flags_before && inf.flags_before.length) rows.push(["Earlier flags", [].concat(inf.flags_before).map(countryName).join(", ")]);
+  if (inf.covered_positions) rows.push(["Former posts (own disclosure)", inf.covered_positions.slice(0, 3).map(esc).join("<br>"), true]);
+  if (inf.lda_names) rows.push(["Names on filings", inf.lda_names.slice(0, 4).join("; ")]);
+  (n.lists || []).forEach(l => rows.push(["Listed", [l[0], l[1] ? "record " + l[1] : "", l[2]].filter(Boolean).join(" · ")]));
+  let h = `<div class="kicker">${TYPE[n.t]}${n.L === "bridge" ? " · joins the two sides" : ""}</div><h3>${esc(n.n)}</h3>`;
+  if (n.s) h += `<span class="badge b-${n.s}">${statusText(n)}</span>`;
+  if (n.nolobby) h += `<span class="badge b-nolobby">No US lobbying filings found</span>`;
+  if (n.live) h += `<span class="badge b-live">Seen live on ship tracking (AIS): ${esc(n.live.area)}, ${esc(n.live.at.replace("T", " ").replace("Z", " UTC"))}</span>`;
+  if (n.src) h += `<span class="badge b-unv">From the team's lobbying research</span>`;
+  if (!n.s && n.L !== "lobby" && (n.t === "company" || n.t === "person")) h += `<span class="badge b-unv">On no sanctions list we checked</span>`;
+  if (n.unverified_person) h += `<span class="badge b-unv">Named in official text, not yet re-checked</span>`;
+  if (n.t === "person" && n.L === "lobby") h += `<span class="badge b-nolobby">Named in US lobbying disclosures</span>`;
+  h += `<table>${rows.map(r => `<tr><td>${esc(r[0])}</td><td>${r[2] ? r[1] : esc(r[1])}</td></tr>`).join("")}</table>`;
+  (n.notes || []).forEach(t => h += `<div class="ln"><div class="q">${esc(t)}</div></div>`);
+  const groups = {};
+  for (const l of adj.get(n.id)){
+    const out = l.s === n.id, other = nodeById.get(out ? l.t : l.s);
+    const key = out ? VERB[l.y] : "← " + VERB[l.y];
+    (groups[key] = groups[key] || []).push({l, other});
+  }
+  for (const [k, arr] of Object.entries(groups).sort((a, b) => b[1].length - a[1].length)){
+    h += `<div class="grp">${esc(k)} (${arr.length})</div>`;
+    arr.sort((a, b) => (b.l.a || 0) - (a.l.a || 0) || b.other.k - a.other.k).slice(0, 30).forEach(({l, other}) => {
+      const when = l.d ? (l.d2 && l.d2 !== l.d ? l.d + "–" + l.d2 : l.d) : "";
+      const money = l.a ? " · $" + Math.round(l.a).toLocaleString() + (l.an ? " " + l.an : " reported (one per quarter, amendments not double-counted)") : "";
+      const subm = l.sub ? " · subcontracted through another firm" + (l.sa ? " ($" + Math.round(l.sa).toLocaleString() + ", already inside that firm's fee)" : "") : "";
+      const conf = l.c === "L" ? " · LEAD (our inference)" : l.c === "R" ? " · reported, not re-checked" : "";
+      const src = l.u ? `<a href="${esc(l.u)}" target="_blank" rel="noopener">${LIST_HOME.test(l.u) ? "source (home page, not the record)" : "source"}</a>` : "";
+      h += `<div class="ln"><span class="who" data-id="${esc(other.id)}">${esc(other.n)}</span>${other.s ? ' <span class="sanc-dot" title="' + statusText(other) + '">●</span>' : ""}
+        ${l.q ? `<div class="q">“${esc(l.q.length > 220 ? l.q.slice(0, 218) + "…" : l.q)}”</div>` : ""}
+        <div class="meta">${[when, l.r, l.pct ? "ownership " + l.pct + "%" : ""].filter(Boolean).map(esc).join(" · ")}${money}${subm}${conf} ${src}</div></div>`;
+    });
+    if (arr.length > 30) h += `<div class="ln meta">…and ${arr.length - 30} more</div>`;
+  }
+  sbody.innerHTML = h; sbody.scrollTop = 0; sideEl.scrollTop = 0;
+  sbody.querySelectorAll(".who").forEach(a => a.onclick = () => { const o = nodeById.get(a.dataset.id); select(o); flyTo([...hlNodes]); });
+}
+
+// ================= story =================
+const STEPS = [
+  {t:"The shadow fleet", x:`<b>${KG.nodes.filter(n => n.t === "ship").length.toLocaleString()} tankers and cargo ships</b> on US, UK or EU sanctions lists, joined by their permanent hull number to the companies that own, manage or operate them. Every ship here is listed; a red ring on a company or person means a government froze its assets.`,
+   s:"UK sanctions list (21 Sep 2026), US Treasury and Commerce lists, EU asset-freeze list, Ukraine's war-sanctions database.", fleet:true},
+  {t:"New name, same hull", x:"A ship's name is paperwork; its hull number is for life. The UK listed <b>CLYDE NOBLE</b> in May 2025. Its manager closed the next month, and the US later listed the same hull as <b>AQUA LIVE</b>.",
+   s:"UK list; US Treasury (OFAC) list.", focus:["IMO9282792"], hops:2},
+  {t:"The Sovcomflot hub", x:"Russia's state tanker company, <b>Sovcomflot</b>, anchors the Russian cluster. Treasury says it \"sought to circumvent sanctions by transferring the management of tankers to Fornax and Stream\", two Dubai firms.",
+   s:"US Treasury press release jy2777, 10 Jan 2025.", focus:["co:sovcomflot", "co:fornax-shipmanagement", "co:stream-shipmanagement"], hops:1},
+  {t:"The front companies don't lobby", x:"We searched US lobbying disclosures for 18 ship managers, front companies and oil traders, including Sovcomflot, Zulu, Fleet Tanqo, Lukoil and Rosneft: <b>zero filings</b> (marked ⊘). That is not proof of no influence; it can run through foreign-agent filings, Brussels or governments.",
+   s:"US Senate Lobbying Disclosure Act database, searched 25 Sep 2026.", focus:() => nodes.filter(n => n.nolobby).map(n => n.id), hops:1},
+  {t:"Their parent companies do", x:"Follow the chain. <b>Nord Stream 2</b> hired Washington firms on a 2017 Russia-sanctions bill (S.722); its filings name <b>Gazprom</b> as the foreign entity behind it. Treasury says Gazprom majority-owns <b>Gazprom Neft</b>, whose subsidiary Gazpromneft Marine Bunker runs listed tankers.",
+   s:"Lobbying filings; Treasury press releases jl2629 (2014) and jy2777 (2025).",
+   focus:["co:nord-stream-2", "co:gazprom", "co:gazprom-neft", "co:gazpromneft-marine-bunker-liability", "bill:s722", "co:gazpromexport"], hops:1, path:["bill:s722", "co:gazpromneft-marine-bunker-liability"]},
+  {t:"Where the two sides meet", x:"Only a few records join Washington's lobbying to the fleet, and each one is official. The <b>Russian state</b>, named on Nord Stream 2's filings as Gazprom's owner, owns <b>Sovcomflot</b> (Treasury). OFAC links seven shipping companies to <b>Arctic LNG 2</b>, which hired a Washington firm in 2023 on \"Export of gas turbines\". The white lines are those joins.",
+   s:"Treasury press releases jy2777 and jl2629; US sanctions list entries 50521, 50524, 50626, 50627, 51967, 51972, 52250; lobbying filing 94c50936.",
+   focus:() => nodes.filter(n => n.br).map(n => n.id), hops:1, fams:["ctrl", "money"]},
+  {t:"Banks lobbied on the scope of sanctions", x:"After the 2014 sanctions, <b>Sberbank's US arm</b> hired Podesta Group, the Madison Group, SGR and Venable; one filing's stated issue is \"clarifying scope of sanctions imposed by Executive Order 13660\". <b>VTB</b> and <b>Gazprombank</b> hired firms on the same subject. All three banks are now fully blocked.",
+   s:"Lobbying filings 8a5bd4fb, 59335ef1, 1b6d490c, 6837f722; US sanctions records 17018, 17013, 17016.",
+   focus:["co:sberbank-cib-usa", "co:vtb-bank", "co:gazprombank", "bill:eo13660"], hops:1, fams:["money", "gov", "ctrl"]},
+  {t:"The revolving door", x:"Lobbyists must disclose past government jobs. On these accounts: a former <b>Counselor to the Secretary of the Treasury</b> (Hikvision), former senators <b>John Breaux</b> (Gazprombank) and <b>Joseph Lieberman</b> (ZTE), former congressman <b>John Sweeney</b> (Nord Stream 2), and more.",
+   s:"Each lobbyist's \"covered position\", as written in their own lobbying disclosure.", door:true},
+  {t:"Semiconductor chips: the other front", x:"Chinese firms on US export blacklists (<b>SMIC, Huawei, Hikvision, DJI, Hytera</b>) hired Washington firms too. SMIC's lobbyists worked on its \"eligibility to import U.S.-origin semiconductor-related goods\". US chipmakers and their trade group lobby on the same export rules.",
+   s:"Lobbying filings; US Commerce Entity List; Treasury Chinese-military-company list.",
+   focus:["co:smic", "co:huawei", "co:hikvision-usa", "co:dji", "co:hytera", "co:zte", "org:sia", "co:nvidia"], hops:1, fams:["money", "ctrl", "gov"]},
+];
+let step = 0;
+const dots = $("dots");
+STEPS.forEach((_, i) => { const b = document.createElement("button"); b.title = "Step " + (i + 1) + ": " + STEPS[i].t; b.onclick = () => go(i); dots.appendChild(b); });
+function showStory(on){ $("story").style.display = on ? "" : "none"; $("storyPill").style.display = on ? "none" : "block"; }
+function go(i, keepSide){
+  step = Math.max(0, Math.min(STEPS.length - 1, i)); storyActive = true; showStory(true);
+  if (!keepSide){ selected = null; closeSide(); }
+  pathLinks = null;
+  const st = STEPS[step];
+  $("stepk").textContent = `Story ${step + 1} of ${STEPS.length}`;
+  $("stept").textContent = st.t; $("stepx").innerHTML = st.x; $("steps").textContent = st.s;
+  [...dots.children].forEach((b, j) => b.classList.toggle("on", j === step));
+  let fit;
+  if (st.fleet){ hlNodes = hlLinks = null; fit = nodes.filter(n => !n.lane).map(n => n.id); }
+  else if (st.door){
+    const people = new Set(nodes.filter(n => n.seniorDoor).map(n => n.id));
+    hlNodes = new Set(people); hlLinks = new Set();
+    links.forEach(l => { if (people.has(l.s) && (l.fam === "door" || l.y === "lobbied_for")){ hlLinks.add(l.id); hlNodes.add(l.t); } });
+    fit = [...hlNodes];
+  } else {
+    const ids = (typeof st.focus === "function" ? st.focus() : st.focus).filter(id => nodeById.has(id));
+    const nb = neighborhood(ids, st.hops, st.fams); hlNodes = nb.ns; hlLinks = nb.ls; fit = [...hlNodes];
+  }
+  if (st.path){ const p = shortestPath(st.path[0], st.path[1]); if (p){ pathLinks = new Set(p.links); p.nodes.forEach(x => hlNodes.add(x)); p.links.forEach(x => hlLinks.add(x)); } }
+  setTimeout(() => flyTo(fit, st.fleet ? 0.3 : 1), 0);
+}
+$("prev").onclick = () => go(step - 1);
+$("next").onclick = () => go(step + 1);
+function overview(){ flyTo(nodes.filter(nodeVisible).map(n => n.id), 0.4); }
+$("free").onclick = () => { storyActive = false; showStory(false); clearFocus(); setTimeout(overview, 0); };
+$("fitBtn").onclick = () => overview();
+$("storyPill").onclick = () => go(step);
+
+// ================= search & path =================
+const dl = $("names"), nameIndex = new Map();
+nodes.slice().sort((a, b) => b.k - a.k).forEach(n => { const label = n.n + (n.info && n.info.imo ? " · IMO " + n.info.imo : ""); if (!nameIndex.has(label)){ nameIndex.set(label, n.id); const o = document.createElement("option"); o.value = label; dl.appendChild(o); } });
+function lookup(v){ if (nameIndex.has(v)) return nodeById.get(nameIndex.get(v)); const s = v.trim().toLowerCase(); if (!s) return null; return nodes.filter(n => n.n.toLowerCase().includes(s) || (n.info && n.info.imo === s)).sort((a, b) => b.k - a.k)[0] || null; }
+$("q").addEventListener("change", e => { const n = lookup(e.target.value); if (n){ if (!nodeVisible(n)) setAllProg(); select(n); flyTo([...hlNodes]); } });
+function shortestPath(a, b){
+  const prev = new Map([[a, null]]), q = [a];
+  while (q.length){ const x = q.shift(); if (x === b) break;
+    // Government bodies and bills are hubs everyone touches: a path may start or end there, never pass through.
+    const xn = nodeById.get(x); if (x !== a && (xn.t === "bill" || xn.hub || /^gov:(us-|white-house)/.test(x))) continue;
+    for (const l of adj.get(x) || []){ if (!linkVisible(l)) continue; const o = l.s === x ? l.t : l.s; if (!prev.has(o)){ prev.set(o, {from:x, link:l.id}); q.push(o); } } }
+  if (!prev.has(b)) return null;
+  const ns = [b], ls = []; let cur = b;
+  while (prev.get(cur)){ ls.push(prev.get(cur).link); cur = prev.get(cur).from; ns.push(cur); }
+  return {nodes:ns.reverse(), links:ls.reverse()};
+}
+$("pathBtn").onclick = () => { const p = $("pathPop"), open = p.style.display !== "flex"; p.style.display = open ? "flex" : "none"; $("pathBtn").setAttribute("aria-expanded", open); p.style.left = Math.max(16, Math.min($("pathBtn").getBoundingClientRect().left, innerWidth - p.offsetWidth - 16)) + "px"; if (open) $("pa").focus(); };
+$("pgo").onclick = () => {
+  const a = lookup($("pa").value), b = lookup($("pb").value), msg = $("pathmsg");
+  if (!a || !b){ msg.textContent = "Pick two names from the list."; return; }
+  const p = shortestPath(a.id, b.id);
+  if (!p){ msg.textContent = "No chain in our data. That is not proof there is no relationship."; return; }
+  msg.textContent = `${p.links.length} step${p.links.length === 1 ? "" : "s"}: ` + p.nodes.map(id => nodeById.get(id).n).join(" → ");
+  storyActive = false; showStory(false); selected = null; closeSide();
+  pathLinks = new Set(p.links); hlNodes = new Set(p.nodes); hlLinks = new Set(p.links);
+  flyTo(p.nodes, 1.2);
+};
+$("pclear").onclick = () => { $("pa").value = $("pb").value = ""; $("pathmsg").textContent = ""; clearFocus(); };
+
+// ================= filters =================
+function setAllProg(){ Object.keys(vis.prog).forEach(k => vis.prog[k] = true); document.querySelectorAll("[data-prog]").forEach(b => b.setAttribute("aria-pressed", "true")); refresh(); }
+function refresh(){ Graph.linkVisibility(linkVisible); Graph.nodeVisibility(nodeVisible); }
+document.querySelectorAll("[data-prog]").forEach(b => b.onclick = () => { const k = b.dataset.prog; vis.prog[k] = !vis.prog[k]; b.setAttribute("aria-pressed", vis.prog[k]); refresh(); });
+document.querySelector("[data-vis=lead]").onclick = e => { vis.lead = !vis.lead; e.currentTarget.setAttribute("aria-pressed", vis.lead); refresh(); };
+$("liveBtn").onclick = () => {
+  const on = $("liveBtn").getAttribute("aria-pressed") !== "true";
+  $("liveBtn").setAttribute("aria-pressed", on);
+  if (!on){ clearFocus(); return; }
+  storyActive = false; showStory(false); selected = null; closeSide(); pathLinks = null;
+  const ids = nodes.filter(n => n.live).map(n => n.id);
+  const nb = neighborhood(ids, 1, ["ctrl"]); hlNodes = nb.ns; hlLinks = nb.ls;
+  setTimeout(() => flyTo([...hlNodes], 1), 0);
+};
+$("legBtn").onclick = () => { const l = $("legend"); l.classList.toggle("min"); $("legBtn").textContent = l.classList.contains("min") ? "show" : "hide"; };
+
+// ================= keyboard =================
+addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT"){ if (e.key === "Escape") e.target.blur(); return; }
+  if (e.key === "/"){ e.preventDefault(); $("q").focus(); }
+  else if (e.key === "0") overview();
+  else if (e.key === "ArrowRight") go(step + 1);
+  else if (e.key === "ArrowLeft") go(step - 1);
+  else if (e.key === "Escape"){ if (storyActive) select(null); else clearFocus(); }
+});
+
+// ================= counts =================
+const m = KG.meta.counts;
+if (KG.meta.live) $("liveKey").textContent = `Pulsing ring: seen live on AIS (God's Eye, ${KG.meta.live.taken_utc.replace("T", " ").replace("Z", " UTC")})`;
+$("counts").innerHTML = `${m.nodes.toLocaleString()} nodes · ${m.edges.toLocaleString()} links (${m.lead_edges} leads)<br>${m.lda_filings_kept.toLocaleString()} lobbying filings used · ${m.ships_hidden_no_owner_link} listed ships not drawn (no list names an owner)<br>People named only where an official list, release or their own lobbying disclosure names them.`;
+
+// ================= start =================
+// Panels sit under the bar, which wraps to two or three rows on narrow screens.
+const setBarH = () => document.documentElement.style.setProperty("--bar-h", $("bar").offsetHeight + "px");
+setBarH(); new ResizeObserver(setBarH).observe($("bar"));
+new ResizeObserver(() => { if (el.clientWidth && el.clientHeight) Graph.width(el.clientWidth).height(el.clientHeight); }).observe(el);
+window.__kg = {Graph, nodeById, go, flyTo};
+let settled = false;
+Graph.onEngineStop(() => { if (!settled){ settled = true; if (storyActive) go(step, true); } });
+setTimeout(() => { $("loading").style.display = "none"; go(0); }, 50);
+})();
+</script>
+</body>
+</html>

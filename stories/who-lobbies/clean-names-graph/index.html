@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean names, listed interests · Flagstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<style>
+/* Hallmark · redesign: graph app on the main site's system (app/style.css tokens only)
+ * nav: N9 edge-aligned (shared) · footer: Ft2 inline (shared) · three-pane layout kept */
+:root {
+  /* Page-local data-viz tokens (same hues as the shadow-fleet map and the influence network). Accent = on a sanctions
+   * or export list. Validated on --color-paper, all pairs: CVD worst dE 8.9, normal-vision worst 17.0, all >= 3:1. */
+  --g-listed: var(--color-accent); --g-ring: var(--color-accent);
+  --g-clean: oklch(74% 0.12 230);   /* blue: clean intermediaries (subsidiaries, affiliates) */
+  --g-firm:  oklch(82% 0.15 85);    /* amber: lobbying and law firms */
+  --g-assoc: oklch(64% 0.12 160);   /* green-teal: trade associations (square) */
+  --g-gov:   oklch(64% 0.12 160);   /* green-teal: governments (hollow ring) */
+  --g-edge: oklch(58% 0.012 250); --g-edge-hi: var(--color-ink);
+}
+html, body { min-height: 100%; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.app-top { padding-inline: var(--page-gutter); }
+.intro { padding: var(--space-lg) var(--page-gutter); display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-md) var(--space-xl); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.intro h1 { margin: var(--space-2xs) 0 var(--space-xs); font-weight: 800; font-size: var(--text-3xl); line-height: 1; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+.intro p.sub { margin: 0; font-family: var(--font-serif); font-size: var(--text-lg); color: var(--color-muted); max-width: 60ch; }
+.counts { margin-left: auto; display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-neutral); }
+.counts b { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--color-ink); margin-right: var(--space-2xs); }
+
+/* Desktop: the three panes fill one screen and scroll on their own; the intro scrolls away above them */
+.layout { flex: 1; display: grid; grid-template-columns: 20rem minmax(0, 1fr) 26rem; grid-template-rows: minmax(0, 1fr); height: max(36rem, 100svh - 3.5rem); }
+aside { padding: var(--space-lg) var(--space-lg); overflow: auto; }
+.controls { border-right: var(--rule-hair) solid var(--color-rule); }
+.info { border-left: var(--rule-hair) solid var(--color-rule); }
+h2 { font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-neutral); margin: var(--space-xl) 0 var(--space-sm); }
+h2:first-child { margin-top: 0; }
+label.f { display: block; font-size: var(--text-sm); color: var(--color-muted); margin: var(--space-sm) 0 var(--space-2xs); }
+select { width: 100%; font: 500 var(--text-sm)/1.3 var(--font-display); padding: 0.55rem 0.6rem; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-paper-2); color: var(--color-ink); }
+select:hover { border-color: var(--color-muted); }
+.check { display: flex; gap: var(--space-xs); align-items: center; margin-top: var(--space-md); font-size: var(--text-sm); cursor: pointer; }
+.check input { width: 1.1rem; height: 1.1rem; accent-color: var(--color-accent); margin: 0; }
+.controls .btn { margin-top: var(--space-md); }
+.legend-row { display: flex; align-items: center; gap: var(--space-sm); margin: var(--space-xs) 0; font-size: var(--text-sm); color: var(--color-muted); }
+.legend-row svg { flex: 0 0 auto; }
+.explain { font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.55; color: var(--color-muted); margin: 0; }
+.explain b { font-family: var(--font-display); font-weight: 700; color: var(--color-ink); }
+.graph { position: relative; min-height: 0; min-width: 0; background: var(--color-paper); }
+#svg { width: 100%; height: 100%; display: block; user-select: none; }
+.status { position: absolute; left: var(--space-md); bottom: var(--space-md); font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-muted); background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-2xs) var(--space-sm); }
+.node text { font-family: var(--font-display); font-size: 13px; fill: var(--color-muted); paint-order: stroke; stroke: var(--color-paper); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.node.listed text { font-weight: 700; font-size: 14px; fill: var(--color-ink); }
+.node.firm text { fill: var(--color-neutral); font-size: 12.5px; }
+.node { cursor: pointer; }
+.edge { fill: none; stroke: var(--g-edge); stroke-linecap: round; opacity: .75; }
+.edge.lead { stroke-dasharray: 7 6; }
+.hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+svg.dim .node { opacity: .18; }
+svg.dim .edge { opacity: .08; }
+svg.dim .node.hi { opacity: 1; }
+svg.dim .edge.hi { opacity: 1; stroke: var(--g-edge-hi); }
+.edge.hi { stroke: var(--g-edge-hi); opacity: 1; }
+.info h3 { margin: 0 0 var(--space-2xs); font-size: var(--text-xl); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.meta { color: var(--color-neutral); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--space-sm); }
+.tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-2xs); border-radius: var(--radius-sm); padding: 1px 6px; margin-right: var(--space-xs); vertical-align: 1px; }
+.tag.doc { border: var(--rule-hair) solid var(--color-muted); color: var(--color-ink); }
+.tag.lead { border: var(--rule-hair) dashed var(--color-neutral); color: var(--color-muted); }
+.tag.list { border: var(--rule-hair) solid var(--color-accent); background: var(--color-accent-dim); color: var(--color-ink); }
+.card { border-top: var(--rule-hair) solid var(--color-rule); padding: var(--space-sm) 0; font-size: var(--text-sm); }
+.card .s { font-weight: 700; }
+dl { margin: var(--space-xs) 0 0; display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 3px var(--space-sm); font-size: var(--text-sm); }
+dt { color: var(--color-neutral); }
+dd { margin: 0; overflow-wrap: anywhere; }
+.info .src { font-size: var(--text-xs); overflow-wrap: anywhere; margin: var(--space-2xs) 0 0; padding-left: var(--space-md); }
+.note { font-size: var(--text-xs); color: var(--color-neutral); overflow-wrap: anywhere; }
+details summary { cursor: pointer; color: var(--color-muted); font-size: var(--text-xs); margin-top: var(--space-xs); }
+.links-list { list-style: none; padding: 0; margin: var(--space-xs) 0; }
+.links-list li { padding: var(--space-xs) 0; border-top: var(--rule-hair) solid var(--color-rule); font-size: var(--text-sm); }
+.startlist { list-style: none; padding: 0; margin: var(--space-sm) 0; border-top: var(--rule-hair) solid var(--color-rule); }
+.startlist li { border-bottom: var(--rule-hair) solid var(--color-rule); }
+.startlist button { width: 100%; text-align: left; border: 0; background: transparent; padding: var(--space-sm) var(--space-xs); transition: background-color var(--dur-fast) var(--ease-out); }
+.startlist button:hover { background: var(--color-paper-2); }
+.startlist .t { font-weight: 700; display: block; }
+.startlist .d { font-family: var(--font-serif); font-size: var(--text-sm); color: var(--color-muted); }
+.pin { font-size: var(--text-xs); color: var(--color-neutral); margin-top: var(--space-md); }
+.app-foot { padding-inline: var(--page-gutter); padding-bottom: var(--space-lg); }
+@media (max-width: 87.5rem) { .layout { grid-template-columns: 18.75rem minmax(0, 1fr) 22.5rem; } }
+@media (max-width: 68.75rem) {
+  .layout { grid-template-columns: 18.75rem minmax(0, 1fr); grid-template-rows: minmax(35rem, 1fr) auto; height: auto; }
+  .info { grid-column: 1 / -1; border-left: 0; border-top: var(--rule-hair) solid var(--color-rule); }
+}
+@media (max-width: 47.5rem) {
+  .counts { margin-left: 0; }
+  .layout { display: block; }
+  aside { padding: var(--space-md) var(--page-gutter); }
+  .controls { border-right: 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .graph { height: 72vh; }
+}
+</style>
+</head>
+<body>
+<header class="top app-top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+    <li><a href="../influence-network/methods.html">Methods</a></li>
+  </ul></nav>
+</header>
+<div class="intro">
+  <div>
+    <p class="label">Who lobbies · network</p>
+    <h1>Clean names, listed interests</h1>
+    <p class="sub">How sanctioned and export-listed companies appear in US and EU lobbying records through subsidiaries, trade groups, law firms and governments.</p>
+  </div>
+  <div class="counts" aria-live="polite">
+    <span><b id="cNodes">0</b>organisations</span>
+    <span><b id="cDoc">0</b>documented links</span>
+    <span><b id="cLead">0</b>leads</span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="controls">
+    <h2>Filter</h2>
+    <label class="f" for="fEntity">Listed entity</label>
+    <select id="fEntity"><option value="">All listed entities</option></select>
+    <label class="f" for="fCountry">Home country of the listed entity</label>
+    <select id="fCountry"><option value="">All countries</option></select>
+    <label class="check"><input type="checkbox" id="fDoc"> Documented links only</label>
+    <button class="btn" id="resetBtn">Reset view</button>
+
+    <h2>How to read it</h2>
+    <p class="explain"><b>A listed company lobbying through a clean name.</b> A company on a sanctions or export blacklist rarely signs a lobbying form itself. A subsidiary, a trade group, or a law firm with a clean name signs instead, and the listed parent shows up only in the small print: the filing's "foreign entity" or "affiliated organisation" box, or a company registry.</p>
+
+    <h2>Who is who</h2>
+    <div class="legend-row"><svg width="30" height="30" viewBox="-15 -15 30 30"><circle r="12" fill="none" stroke="var(--g-ring)" stroke-width="3"/><circle r="8" fill="var(--g-listed)"/></svg>Listed entity (sanctions or export list)</div>
+    <div class="legend-row"><svg width="30" height="30" viewBox="-15 -15 30 30"><circle r="9" fill="var(--g-clean)"/></svg>Clean intermediary (subsidiary, affiliate)</div>
+    <div class="legend-row"><svg width="30" height="30" viewBox="-15 -15 30 30"><rect x="-8" y="-8" width="16" height="16" rx="3" fill="var(--g-assoc)"/></svg>Trade association or coalition</div>
+    <div class="legend-row"><svg width="30" height="30" viewBox="-15 -15 30 30"><circle r="7" fill="var(--g-firm)"/></svg>Lobbying or law firm</div>
+    <div class="legend-row"><svg width="30" height="30" viewBox="-15 -15 30 30"><circle r="9" fill="var(--color-paper)" stroke="var(--g-gov)" stroke-width="2.5"/></svg>Government or lawmakers</div>
+    <h2>Lines</h2>
+    <div class="legend-row"><svg width="46" height="14"><line x1="2" y1="7" x2="44" y2="7" stroke="var(--g-edge)" stroke-width="2.5"/></svg>Documented in an official record</div>
+    <div class="legend-row"><svg width="46" height="14"><line x1="2" y1="7" x2="44" y2="7" stroke="var(--g-edge)" stroke-width="2.5" stroke-dasharray="7 6"/></svg>Lead: plausible, not yet proven</div>
+    <div class="legend-row"><svg width="46" height="14"><line x1="2" y1="7" x2="44" y2="7" stroke="var(--g-edge)" stroke-width="8" stroke-linecap="round"/></svg>Thicker = larger reported payment</div>
+    <p class="note">Hover a dot or a line for details. Click to pin; click empty space to unpin. Drag dots to tidy.</p>
+  </aside>
+  <section class="graph">
+    <svg id="svg" role="img" aria-label="Network of listed entities, clean intermediaries, lobbying firms and governments"></svg>
+    <div class="status" id="status"></div>
+  </section>
+  <aside class="info" id="info"></aside>
+</div>
+<script>
+const DATA = {"nodes": [{"id": "org:hikvision", "label": "Hangzhou Hikvision Digital Technology Co., Ltd.", "type": "listed_entity", "country": "CN", "listed": [{"list": "US BIS Entity List", "date": "2019-10-09", "dates_reported": ["2019-10-09", "2019"], "angles": ["fara-principals", "lda-foreign-entities", "ownership-bridges"], "note": ""}, {"list": "US NS-CMIC (EO13959)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-foreign-entities", "lda-known-listed"], "note": "confirmed by lda-foreign-entities and lda-known-listed against the consolidated CSL; fara-principals could not confirm it in its trade-CSL extract"}], "aliases": ["Hangzhou Hikvision Digital Technology", "Hangzhou Hikvision Digital Technology Co."], "note": "[lda-foreign-entities] BIS Entity List (84 FR 54002; 85 FR 44159); also CMIC-EO13959 [fara-principals] CMIC/EO13959 designation NOT confirmed in this pass; date corrected from 'n/a'", "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed", "ownership-bridges"]}, {"id": "org:cetc", "label": "China Electronics Technology Group Co. (CETC)", "type": "listed_entity", "country": "CN", "listed": [{"list": "US NS-CMIC (EO13959)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-foreign-entities"], "note": ""}], "aliases": [], "note": "[lda-foreign-entities] CMIC-EO13959 (BIS non-SDN Chinese military-industrial complex list) only; CETC's own top-level entry is not separately on the BIS Entity List (several of its numbered research institutes are, individually)", "angles": ["lda-foreign-entities"]}, {"id": "org:hikvision_usa", "label": "Hikvision USA, Inc.", "type": "intermediary", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] clean subsidiary/LDA client [fara-principals] From prior team wave [ownership-bridges] LDA/FARA client of record; not itself listed", "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed", "ownership-bridges"]}, {"id": "firm:elevation_association", "label": "The Elevation Association, LLC", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] LDA registrant", "angles": ["lda-foreign-entities"]}, {"id": "org:huawei", "label": "Huawei Technologies Co., Ltd.", "type": "listed_entity", "country": "CN", "listed": [{"list": "US BIS Entity List", "date": "2019-05-21", "dates_reported": ["2019-05-21"], "angles": ["fara-principals", "lda-foreign-entities"], "note": ""}], "aliases": [], "note": "[lda-foreign-entities] BIS Entity List (84 FR 22963 et al.); the separate CSL entry \"Huawei Investment & Holding Co., Ltd.\" carries CMIC-EO13959, not this exact entity name [fara-principals] CMIC/EO13959 designation NOT confirmed in this pass; dropped", "angles": ["fara-principals", "lda-foreign-entities"]}, {"id": "org:huawei_technologies_usa", "label": "Huawei Technologies USA, Inc.", "type": "intermediary", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] clean subsidiary/LDA client", "angles": ["lda-foreign-entities"]}, {"id": "org:futurewei", "label": "Futurewei Technologies, Inc.", "type": "intermediary", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] clean subsidiary; also its own in-house registrant [fara-principals] Huawei's US R&D subsidiary; the actual FARA client of record", "angles": ["fara-principals", "lda-foreign-entities"]}, {"id": "firm:squire_patton_boggs", "label": "Squire Patton Boggs", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] LDA registrant for Huawei USA and DJI Technology [fara-principals] FARA registrant for Futurewei, 2023", "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed"]}, {"id": "org:dji", "label": "SZ DJI Technology Co., Ltd. (DJI)", "type": "listed_entity", "country": "CN", "listed": [{"list": "US BIS Entity List", "date": "2020-12-18", "dates_reported": ["2020-12-18"], "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed"], "note": ""}, {"list": "US NS-CMIC (EO13959)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-foreign-entities"], "note": ""}], "aliases": ["DJI (SZ DJI Technology Co / DJI group)", "DJI (SZ DJI Technology Co., Ltd.)", "SZ DJI Technology Co., Ltd."], "note": "[lda-foreign-entities] BIS Entity List (as alias \"DJI\") and separately CMIC-EO13959 [lda-known-listed] Confirmed via team sanctions checker (100.0 match).", "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed"]}, {"id": "org:dji_technology_inc", "label": "DJI Technology, Inc. (US)", "type": "intermediary", "country": "US", "listed": [], "aliases": ["DJI Technology (LDA client)", "DJI Technology, Inc."], "note": "[lda-foreign-entities] name closely matches listed parent's own name; role as clean vs. same-entity is unresolved [lda-known-listed] Files LDA disclosures naming DJI parent entities as foreign entities, continuing after 2020 listing. [fara-principals] US subsidiary; FARA client of record. Filing discloses parent foreign entities as DJI Company Limited, DJI International Company Limited, DJI Europe B.V., iFlight Technology Company Limited, Wangdragona Inc., Wang Tao; none literally matches the BIS Entity List name/aliases for the sanctioned Shenzhen operating company", "angles": ["fara-principals", "lda-foreign-entities", "lda-known-listed"]}, {"id": "org:arctic_lng_2", "label": "LLC Arctic LNG 2", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "2023-11-02", "dates_reported": ["2023-11-02", "n/a"], "angles": ["fara-principals", "lda-foreign-entities"], "note": "EO 14024"}, {"list": "UK Sanctions List", "date": "2024-02-22", "dates_reported": ["2024-02-22"], "angles": ["fara-principals"], "note": ""}], "aliases": [], "note": "[lda-foreign-entities] SDN list, RUSSIA-EO14024/UKRAINE-EO13662; filed directly, no clean intermediary [fara-principals] Files FARA directly as its own client", "angles": ["fara-principals", "lda-foreign-entities"]}, {"id": "org:novatek", "label": "Novatek (OAO Novatek)", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SSI (sectoral, EO13662)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-foreign-entities"], "note": "verifiers differ on the directive (Directive 2 vs Directive 4); either way a sectoral debt/equity restriction, not a full block"}, {"list": "US-OFAC SSI List (Directive 2)", "date": "2014-09-12", "dates_reported": ["2014-09-12"], "angles": ["fara-principals"], "note": "EO 13662; restricts new debt >90-day maturity only, no blocking/equity prohibition; NOT an SDN listing"}], "aliases": ["Novatek (Joint Stock Company)"], "note": "[lda-foreign-entities] matches CSL entry \"OAO NOVATEK\" (alias \"Novatek\"), UKRAINE-EO13662 sectoral (Directive 4 SSI, not a full block); disclosed as affiliated org [fara-principals] 60% owner of Arctic LNG 2; also named as represented interest by Union of Oil and Gas Producers Russia at 0% disclosed ownership", "angles": ["fara-principals", "lda-foreign-entities"]}, {"id": "firm:scarinci_hollenbeck", "label": "Scarinci & Hollenbeck, LLC", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[lda-foreign-entities] LDA registrant for Arctic LNG 2 [fara-principals] FARA registrant for Arctic LNG 2", "angles": ["fara-principals", "lda-foreign-entities"]}, {"id": "gov:us_congress", "label": "US Congress / federal agencies", "type": "government", "country": "US", "listed": [], "aliases": ["US Congress / Executive Branch (lobbying targets)", "US Congress / federal agencies (Commerce, BIS)"], "note": "[lda-foreign-entities] lobbied entities named in LDA general_issue_code targets [associations-thinktanks] Target of export-control lobbying", "angles": ["associations-thinktanks", "fara-principals", "lda-foreign-entities"]}, {"id": "assoc:small_uav_coalition", "label": "Small UAV Coalition", "type": "association", "country": "US", "listed": [], "aliases": [], "note": "[lda-known-listed] Trade coalition, 2014-2017 filings name DJI as foreign entity.", "angles": ["lda-known-listed"]}, {"id": "assoc:drone_mfrs_alliance", "label": "Drone Manufacturers Alliance", "type": "association", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "assoc:alliance_drone_innovation", "label": "Alliance for Drone Innovation", "type": "association", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:akin_gump", "label": "Akin Gump Strauss Hauer & Feld", "type": "lobby_firm", "country": "US", "listed": [], "aliases": ["Akin Gump (on behalf of SMIC)"], "note": "[ownership-bridges] LDA client name literally 'Akin Gump on behalf of SMIC' [associations-thinktanks] Registered directly for SMIC 2020-Q3 through at least 2022-Q1; separately for USCBC 2022-Q1 through 2026-Q1 (terminated)", "angles": ["associations-thinktanks", "lda-known-listed", "ownership-bridges"]}, {"id": "firm:avoq", "label": "AVOQ, LLC", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:porter_wright", "label": "Porter Wright Morris & Arthur LLP", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["fara-principals", "lda-known-listed"]}, {"id": "org:sberbank", "label": "Sberbank of Russia", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-known-listed"], "note": ""}], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "org:sberbank_cib_usa", "label": "Sberbank CIB USA, Inc.", "type": "intermediary", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:madison_group", "label": "The Madison Group", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:podesta_group", "label": "Podesta Group, Inc.", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "org:gazprom", "label": "Gazprom (PJSC)", "type": "listed_entity", "country": "RU", "listed": [{"list": "US BIS Entity List", "date": "2014-09-17", "dates_reported": ["2014-09-17"], "angles": ["eu-uk-registers", "lda-known-listed"], "note": ""}, {"list": "US OFAC Russia programs (EO13662/EO14024)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["eu-uk-registers"], "note": ""}], "aliases": [], "note": "[eu-uk-registers] Confirmed via sanctions.check: 100% match, 'Gazprom, OAO' (BIS Entity List, 2014-09-17) and 'Public Joint Stock Company Gazprom' (alias 'Gazprom PAO'). Also registers directly (in-house) as an EU lobbyist, not via a proxy.", "angles": ["eu-uk-registers", "lda-known-listed"]}, {"id": "org:nord_stream_2", "label": "Nord Stream 2 AG", "type": "intermediary", "country": "CH", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:capitol_counsel", "label": "Capitol Counsel LLC", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[associations-thinktanks] LDA registration (Q4 2020) discloses SMIC as foreign entity behind Akin Gump; terminated 2021-04-01", "angles": ["associations-thinktanks", "lda-known-listed"]}, {"id": "firm:roberti_global", "label": "Roberti Global (fka Roberti White)", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "gov:russian_federation", "label": "Government of the Russian Federation", "type": "government", "country": "RU", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "org:vtb_bank", "label": "VTB Bank", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-known-listed"], "note": ""}], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "firm:manatos_manatos", "label": "Manatos & Manatos", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "gov:russia_finance_ministry", "label": "Ministry of Finance of the Russian Federation", "type": "government", "country": "RU", "listed": [], "aliases": [], "note": "", "angles": ["lda-known-listed"]}, {"id": "org:rusal", "label": "United Company RUSAL", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "2018-04-06 (delisted 2019-01)", "dates_reported": ["2018-04-06 (delisted 2019-01)", "2018"], "angles": ["lda-known-listed", "ownership-bridges"], "note": ""}], "aliases": ["United Company Rusal"], "note": "[ownership-bridges] Zero LDA filings under its own name (confirmed, climate-day/ideas/lobbying/rusal-en-plus-delisting.md); UK 2023 relisting not independently reconciled this pass", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "org:en_plus", "label": "En+ Group PLC", "type": "intermediary", "country": "JE/RU", "listed": [], "aliases": ["En+ Group"], "note": "[ownership-bridges] Majority/controlling shareholder of Rusal; not itself sanctioned", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "firm:mercury_public_affairs", "label": "Mercury Public Affairs", "type": "lobby_firm", "country": "US", "listed": [], "aliases": ["Mercury Public Affairs, LLC"], "note": "[ownership-bridges] FARA reg #6170, client En+ Group; fee cut to $54,250/mo from 1/1/2020, terminated 2/24/2022", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "firm:dci_group", "label": "DCI Group", "type": "lobby_firm", "country": "US", "listed": [], "aliases": ["DCI Group, L.L.C."], "note": "[ownership-bridges] LDA registrant for En+ Group, 2021-2025; no filings found after the Q1 2025 filing; current status as of 2026 unconfirmed", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "org:lukoil", "label": "PAO LUKOIL", "type": "listed_entity", "country": "RU", "listed": [{"list": "EU/UK sanctions", "date": "2025", "dates_reported": ["2025"], "angles": ["lda-known-listed"], "note": ""}, {"list": "US OFAC SDN", "date": "2025", "dates_reported": ["2025"], "angles": ["ownership-bridges"], "note": ""}], "aliases": ["Lukoil"], "note": "", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "gov:bulgaria", "label": "Government of Bulgaria", "type": "government", "country": "BG", "listed": [], "aliases": [], "note": "[ownership-bridges] Secured EU Druzhba/seaborne-crude derogation for Lukoil-owned refinery; denies lobbying \"for Lukoil\" per same source", "angles": ["lda-known-listed", "ownership-bridges"]}, {"id": "firm:sidley_austin", "label": "Sidley Austin LLP", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[fara-principals] Also FARA/LDA agent for Hikvision USA (prior team wave) [ownership-bridges] LDA registrant + FARA reg #3731 for Hikvision USA (FARA dollar figure not independently verified this pass)", "angles": ["fara-principals", "lda-known-listed", "ownership-bridges"]}, {"id": "org:smic", "label": "SMIC (Semiconductor Manufacturing International Corp)", "type": "listed_entity", "country": "CN", "listed": [{"list": "US NS-CMIC (EO13959)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["lda-known-listed"], "note": ""}, {"list": "US BIS Entity List", "date": "2020-12", "dates_reported": ["2020-12", "2020"], "angles": ["associations-thinktanks", "ownership-bridges"], "note": ""}], "aliases": ["Semiconductor Manufacturing International Corp", "Semiconductor Manufacturing International Corp (SMIC)"], "note": "[associations-thinktanks] Added to BIS Entity List, Federal Register 2020-28031, published 2020-12-22", "angles": ["associations-thinktanks", "lda-known-listed", "ownership-bridges"]}, {"id": "org:union_oil_gas_ru", "label": "Union of Oil and Gas Producers Russia", "type": "association", "country": "RU", "listed": [], "aliases": [], "note": "[fara-principals] Russian trade association; discloses Novatek as represented foreign entity at 0% ownership", "angles": ["fara-principals"]}, {"id": "firm:qorvis_geopols", "label": "Qorvis Holding Inc - GeoPols", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "[fara-principals] FARA registrant for Union of Oil and Gas Producers Russia", "angles": ["fara-principals"]}, {"id": "firm:liberty_gov_affairs", "label": "Liberty Government Affairs", "type": "lobby_firm", "country": "US", "listed": [], "aliases": [], "note": "", "angles": ["fara-principals"]}, {"id": "org:neftochim_burgas", "label": "LUKOIL Neftohim Burgas", "type": "intermediary", "country": "BG", "listed": [], "aliases": [], "note": "[ownership-bridges] Refinery beneficiary of EU sanctions derogation", "angles": ["ownership-bridges"]}, {"id": "org:nayara_energy", "label": "Nayara Energy Limited", "type": "listed_entity", "country": "IN", "listed": [{"list": "EU sanctions", "date": "2025", "dates_reported": ["2025"], "angles": ["ownership-bridges"], "note": ""}], "aliases": [], "note": "", "angles": ["ownership-bridges"]}, {"id": "org:rosneft", "label": "Rosneft", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "2014", "dates_reported": ["2014"], "angles": ["ownership-bridges"], "note": "2014 date as reported by ownership-bridges; not re-verified in this merge (2014 US action on Rosneft was a sectoral SSI listing)"}], "aliases": [], "note": "[ownership-bridges] Reported ~49% Nayara stake (public reporting)", "angles": ["ownership-bridges"]}, {"id": "assoc:uscbc", "label": "US-China Business Council", "type": "association", "country": "US", "listed": [], "aliases": [], "note": "[associations-thinktanks] Trade association; Akin Gump registered lobbyist on export controls/PNTR, 2022-Q1 to 2026-Q1", "angles": ["associations-thinktanks"]}, {"id": "org:alrosa", "label": "Alrosa", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC SDN", "date": "2022-04", "dates_reported": ["2022-04"], "angles": ["associations-thinktanks"], "note": ""}, {"list": "EU sanctions", "date": "2024-01", "dates_reported": ["2024-01"], "angles": ["associations-thinktanks"], "note": ""}], "aliases": [], "note": "[associations-thinktanks] State-controlled diamond miner; UK-list claim dropped, unverified", "angles": ["associations-thinktanks"]}, {"id": "assoc:awdc", "label": "Antwerp World Diamond Centre", "type": "association", "country": "BE", "listed": [], "aliases": [], "note": "[associations-thinktanks] Belgian diamond-trade association; announced renewed Alrosa agreement Apr 2022", "angles": ["associations-thinktanks"]}, {"id": "gov:eu", "label": "European Union institutions", "type": "government", "country": "EU", "listed": [], "aliases": [], "note": "[associations-thinktanks] Target of AWDC's anti-diamond-sanctions lobbying, 2022", "angles": ["associations-thinktanks"]}, {"id": "org:nord_stream_ag", "label": "Nord Stream AG", "type": "intermediary", "country": "CH", "listed": [], "aliases": [], "note": "[eu-uk-registers] AALEP names 'Nord Stream AG' (Sass Consulting) and 'Nord Stream' (Brunswick, unqualified). This is a distinct Swiss-registered company from 'Nord Stream 2 AG' (US PEESA-EO14039/EO14024). sanctions.check found only a 91.7% fuzzy match to Nord Stream 2 AG, itself flagged 'not a finding of wrongdoing'; not confirmed as the same or as separately listed on the US/UK lists checked this pass.", "angles": ["eu-uk-registers"]}, {"id": "org:jsc_russian_railways", "label": "JSC Russian Railways", "type": "listed_entity", "country": "RU", "listed": [{"list": "UK Sanctions List", "date": "2022-03-24", "dates_reported": ["2022-03-24"], "angles": ["eu-uk-registers"], "note": ""}, {"list": "US OFAC Russia programs (EO13662/EO14024)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["eu-uk-registers"], "note": ""}], "aliases": [], "note": "[eu-uk-registers] Confirmed via sanctions.check: 100% match, UK list (RUS1084) and US consolidated (alias 'JSC Russian Railways').", "angles": ["eu-uk-registers"]}, {"id": "org:jsc_rusatom_overseas", "label": "JSC Rusatom Overseas", "type": "listed_entity", "country": "RU", "listed": [{"list": "US OFAC Russia programs (EO13662/EO14024)", "date": "n/a", "dates_reported": ["n/a"], "angles": ["eu-uk-registers"], "note": ""}, {"list": "UK Sanctions List", "date": "2026-02-24", "dates_reported": ["2026-02-24"], "angles": ["eu-uk-registers"], "note": ""}], "aliases": [], "note": "[eu-uk-registers] CORRECTED: sanctions.check finds 100% match on both US consolidated (RUSATOM OVERSEAS JOINT STOCK COMPANY, alias 'RUSATOM OVERSEAS JSC') and UK list (RUS3421, listed 2026-02-24). Previous pass reported this as unmatched.", "angles": ["eu-uk-registers"]}, {"id": "org:gazprom_ep_international", "label": "Gazprom EP International", "type": "intermediary", "country": "NL", "listed": [], "aliases": [], "note": "[eu-uk-registers] Described in Bell Pottinger's own EU Transparency Register entry as 'a subsidiary of Gazprom'. sanctions.check finds only an 83.7% fuzzy match (different entity, 'Gazprom Neft International SA'); not itself confirmed listed.", "angles": ["eu-uk-registers"]}, {"id": "firm:sass_consulting_ag", "label": "Sass Consulting AG", "type": "lobby_firm", "country": "CH", "listed": [], "aliases": [], "note": "[eu-uk-registers] Owner/Director Sebastian Sass, per EU Transparency Register entry (confirmed in aalep.eu extract).", "angles": ["eu-uk-registers"]}, {"id": "firm:brunswick_group", "label": "Brunswick Group LLP", "type": "lobby_firm", "country": "GB", "listed": [], "aliases": [], "note": "[eu-uk-registers] EU relations lead named as Philippe Blanchard, Managing Partner, per register entry (confirmed in aalep.eu extract).", "angles": ["eu-uk-registers"]}, {"id": "firm:bell_pottinger", "label": "Bell Pottinger LLP", "type": "lobby_firm", "country": "GB", "listed": [], "aliases": [], "note": "[eu-uk-registers] Client relationship Oct-Dec 2015 per register entry (confirmed in aalep.eu extract).", "angles": ["eu-uk-registers"]}, {"id": "org:phosagro", "label": "PhosAgro", "type": "intermediary", "country": "RU", "listed": [], "aliases": [], "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.", "angles": ["eu-uk-registers"]}, {"id": "org:acron", "label": "Acron", "type": "intermediary", "country": "RU", "listed": [], "aliases": [], "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.", "angles": ["eu-uk-registers"]}, {"id": "firm:rumyantsev_partners", "label": "Rumyantsev & Partners", "type": "lobby_firm", "country": "RU", "listed": [], "aliases": [], "note": "[eu-uk-registers] Deregistered from EU Transparency Register per ftm.eu (confirmed in extract). sanctions.check: no match above threshold.", "angles": ["eu-uk-registers"]}, {"id": "gov:european_parliament", "label": "European Parliament", "type": "government", "country": "EU", "listed": [], "aliases": [], "note": "", "angles": ["eu-uk-registers"]}], "edges": [{"id": "org:hikvision|foreign_entity_of|org:hikvision_usa", "source": "org:hikvision", "target": "org:hikvision_usa", "type": "foreign_entity_of", "amount": "573618.62 (one period)", "amount_usd_max": null, "period": "2022-Q2 | 2018-2025", "issue": "export controls/homeland security/science-tech | export controls, homeland security", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}, {"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live against lda.senate.gov API 2026-09-25)", "[lda-known-listed] efile.fara.gov reg 3731; prior team research: chinese-entity-list-firms.md"]}, {"id": "org:cetc|foreign_entity_of|org:hikvision_usa", "source": "org:cetc", "target": "org:hikvision_usa", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2022-Q2", "issue": "export controls/homeland security/science-tech", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live); foreign entity name \"China Electronics Technology Group Co., Ltd (a wholly state-owned Chinese company)\" matches CSL entry \"China Electronics Technology Group Corporation\" (alias CETC), CMIC-EO13959"]}, {"id": "org:hikvision_usa|client_of|firm:elevation_association", "source": "org:hikvision_usa", "target": "firm:elevation_association", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2022-Q2", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live)"]}, {"id": "firm:elevation_association|lobbied|gov:us_congress", "source": "firm:elevation_association", "target": "gov:us_congress", "type": "lobbied", "amount": "", "amount_usd_max": null, "period": "2022-Q2", "issue": "DEF, FOR, HOM, INT, SCI", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 5929b87d-2cee-4128-9aa5-abc35980cd13 (verified live)"]}, {"id": "org:huawei|foreign_entity_of|org:futurewei", "source": "org:huawei", "target": "org:futurewei", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2022-Q3", "issue": "COM, CPI, CPT, HOM, SCI, TEC, TRD", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing e7429017-7938-42b7-9d37-4dd2da5b4a04 (verified live)"]}, {"id": "org:futurewei|lobbied|gov:us_congress", "source": "org:futurewei", "target": "gov:us_congress", "type": "lobbied", "amount": "", "amount_usd_max": null, "period": "2022-Q3", "issue": "COM, CPI, CPT, HOM, SCI, TEC, TRD", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing e7429017-7938-42b7-9d37-4dd2da5b4a04 (verified live)"]}, {"id": "org:huawei|foreign_entity_of|org:huawei_technologies_usa", "source": "org:huawei", "target": "org:huawei_technologies_usa", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2022-Q1", "issue": "COM, HOM, TEC, TRD", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filings 2b98c14b-82a7-48d0-9c9d-fd2d3950a316 / f0290a38-0288-461d-aab5-61435f2cb557 (both verified live)"]}, {"id": "org:huawei_technologies_usa|client_of|firm:squire_patton_boggs", "source": "org:huawei_technologies_usa", "target": "firm:squire_patton_boggs", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2022-Q1", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filings 2b98c14b-82a7-48d0-9c9d-fd2d3950a316 / f0290a38-0288-461d-aab5-61435f2cb557 (both verified live)"]}, {"id": "org:dji|foreign_entity_of|org:dji_technology_inc", "source": "org:dji", "target": "org:dji_technology_inc", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2021-Q1 | 2016-2024", "issue": "SCI | drone/UAV regulation, export controls", "evidence": "Lead", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Lead"}, {"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": true, "source_ref": ["[lda-foreign-entities] LDA filing 1bf15c20-f57c-45f8-87be-1729b884f3c3 (verified live) -- disclosed foreign entities are \"DJI Company Limited\"/\"DJI International Company Limited\", not \"SZ DJI Technology Co., Ltd.\" verbatim; \"DJI Company Limited\" only matches the BIS Entity List row via its short alias \"DJI\" (not an exact alt-name hit), and the client's own name (\"DJI Technology\") closely resembles the listed entity's name -- kept as Lead, not Documented", "[lda-known-listed] lda.senate.gov filings API, client_name=DJI TECHNOLOGY (fe: DJI International Co Ltd, DJI Company Ltd, DJI Europe B.V., iFlight Technology Co Ltd)"]}, {"id": "org:dji_technology_inc|client_of|firm:squire_patton_boggs", "source": "org:dji_technology_inc", "target": "firm:squire_patton_boggs", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2021-Q1 | 2021-2022", "issue": "drone regulation", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}, {"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 1bf15c20-f57c-45f8-87be-1729b884f3c3 (verified live)", "[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2021 Q1, 2022 Q1)"]}, {"id": "org:arctic_lng_2|client_of|firm:scarinci_hollenbeck", "source": "org:arctic_lng_2", "target": "firm:scarinci_hollenbeck", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2023-Q1 | 2023 (effective 2023-02-17)", "issue": "ENG, TRD | Export of gas turbines", "evidence": "Documented", "evidence_votes": [{"angle": "lda-foreign-entities", "evidence": "Documented"}, {"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-foreign-entities] LDA filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08 (verified live) -- note: listed entity filed as client directly, no clean intermediary observed here", "[fara-principals] lda.senate.gov filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08"]}, {"id": "org:dji_technology_inc|client_of|firm:avoq", "source": "org:dji_technology_inc", "target": "firm:avoq", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2023", "issue": "drone regulation", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2023 Q3)"]}, {"id": "org:dji_technology_inc|client_of|firm:porter_wright", "source": "org:dji_technology_inc", "target": "firm:porter_wright", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2024 | 2024-03 (effective 2024-03-19)", "issue": "drone regulation", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API, foreign_entity_name=DJI (2024 Q1)", "[fara-principals] lda.senate.gov filing c2c08c25-46cb-420d-9e82-a0b284a31d3e"]}, {"id": "org:dji|funds|assoc:small_uav_coalition", "source": "org:dji", "target": "assoc:small_uav_coalition", "type": "funds", "amount": "", "amount_usd_max": null, "period": "2014-2017", "issue": "UAV rulemaking", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, client=Small UAV Coalition, registrant=Akin Gump/McGuireWoods, fe=DJI"]}, {"id": "assoc:small_uav_coalition|client_of|firm:akin_gump", "source": "assoc:small_uav_coalition", "target": "firm:akin_gump", "type": "client_of", "amount": "230000", "amount_usd_max": 230000.0, "period": "2016 Q1", "issue": "UAV rulemaking", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API"]}, {"id": "org:dji|funds|assoc:drone_mfrs_alliance", "source": "org:dji", "target": "assoc:drone_mfrs_alliance", "type": "funds", "amount": "", "amount_usd_max": null, "period": "2016", "issue": "drone rules", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, registrant=Franklin Square Group"]}, {"id": "org:dji|funds|assoc:alliance_drone_innovation", "source": "org:dji", "target": "assoc:alliance_drone_innovation", "type": "funds", "amount": "", "amount_usd_max": null, "period": "2018", "issue": "drone rules", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, registrant=Thorn Run Partners"]}, {"id": "org:sberbank|foreign_entity_of|org:sberbank_cib_usa", "source": "org:sberbank", "target": "org:sberbank_cib_usa", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2016", "issue": "financial services/sanctions-adjacent", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, fe=Sberbank of Russia, Troika Dialog Group Ltd, SBGB Cyprus Ltd, SB International S.a.r.l."]}, {"id": "org:sberbank_cib_usa|client_of|firm:madison_group", "source": "org:sberbank_cib_usa", "target": "firm:madison_group", "type": "client_of", "amount": "50000-105000", "amount_usd_max": 105000.0, "period": "2016-2017", "issue": "financial services", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API (2016 Q1-Q4, 2017 Q1)"]}, {"id": "org:sberbank_cib_usa|client_of|firm:podesta_group", "source": "org:sberbank_cib_usa", "target": "firm:podesta_group", "type": "client_of", "amount": "20000-110000", "amount_usd_max": 110000.0, "period": "2016 Q1-Q3", "issue": "financial services", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API"]}, {"id": "org:nord_stream_2|subsidiary_of|org:gazprom", "source": "org:nord_stream_2", "target": "org:gazprom", "type": "subsidiary_of", "amount": "50% of NS2 operating budget", "amount_usd_max": null, "period": "2017 Q3", "issue": "pipeline/energy policy", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, fe=Public Joint Stock Company Gazprom (Roberti Global filing)"]}, {"id": "gov:russian_federation|owns|org:gazprom", "source": "gov:russian_federation", "target": "org:gazprom", "type": "owns", "amount": "38% ownership", "amount_usd_max": null, "period": "2017 Q3", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, fe disclosure text"]}, {"id": "org:nord_stream_2|client_of|firm:capitol_counsel", "source": "org:nord_stream_2", "target": "firm:capitol_counsel", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2017 Q3", "issue": "pipeline permitting", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API"]}, {"id": "org:nord_stream_2|client_of|firm:roberti_global", "source": "org:nord_stream_2", "target": "firm:roberti_global", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2017 Q3", "issue": "pipeline permitting", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API"]}, {"id": "org:vtb_bank|client_of|firm:manatos_manatos", "source": "org:vtb_bank", "target": "firm:manatos_manatos", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2015-2018", "issue": "banking/finance", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings API (continuous 2015 Q2-2018 Q2)"]}, {"id": "gov:russia_finance_ministry|foreign_entity_of|org:vtb_bank", "source": "gov:russia_finance_ministry", "target": "org:vtb_bank", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2015", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filings, fe=Ministry of Finance of the Russian Federation"]}, {"id": "org:en_plus|owns|org:rusal", "source": "org:en_plus", "target": "org:rusal", "type": "owns", "amount": "reported ~48%-57% stake (varies by year/source)", "amount_usd_max": null, "period": "2019-2025", "issue": "aluminum tariffs/trade", "evidence": "Lead", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "ownership-bridges", "evidence": "Lead"}], "verifier_conflict": true, "source_ref": ["[lda-known-listed] prior team research: rusal-en-plus-delisting.md", "[ownership-bridges] public reporting (En+ Group annual report/prospectus); not confirmed via an official record"]}, {"id": "org:en_plus|client_of|firm:mercury_public_affairs", "source": "org:en_plus", "target": "firm:mercury_public_affairs", "type": "client_of", "amount": "108500 then 54250/month | $108,500/month (2/2019-12/2019), reduced to $54,250/month from 1/1/2020", "amount_usd_max": 108500.0, "period": "2019-2022 | 2019-02 to 2022-02-24", "issue": "aluminum trade | foreign principal representation", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "ownership-bridges", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] efile.fara.gov reg 6170", "[ownership-bridges] efile.fara.gov reg 6170, Exhibit AB 20200316-80; fee cut and termination per climate-day/ideas/lobbying/rusal-en-plus-delisting.md, cross-checked in _checks.md"]}, {"id": "org:en_plus|client_of|firm:dci_group", "source": "org:en_plus", "target": "firm:dci_group", "type": "client_of", "amount": "10000-40000/quarter | $10,000-$40,000/qtr", "amount_usd_max": 40000.0, "period": "2021-2025 | 2021-Q2 to 2025-Q1", "issue": "low-carbon aluminum, Section 232 tariffs | low-carbon aluminum / Section 232 tariffs", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "ownership-bridges", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filing 016bd45e-bce1-4a61-8537-0e0daabdf056", "[ownership-bridges] lda.senate.gov filing 016bd45e-bce1-4a61-8537-0e0daabdf056; confirmed in _checks.md against lda_raw/combo_q0.json"]}, {"id": "gov:bulgaria|lobbies_for|org:lukoil", "source": "gov:bulgaria", "target": "org:lukoil", "type": "lobbies_for", "amount": "", "amount_usd_max": null, "period": "2022-2025", "issue": "EU sanctions exemption for Neftochim Burgas refinery", "evidence": "Lead", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] politico.eu, prior team research: oil-majors.md (Bulgaria denied acting for Lukoil)"]}, {"id": "org:hikvision_usa|client_of|firm:sidley_austin", "source": "org:hikvision_usa", "target": "firm:sidley_austin", "type": "client_of", "amount": "500000/quarter (peak) | $573,618.62 (as reported; PDF unreadable via automated extraction this pass; amount unverified) | $500,000/qtr", "amount_usd_max": 500000.0, "period": "2018-2021 | through 04/2025 | 2018Q1-2021Q1", "issue": "export controls | export controls / FARA foreign-agent representation | export controls, foreign relations, homeland security", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "fara-principals", "evidence": "Documented"}, {"angle": "ownership-bridges", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] lda.senate.gov filing 98f3217a-5f02-4c9f-8803-e80213fe5d0b", "[fara-principals] FARA reg #3731, efile.fara.gov/docs/3731-Supplemental-Statement-20250430-53.pdf; foreign principal of record is 'Hikvision USA, Inc.' itself", "[ownership-bridges] lda.senate.gov filing 98f3217a-5f02-4c9f-8803-e80213fe5d0b; confirmed against local LDA JSON per climate-day/ideas/lobbying/_checks.md (chinese-entity-list-firms)"]}, {"id": "org:smic|client_of|firm:akin_gump", "source": "org:smic", "target": "firm:akin_gump", "type": "client_of", "amount": "50000-140000/quarter | $50,000-$140,000/qtr", "amount_usd_max": 140000.0, "period": "2020-2022 | 2020-Q3 through 2022-Q1 (last filing observed; no termination captured)", "issue": "semiconductor export eligibility | export control eligibility for US-origin semiconductor goods | Export control eligibility for US-origin semiconductor goods", "evidence": "Documented", "evidence_votes": [{"angle": "lda-known-listed", "evidence": "Documented"}, {"angle": "ownership-bridges", "evidence": "Documented"}, {"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[lda-known-listed] prior team research: chinese-entity-list-firms.md", "[ownership-bridges] lda.senate.gov, client name 'AKIN GUMP ON BEHALF OF SEMICONDUCTOR MANUFACTURING INTERNATIONAL CORPORATION'; confirmed in _checks.md (chinese-entity-list-firms)", "[associations-thinktanks] lda.senate.gov filings API, saved smic2.json"]}, {"id": "org:novatek|owns|org:arctic_lng_2", "source": "org:novatek", "target": "org:arctic_lng_2", "type": "owns", "amount": "60% equity ownership", "amount_usd_max": null, "period": "2023 (effective 2023-02-17) | 2023-Q1", "issue": "ENG, TRD", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}, {"angle": "lda-foreign-entities", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08, foreign_entities[0]", "[lda-foreign-entities] LDA filing 94c50936-34e6-4f6f-b4fd-61fe518d8d08 (verified live)"]}, {"id": "org:union_oil_gas_ru|affiliated_with|org:novatek", "source": "org:union_oil_gas_ru", "target": "org:novatek", "type": "affiliated_with", "amount": "contribution $50,000 (orig.)/$24,000 (amended); 0% ownership disclosed", "amount_usd_max": 50000.0, "period": "2024 (effective 2024-12-16)", "issue": "represents member/foreign-entity interest", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filing 6ffc9525-2752-4b9f-953b-0340c438e6f3 (foreign entity misspelled 'NOVATECH' in this original filing) corrected by amendment f8516f8c-de77-4fd3-a320-8fa3208bbde2 ('NOVATEK (PUBLICLY TRADED COMPANY ON MOSCOW STOCK EXCHANGE)')"]}, {"id": "org:union_oil_gas_ru|client_of|firm:qorvis_geopols", "source": "org:union_oil_gas_ru", "target": "firm:qorvis_geopols", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2024 (effective 2024-12-16)", "issue": "LNG, sanctions compliance", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filings 6ffc9525-2752-4b9f-953b-0340c438e6f3, f8516f8c-de77-4fd3-a320-8fa3208bbde2"]}, {"id": "firm:qorvis_geopols|lobbied|gov:us_congress", "source": "firm:qorvis_geopols", "target": "gov:us_congress", "type": "lobbied", "amount": "", "amount_usd_max": null, "period": "2024", "issue": "LNG, sanctions compliance (issue codes ENG/CDT/FUE); no specific government_entities named in filing", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filings 6ffc9525-2752-4b9f-953b-0340c438e6f3, f8516f8c-de77-4fd3-a320-8fa3208bbde2, lobbying_activities[]"]}, {"id": "org:futurewei|subsidiary_of|org:huawei", "source": "org:futurewei", "target": "org:huawei", "type": "subsidiary_of", "amount": "~99.7% (Huawei Technologies Co., Ltd.) / 100% (Huawei Investment & Holding Co., Ltd.)", "amount_usd_max": null, "period": "2023-04-19 to 2024-01-22", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filings 100f4a85-3300-4e3a-b68b-3da44d32e2cf (2023), 2be92317-3bb6-44c3-adf5-261b8899428f (amendment), 7e5dda67-97fb-497e-b194-65b6bb0d68b4 (2024, self-registered)"]}, {"id": "org:futurewei|client_of|firm:squire_patton_boggs", "source": "org:futurewei", "target": "firm:squire_patton_boggs", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2023-04-19", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filing 100f4a85-3300-4e3a-b68b-3da44d32e2cf"]}, {"id": "org:dji_technology_inc|subsidiary_of|org:dji", "source": "org:dji_technology_inc", "target": "org:dji", "type": "subsidiary_of", "amount": "100% (DJI Co. Ltd/DJI Intl Co. Ltd/DJI Europe/iFlight); 44% Wangdragona Inc./Wang Tao per 4Q2024 report", "amount_usd_max": null, "period": "2024", "issue": "", "evidence": "Lead", "evidence_votes": [{"angle": "fara-principals", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filings c2c08c25-46cb-420d-9e82-a0b284a31d3e, 8b480092-2764-44c3-95c2-6a3e32598a2c, 58ceb53f-d2ff-49fb-a408-d95c4b08e850; disclosed foreign-entity names do not literally match BIS Entity List name/aliases for the sanctioned Shenzhen entity; corporate-chain identity not confirmed by an official record this pass"]}, {"id": "org:dji_technology_inc|client_of|firm:liberty_gov_affairs", "source": "org:dji_technology_inc", "target": "firm:liberty_gov_affairs", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2024-03 (effective 2024-03-19)", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filing 8b480092-2764-44c3-95c2-6a3e32598a2c"]}, {"id": "org:dji_technology_inc|client_of|firm:sidley_austin", "source": "org:dji_technology_inc", "target": "firm:sidley_austin", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2024-03 (effective 2024-03-19)", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "fara-principals", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[fara-principals] lda.senate.gov filing 3c0ed2d1-f087-4c77-8ce7-3c594d275d58, client=DJI TECHNOLOGY INC, registrant=SIDLEY AUSTIN LLP"]}, {"id": "org:hikvision_usa|subsidiary_of|org:hikvision", "source": "org:hikvision_usa", "target": "org:hikvision", "type": "subsidiary_of", "amount": "", "amount_usd_max": null, "period": "2018-2025", "issue": "", "evidence": "Lead", "evidence_votes": [{"angle": "fara-principals", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[fara-principals] C:/Projects/climate-day/ideas/lobbying/chinese-entity-list-firms.md; team's own research note, not an official corporate/regulatory record verified this pass"]}, {"id": "gov:bulgaria|lobbies_for|org:neftochim_burgas", "source": "gov:bulgaria", "target": "org:neftochim_burgas", "type": "lobbies_for", "amount": "", "amount_usd_max": null, "period": "", "issue": "EU seaborne-crude sanctions derogation", "evidence": "Lead", "evidence_votes": [{"angle": "ownership-bridges", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[ownership-bridges] politico.eu 'Russia's Lukoil struggle to escape the grip' (press reporting, not a lobbying-register filing); Sofia denies lobbying \"for Lukoil\" per same article; flagged CAN'T VERIFY in climate-day/ideas/lobbying/_checks.md (oil-majors)"]}, {"id": "org:nayara_energy|affiliated_with|org:rosneft", "source": "org:nayara_energy", "target": "org:rosneft", "type": "affiliated_with", "amount": "~49% reported stake", "amount_usd_max": null, "period": "", "issue": "", "evidence": "Lead", "evidence_votes": [{"angle": "ownership-bridges", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[ownership-bridges] public reporting"]}, {"id": "org:smic|foreign_entity_of|firm:capitol_counsel", "source": "org:smic", "target": "firm:capitol_counsel", "type": "foreign_entity_of", "amount": "", "amount_usd_max": null, "period": "2020-Q4 to 2021-Q2 (terminated 2021-04-01)", "issue": "Export control eligibility for US-origin semiconductor goods", "evidence": "Documented", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] lda.senate.gov filings API, client_name=SMIC, saved smic2.json; Capitol Counsel LLC registration filing (2020 Q4), foreign_entities field lists Semiconductor Manufacturing International Corporation, China"]}, {"id": "assoc:uscbc|client_of|firm:akin_gump", "source": "assoc:uscbc", "target": "firm:akin_gump", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2022-Q1 to 2026-Q1 (terminated)", "issue": "Export controls, Section 301 tariff exclusion process, outbound investment screening, permanent normal trade relations (PNTR) status", "evidence": "Documented", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] lda.senate.gov filings API, client_name='US-China Business Council', saved q1_uscbc.json"]}, {"id": "assoc:uscbc|lobbied|gov:us_congress", "source": "assoc:uscbc", "target": "gov:us_congress", "type": "lobbied", "amount": "", "amount_usd_max": null, "period": "2022-2026", "issue": "Export controls / PNTR status", "evidence": "Documented", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] q1_uscbc.json"]}, {"id": "org:smic|same_firm_overlap|assoc:uscbc", "source": "org:smic", "target": "assoc:uscbc", "type": "same_firm_overlap", "amount": "", "amount_usd_max": null, "period": "2020-2026 (SMIC engagement ends ~2022-Q1; USCBC engagement runs 2022-Q1 to 2026-Q1, essentially back-to-back, not years apart)", "issue": "Same firm serves listed entity and then, concurrently/immediately after, an adjacent clean trade association on overlapping export-control/China-trade issues", "evidence": "Lead", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] Inference from smic2.json + q1_uscbc.json; no funding link established"]}, {"id": "assoc:awdc|affiliated_with|org:alrosa", "source": "assoc:awdc", "target": "org:alrosa", "type": "affiliated_with", "amount": "", "amount_usd_max": null, "period": "2022-04", "issue": "Renewed AWDC-Alrosa trade agreement", "evidence": "Documented", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] Brussels Times, brusselstimes.com/207876"]}, {"id": "assoc:awdc|lobbied|gov:eu", "source": "assoc:awdc", "target": "gov:eu", "type": "lobbied", "amount": "", "amount_usd_max": null, "period": "2022-09", "issue": "Argued against including diamonds in Russia sanctions package (cited ~30% hit to Antwerp trade)", "evidence": "Documented", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] Reuters, reuters.com/article/ukraine-crisis-eu-sanctions-diamonds-idCAKBN2QQ0EL"]}, {"id": "assoc:awdc|lobbies_for|org:alrosa", "source": "assoc:awdc", "target": "org:alrosa", "type": "lobbies_for", "amount": "", "amount_usd_max": null, "period": "2022-09", "issue": "AWDC's anti-sanctions lobbying framed as protecting Antwerp trade, not explicitly framed as protecting Alrosa", "evidence": "Lead", "evidence_votes": [{"angle": "associations-thinktanks", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[associations-thinktanks] Inferred from timing of Reuters 2022-09 article vs Brussels Times 2022-04 partnership announcement"]}, {"id": "org:nord_stream_ag|client_of|firm:sass_consulting_ag", "source": "org:nord_stream_ag", "target": "firm:sass_consulting_ag", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "", "issue": "energy/pipeline interests", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "org:jsc_russian_railways|client_of|firm:sass_consulting_ag", "source": "org:jsc_russian_railways", "target": "firm:sass_consulting_ag", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "", "issue": "rail/transport interests", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "org:jsc_rusatom_overseas|client_of|firm:sass_consulting_ag", "source": "org:jsc_rusatom_overseas", "target": "firm:sass_consulting_ag", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "", "issue": "nuclear/energy interests", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "org:nord_stream_ag|client_of|firm:brunswick_group", "source": "org:nord_stream_ag", "target": "firm:brunswick_group", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "", "issue": "EU public/regulatory affairs (register text just says 'Nord Stream', unqualified; treated as Nord Stream AG per the fuller wording in the adjacent Sass Consulting entry of the same register)", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "firm:bell_pottinger|client_of|org:gazprom_ep_international", "source": "firm:bell_pottinger", "target": "org:gazprom_ep_international", "type": "client_of", "amount": "", "amount_usd_max": null, "period": "2015-10 to 2015-12", "issue": "natural resources, gas export, tariff setting, import quotas", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "org:gazprom_ep_international|subsidiary_of|org:gazprom", "source": "org:gazprom_ep_international", "target": "org:gazprom", "type": "subsidiary_of", "amount": "", "amount_usd_max": null, "period": "", "issue": "", "evidence": "Documented", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Documented"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.aalep.eu/russian-interest-representation-eu"]}, {"id": "gov:european_parliament|proposed_deregistration_of|org:phosagro", "source": "gov:european_parliament", "target": "org:phosagro", "type": "proposed_deregistration_of", "amount": "", "amount_usd_max": null, "period": "2022", "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered", "evidence": "Lead", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"]}, {"id": "gov:european_parliament|proposed_deregistration_of|org:acron", "source": "gov:european_parliament", "target": "org:acron", "type": "proposed_deregistration_of", "amount": "", "amount_usd_max": null, "period": "2022", "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered", "evidence": "Lead", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"]}, {"id": "gov:european_parliament|proposed_deregistration_of|firm:rumyantsev_partners", "source": "gov:european_parliament", "target": "firm:rumyantsev_partners", "type": "proposed_deregistration_of", "amount": "", "amount_usd_max": null, "period": "2022", "issue": "MEP Katarina Barley proposed EU Transparency Register suspension of Russian-HQ registrants; register now shows this org deregistered", "evidence": "Lead", "evidence_votes": [{"angle": "eu-uk-registers", "evidence": "Lead"}], "verifier_conflict": false, "source_ref": ["[eu-uk-registers] https://www.ftm.eu/articles/european-parliament-ban-russian-lobbyists-france-not-cooperating"]}]};
+(function(){
+"use strict";
+const NS = "http://www.w3.org/2000/svg";
+const COUNTRY = {CN:"China",RU:"Russia",IN:"India",US:"United States",CH:"Switzerland",NL:"Netherlands",BE:"Belgium",BG:"Bulgaria",GB:"United Kingdom",EU:"European Union","JE/RU":"Jersey / Russia",DE:"Germany"};
+const TYPE_NAME = {listed_entity:"Listed entity",intermediary:"Clean intermediary",association:"Trade association",lobby_firm:"Lobbying / law firm",government:"Government",person:"Person (listed)"};
+const SHORT = {"org:smic":"SMIC","org:hikvision":"Hangzhou Hikvision","org:dji":"SZ DJI Technology","org:dji_technology_inc":"DJI Technology Inc. (US)","org:huawei":"Huawei Technologies","org:huawei_technologies_usa":"Huawei Technologies USA","org:cetc":"CETC (state-owned)","gov:us_congress":"US Congress / agencies","gov:russia_finance_ministry":"Russian Ministry of Finance","gov:russian_federation":"Russian Government","firm:akin_gump":"Akin Gump","firm:porter_wright":"Porter Wright","firm:qorvis_geopols":"Qorvis GeoPols","org:union_oil_gas_ru":"Union of Oil & Gas Producers (RU)","assoc:uscbc":"US-China Business Council","assoc:awdc":"Antwerp World Diamond Centre","firm:roberti_global":"Roberti Global","firm:elevation_association":"The Elevation Association","org:novatek":"Novatek","org:arctic_lng_2":"Arctic LNG 2","org:gazprom":"Gazprom","org:en_plus":"En+ Group","org:rusal":"Rusal","org:lukoil":"Lukoil","org:neftochim_burgas":"Lukoil Neftohim Burgas","gov:eu":"EU institutions","gov:european_parliament":"European Parliament","org:gazprom_ep_international":"Gazprom EP International"};
+const STARTS = [
+  {id:"org:hikvision", t:"Hikvision", d:"Export-listed camera maker; US arm paid Sidley Austin up to $500,000 a quarter"},
+  {id:"org:rusal", t:"Rusal via En+", d:"Sanctioned aluminium giant with zero filings in its own name; parent En+ hired the lobbyists (ownership link is a lead)"},
+  {id:"org:smic", t:"SMIC", d:"Semiconductor chip maker filed as \"Akin Gump on behalf of SMIC\", $50,000 to $140,000 a quarter"},
+  {id:"org:sberbank", t:"Sberbank", d:"US arm hired Madison Group and Podesta Group, up to $110,000 a quarter"},
+  {id:"org:dji", t:"DJI", d:"Named as funder of three drone coalitions; its US arm hired five firms after the 2020 listing (parent link is a lead)"}
+];
+const nodes = DATA.nodes, edges = DATA.edges;
+const byId = new Map(nodes.map(n => [n.id, n]));
+nodes.forEach(n => { n.isListed = n.listed && n.listed.length > 0; n.short = SHORT[n.id] || shorten(n.label); });
+function shorten(s){ s = s.replace(/,? (Inc\.|LLC|L\.L\.C\.|LLP|PLC|Co\., Ltd\.|Ltd\.)$/,"").replace(/ \(.*\)$/,""); return s.length > 34 ? s.slice(0,32) + "..." : s; }
+
+// group claims into one visual link per node pair
+const pairs = new Map();
+edges.forEach(e => {
+  const k = [e.source, e.target].sort().join("||");
+  if (!pairs.has(k)) pairs.set(k, {key:k, a:e.source, b:e.target, claims:[]});
+  pairs.get(k).claims.push(e);
+});
+
+const state = {entity:"", country:"", docOnly:false, pinned:null};
+const pos = new Map();
+const svg = document.getElementById("svg");
+const info = document.getElementById("info");
+
+// ---------- filters ----------
+const fEntity = document.getElementById("fEntity"), fCountry = document.getElementById("fCountry"), fDoc = document.getElementById("fDoc");
+nodes.filter(n => n.isListed).sort((a,b) => a.short.localeCompare(b.short)).forEach(n => {
+  const o = document.createElement("option"); o.value = n.id; o.textContent = n.short + " (" + n.country + ")"; fEntity.appendChild(o);
+});
+[...new Set(nodes.filter(n => n.isListed).map(n => n.country))].sort().forEach(c => {
+  const o = document.createElement("option"); o.value = c; o.textContent = COUNTRY[c] || c; fCountry.appendChild(o);
+});
+fEntity.onchange = () => { state.entity = fEntity.value; if (state.entity) { state.country = ""; fCountry.value = ""; } state.pinned = null; render(true); };
+fCountry.onchange = () => { state.country = fCountry.value; if (state.country) { state.entity = ""; fEntity.value = ""; } state.pinned = null; render(true); };
+fDoc.onchange = () => { state.docOnly = fDoc.checked; state.pinned = null; render(true); };
+document.getElementById("resetBtn").onclick = () => { state.entity = state.country = ""; state.docOnly = false; fEntity.value = fCountry.value = ""; fDoc.checked = false; state.pinned = null; render(true); };
+
+function visibleGraph(){
+  let vp = [];
+  pairs.forEach(p => {
+    const cl = state.docOnly ? p.claims.filter(c => c.evidence === "Documented") : p.claims;
+    if (cl.length) vp.push({key:p.key, a:p.a, b:p.b, claims:cl, lead: cl.every(c => c.evidence === "Lead")});
+  });
+  const adj = new Map();
+  vp.forEach(p => { (adj.get(p.a) || adj.set(p.a, []).get(p.a)).push(p.b); (adj.get(p.b) || adj.set(p.b, []).get(p.b)).push(p.a); });
+  let seeds = null;
+  if (state.entity) seeds = [state.entity];
+  else if (state.country) seeds = nodes.filter(n => n.isListed && n.country === state.country).map(n => n.id);
+  let keep;
+  if (seeds) {
+    keep = new Set(seeds);
+    let frontier = seeds.map(s => [s, 0]);
+    while (frontier.length) {
+      const [id, d] = frontier.shift();
+      const t = byId.get(id).type;
+      if (d > 0 && (t === "lobby_firm" || t === "government")) continue;
+      if (d >= 3) continue;
+      (adj.get(id) || []).forEach(nb => { if (!keep.has(nb)) { keep.add(nb); frontier.push([nb, d + 1]); } });
+    }
+    vp = vp.filter(p => keep.has(p.a) && keep.has(p.b));
+  } else {
+    keep = new Set(); vp.forEach(p => { keep.add(p.a); keep.add(p.b); });
+  }
+  return {nodes: nodes.filter(n => keep.has(n.id)), pairs: vp};
+}
+
+// ---------- layout ----------
+function radius(n){ return n.type === "listed_entity" || n.type === "person" ? 11 : n.type === "lobby_firm" ? 7 : 9; }
+function mulberry(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function layout(vn, vp, iters){
+  const rnd = mulberry(42);
+  const W = 1000, H = 720;
+  vn.forEach(n => { if (!pos.has(n.id)) pos.set(n.id, {x:(rnd() - .5) * W * .8, y:(rnd() - .5) * H * .8}); });
+  const P = vn.map(n => { const p = pos.get(n.id); return {id:n.id, x:p.x, y:p.y, dx:0, dy:0, cr: Math.max(radius(n) + 6, Math.min(n.short.length * 3.4, 95)), fixed:p.fixed}; });
+  const idx = new Map(P.map((p, i) => [p.id, i]));
+  const E = vp.map(p => [idx.get(p.a), idx.get(p.b)]);
+  const k = Math.sqrt((W * H) / Math.max(vn.length, 1)) * 0.55;
+  for (let it = 0; it < iters; it++) {
+    const temp = 38 * (1 - it / iters) + 1.5;
+    P.forEach(p => { p.dx = 0; p.dy = 0; });
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const a = P[i], b = P[j]; let dx = a.x - b.x, dy = a.y - b.y; let d2 = dx * dx + dy * dy;
+      if (d2 < 0.01) { dx = rnd() - .5; dy = rnd() - .5; d2 = dx * dx + dy * dy; }
+      const d = Math.sqrt(d2); let f = (k * k) / d;
+      const minD = a.cr + b.cr * 0.6 + 14;
+      if (d < minD) f += (minD - d) * 3;
+      const fx = dx / d * f, fy = dy / d * f; a.dx += fx; a.dy += fy; b.dx -= fx; b.dy -= fy;
+    }
+    E.forEach(([i, j]) => { const a = P[i], b = P[j]; const dx = a.x - b.x, dy = a.y - b.y; const d = Math.sqrt(dx * dx + dy * dy) || .01; const f = d * d / k; const fx = dx / d * f, fy = dy / d * f; a.dx -= fx; a.dy -= fy; b.dx += fx; b.dy += fy; });
+    P.forEach(p => { p.dx -= p.x * 0.9; p.dy -= p.y * 1.25; });
+    P.forEach(p => { if (p.fixed) return; const d = Math.sqrt(p.dx * p.dx + p.dy * p.dy) || .01; const m = Math.min(d, temp); p.x += p.dx / d * m; p.y += p.dy / d * m; });
+  }
+  // label-aware pass: treat node + label as a box and push overlapping boxes apart
+  const B = P.map((p, i) => { const n = byId.get(p.id); const w = n.short.length * (n.isListed ? 8.1 : 7.3) + 14; const h = radius(n) * 2 + 30; return {p, w: Math.max(w, radius(n) * 2 + 12), h}; });
+  for (let pass = 0; pass < 220; pass++) {
+    let moved = false;
+    for (let i = 0; i < B.length; i++) for (let j = i + 1; j < B.length; j++) {
+      const a = B[i], b = B[j]; const dx = b.p.x - a.p.x, dy = b.p.y - a.p.y;
+      const ox = (a.w + b.w) / 2 - Math.abs(dx), oy = (a.h + b.h) / 2 - Math.abs(dy);
+      if (ox > 0 && oy > 0) {
+        moved = true;
+        const fa = a.p.fixed ? 0 : (b.p.fixed ? 1 : .5), fb = 1 - fa;
+        if (ox * 0.6 < oy) { const s = (dx >= 0 ? 1 : -1) * (ox + 1); a.p.x -= s * fa; b.p.x += s * fb; }
+        else { const s = (dy >= 0 ? 1 : -1) * (oy + 1); a.p.y -= s * fa; b.p.y += s * fb; }
+      }
+    }
+    if (!moved) break;
+  }
+  P.forEach(p => { const q = pos.get(p.id); q.x = p.x; q.y = p.y; });
+}
+
+// ---------- drawing ----------
+let current = {nodes:[], pairs:[]};
+function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const a in attrs) e.setAttribute(a, attrs[a]); if (parent) parent.appendChild(e); return e; }
+function amountMax(p){ let m = 0; p.claims.forEach(c => { if (c.amount_usd_max) m = Math.max(m, c.amount_usd_max); }); return m; }
+function strokeW(p){ const m = amountMax(p); return m ? 2.2 + Math.min(8, Math.sqrt(m / 1000) * 0.45) : 1.8; }
+
+function render(relayout){
+  current = visibleGraph();
+  if (relayout) { layout(current.nodes, current.pairs, 420); }
+  draw();
+  fit();
+  updateCounts();
+  showDefault();
+}
+let gEdges, gNodes, pairEls = new Map(), nodeEls = new Map();
+function draw(){
+  svg.innerHTML = "";
+  gEdges = el("g", {}, svg); gNodes = el("g", {}, svg);
+  pairEls.clear(); nodeEls.clear();
+  current.pairs.forEach(p => {
+    const g = el("g", {}, gEdges);
+    const line = el("line", {class:"edge" + (p.lead ? " lead" : ""), "stroke-width": strokeW(p)}, g);
+    const hit = el("line", {class:"hit"}, g);
+    hit.addEventListener("mouseenter", () => hoverPair(p));
+    hit.addEventListener("mouseleave", unhover);
+    hit.addEventListener("click", ev => { ev.stopPropagation(); state.pinned = {kind:"pair", p}; hoverPair(p, true); });
+    pairEls.set(p.key, {line, hit, p});
+  });
+  current.nodes.forEach(n => {
+    const cls = "node" + (n.isListed ? " listed" : "") + (n.type === "lobby_firm" ? " firm" : "");
+    const g = el("g", {class:cls, tabindex:"0"}, gNodes);
+    const r = radius(n);
+    if (n.type === "listed_entity" || n.type === "person") {
+      el("circle", {r: r + 5, fill:"none", stroke:"var(--g-ring)", "stroke-width":3}, g);
+      el("circle", {r, fill:"var(--g-listed)"}, g);
+    } else if (n.type === "association") {
+      el("rect", {x:-r, y:-r, width:2 * r, height:2 * r, rx:3, fill:"var(--g-assoc)"}, g);
+    } else if (n.type === "government") {
+      el("circle", {r: r + 1, fill:"var(--color-paper)", stroke:"var(--g-gov)", "stroke-width":2.5}, g);
+    } else if (n.type === "lobby_firm") {
+      el("circle", {r, fill:"var(--g-firm)"}, g);
+    } else {
+      el("circle", {r, fill:"var(--g-clean)"}, g);
+    }
+    const t = el("text", {y: r + (n.isListed ? 21 : 17), "text-anchor":"middle"}, g); t.textContent = n.short;
+    g.addEventListener("mouseenter", () => hoverNode(n));
+    g.addEventListener("mouseleave", unhover);
+    g.addEventListener("click", ev => { ev.stopPropagation(); if (dragMoved) return; state.pinned = {kind:"node", n}; hoverNode(n, true); });
+    g.addEventListener("keydown", ev => { if (ev.key === "Enter") { state.pinned = {kind:"node", n}; hoverNode(n, true); } });
+    g.addEventListener("pointerdown", ev => startDrag(ev, n));
+    nodeEls.set(n.id, g);
+  });
+  position();
+}
+function position(){
+  nodeEls.forEach((g, id) => { const p = pos.get(id); g.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)})`); });
+  pairEls.forEach(({line, hit, p}) => { const a = pos.get(p.a), b = pos.get(p.b); [line, hit].forEach(l => { l.setAttribute("x1", a.x); l.setAttribute("y1", a.y); l.setAttribute("x2", b.x); l.setAttribute("y2", b.y); }); });
+}
+function fit(){
+  if (!current.nodes.length) { svg.setAttribute("viewBox", "-200 -150 400 300"); return; }
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  current.nodes.forEach(n => { const p = pos.get(n.id); const hw = Math.min(n.short.length * 3.7, 120); x0 = Math.min(x0, p.x - hw); x1 = Math.max(x1, p.x + hw); y0 = Math.min(y0, p.y - 20); y1 = Math.max(y1, p.y + 34); });
+  const pad = 24, w = x1 - x0 + pad * 2, h = y1 - y0 + pad * 2;
+  const box = svg.getBoundingClientRect(); const ar = box.width / Math.max(box.height, 1);
+  let W = w, H = h; if (W / H < ar) W = H * ar; else H = W / ar;
+  const minW = 1000; if (W < minW) { H *= minW / W; W = minW; }
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  svg.setAttribute("viewBox", `${cx - W / 2} ${cy - H / 2} ${W} ${H}`);
+}
+window.addEventListener("resize", fit);
+
+// dragging
+let drag = null, dragMoved = false;
+function svgPoint(ev){ const pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); }
+function startDrag(ev, n){ drag = {n, start: svgPoint(ev)}; dragMoved = false; svg.setPointerCapture && svg.setPointerCapture(ev.pointerId); }
+svg.addEventListener("pointermove", ev => { if (!drag) return; const p = svgPoint(ev); const q = pos.get(drag.n.id); if (Math.abs(p.x - drag.start.x) + Math.abs(p.y - drag.start.y) > 3) dragMoved = true; if (dragMoved) { q.x = p.x; q.y = p.y; q.fixed = true; position(); } });
+svg.addEventListener("pointerup", () => { drag = null; setTimeout(() => dragMoved = false, 0); });
+svg.addEventListener("click", () => { state.pinned = null; unhover(); });
+
+// ---------- hover + info ----------
+function highlight(nodeIds, pairKeys){
+  svg.classList.add("dim");
+  nodeEls.forEach((g, id) => g.classList.toggle("hi", nodeIds.has(id)));
+  pairEls.forEach((o, k) => o.line.classList.toggle("hi", pairKeys.has(k)));
+}
+function clearHi(){ svg.classList.remove("dim"); nodeEls.forEach(g => g.classList.remove("hi")); pairEls.forEach(o => o.line.classList.remove("hi")); }
+function hoverNode(n){
+  const ids = new Set([n.id]), keys = new Set();
+  current.pairs.forEach(p => { if (p.a === n.id || p.b === n.id) { keys.add(p.key); ids.add(p.a); ids.add(p.b); } });
+  highlight(ids, keys); info.innerHTML = nodeHTML(n, keys);
+}
+function hoverPair(p){ highlight(new Set([p.a, p.b]), new Set([p.key])); info.innerHTML = pairHTML(p); }
+function unhover(){
+  if (state.pinned) { state.pinned.kind === "node" ? hoverNode(state.pinned.n) : hoverPair(state.pinned.p); return; }
+  clearHi(); showDefault();
+}
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function nm(id){ return esc(byId.get(id).short); }
+function sentence(c){
+  const s = nm(c.source), t = nm(c.target);
+  switch (c.type) {
+    case "client_of": return `${s} hired ${t}`;
+    case "foreign_entity_of": return `${s} is named as the foreign entity behind ${t}'s filing`;
+    case "subsidiary_of": return `${s} is a subsidiary of ${t}`;
+    case "owns": return `${s} owns a stake in ${t}`;
+    case "funds": return `${s} is named as a funder of ${t}`;
+    case "lobbied": return `${s} lobbied ${t}`;
+    case "lobbies_for": return `${s} pushed for ${t}'s interests`;
+    case "affiliated_with": return `${s} discloses ${t} as an affiliated interest`;
+    case "proposed_deregistration_of": return `${s} moved to strike ${t} from the EU lobby register`;
+    case "same_firm_overlap": return `${s} and ${t} used the same firm (Akin Gump) back to back`;
+    default: return `${s} ${esc(c.type)} ${t}`;
+  }
+}
+function evTag(e){ return e === "Documented" ? '<span class="tag doc">Documented</span>' : '<span class="tag lead">Lead</span>'; }
+function claimHTML(c){
+  let h = `<div class="card"><div>${evTag(c.evidence)}<span class="s">${sentence(c)}</span></div><dl>`;
+  if (c.amount) h += `<dt>Amount</dt><dd>${esc(c.amount)}</dd>`;
+  if (c.period) h += `<dt>When</dt><dd>${esc(c.period)}</dd>`;
+  if (c.issue) h += `<dt>Issue</dt><dd>${esc(c.issue)}</dd>`;
+  h += `</dl>`;
+  if (c.verifier_conflict) h += `<p class="note">Checkers disagreed (${c.evidence_votes.map(v => esc(v.angle) + ": " + esc(v.evidence)).join(", ")}); shown at the weaker level.</p>`;
+  h += `<details><summary>Sources (${c.source_ref.length})</summary><ul class="src">${c.source_ref.map(s => `<li>${esc(s)}</li>`).join("")}</ul></details></div>`;
+  return h;
+}
+function listingHTML(n){
+  if (!n.isListed) return '<p class="note">Not on any sanctions or export list checked.</p>';
+  return n.listed.map(l => `<div style="margin:4px 0"><span class="tag list">${esc(l.list)}</span>${l.date && l.date !== "n/a" ? "since " + esc(l.date) : "date not captured"}${l.note ? `<div class="note">${esc(l.note)}</div>` : ""}</div>`).join("");
+}
+function nodeHTML(n, keys){
+  let h = `<h3>${esc(n.label)}</h3><div class="meta">${TYPE_NAME[n.type] || n.type} · ${esc(COUNTRY[n.country] || n.country)}</div>`;
+  h += `<h2>Lists and dates</h2>${listingHTML(n)}`;
+  const ps = current.pairs.filter(p => keys.has(p.key));
+  h += `<h2>Connections shown (${ps.length})</h2><ul class="links-list">`;
+  ps.forEach(p => p.claims.forEach(c => { h += `<li>${evTag(c.evidence)}${sentence(c)}${c.amount ? ` <span class="note">(${esc(c.amount)})</span>` : ""}</li>`; }));
+  h += `</ul>`;
+  if (n.aliases && n.aliases.length) h += `<p class="note">Also recorded as: ${n.aliases.map(esc).join("; ")}</p>`;
+  if (n.note) h += `<details><summary>Checker notes</summary><p class="note">${esc(n.note)}</p></details>`;
+  h += pinHint();
+  return h;
+}
+function pairHTML(p){
+  const a = byId.get(p.a), b = byId.get(p.b);
+  let h = `<h3>${esc(a.short)} and ${esc(b.short)}</h3><div class="meta">${p.claims.length} recorded link${p.claims.length > 1 ? "s" : ""}</div>`;
+  p.claims.forEach(c => h += claimHTML(c));
+  [a, b].filter(x => x.isListed).forEach(x => { h += `<h2>${esc(x.short)} is listed</h2>${listingHTML(x)}`; });
+  h += pinHint();
+  return h;
+}
+function pinHint(){ return `<p class="pin">${state.pinned ? "Pinned. Click empty space to release." : "Click to pin this panel."}</p>`; }
+function showDefault(){
+  let h = `<h2>Start here</h2><p class="note" style="margin-top:0">Five of the strongest cases. Pick one to isolate it.</p><ul class="startlist">`;
+  STARTS.forEach(s => { h += `<li><button data-id="${s.id}"><span class="t">${esc(s.t)}</span><span class="d">${esc(s.d)}</span></button></li>`; });
+  h += `</ul><h2>What "listed" means</h2><p class="note" style="margin-top:0">On at least one of: US Commerce Entity List (export blacklist), US Treasury SDN (full block) or SSI (sectoral) lists, the US military-company (NS-CMIC) list, or UK / EU sanctions lists. Being listed is a legal status, not a finding of wrongdoing in any lobbying shown here.</p>`;
+  h += `<h2>Sources</h2><p class="note" style="margin-top:0">US Senate lobbying disclosures (LDA), US foreign-agent filings (FARA), the EU Transparency Register, company registries, and press reports for leads. Every line carries its source.</p>`;
+  info.innerHTML = h;
+  info.querySelectorAll("button[data-id]").forEach(b => b.onclick = () => { fEntity.value = b.dataset.id; state.entity = b.dataset.id; state.country = ""; fCountry.value = ""; state.pinned = null; render(true); });
+}
+function updateCounts(){
+  let doc = 0, lead = 0;
+  current.pairs.forEach(p => p.claims.forEach(c => c.evidence === "Documented" ? doc++ : lead++));
+  document.getElementById("cNodes").textContent = current.nodes.length;
+  document.getElementById("cDoc").textContent = doc;
+  document.getElementById("cLead").textContent = lead;
+  const scope = state.entity ? "Showing the network around " + byId.get(state.entity).short : state.country ? "Showing listed entities from " + (COUNTRY[state.country] || state.country) : "Showing all cases";
+  document.getElementById("status").textContent = scope + (state.docOnly ? " · documented links only" : "");
+}
+
+layout(nodes, [...pairs.values()], 700);
+let q = null; try { q = new URLSearchParams(location.search); } catch (e) {}
+if (q && q.get("entity") && byId.has(q.get("entity"))) { state.entity = fEntity.value = q.get("entity"); }
+if (q && q.get("doc") === "1") { state.docOnly = fDoc.checked = true; }
+render(!!(state.entity || state.docOnly));
+})();
+</script>
+<footer class="foot app-foot">
+  <span>Flagstate</span>
+  <span>Research by the VeilTrace team, Trace the Unseen, 25 Sep 2026</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../influence-network/methods.html">Methods</a>
+  <a href="../../sources/METHODS_LOG.md">Methods log</a>
+  <span>Not legal advice</span>
+</footer>
+</body>
+</html>

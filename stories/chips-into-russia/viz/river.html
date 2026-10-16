@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semiconductors into Russia · Flagstate</title>
+<meta name="description" content="Kyrgyzstan's and Kazakhstan's own reported semiconductor chip exports to Russia, before and after the invasion, with the official listings that followed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<link rel="stylesheet" href="chips.css">
+<style>
+  /* Page styles on the main site's system (app/style.css tokens only) · hero + chart panel */
+  /* Chart series colours: the script reads these by name, so the chart follows the site tokens. */
+  :root { --chart-kgz: var(--color-accent); --chart-kaz: var(--color-muted); }
+  .hero h1 { max-width: 20ch; }
+  .take { font-weight: 700; font-size: var(--text-xl); line-height: 1.3; letter-spacing: -0.01em; max-width: 46ch; margin: 0; }
+
+  .story-body { padding-bottom: var(--space-3xl); display: grid; gap: var(--space-2xl); grid-template-columns: minmax(0, 1fr); }
+  .note { border-top: 2px solid var(--color-accent); padding-top: var(--space-sm); max-width: 62ch; font-family: var(--font-serif); font-size: var(--text-base); color: var(--color-muted); margin: 0; }
+  .note b { color: var(--color-ink); font-family: var(--font-display); }
+  #err { display: none; }
+  .panel { border-top: 2px solid var(--color-ink); padding-top: var(--space-sm); }
+  .panel h2 { font-weight: 800; font-size: var(--text-2xl); letter-spacing: -0.025em; line-height: 1.1; margin: 0 0 var(--space-xs); }
+  .h2sub { font-family: var(--font-serif); font-size: var(--text-lg); color: var(--color-muted); max-width: 62ch; margin: 0 0 var(--space-lg); }
+  .panel .label + h2 { margin-top: var(--space-xs); }
+  .panel ul { margin: 0; padding-left: 1.2em; max-width: 62ch; }
+  .panel li { font-family: var(--font-serif); font-size: var(--text-lg); line-height: 1.6; margin-bottom: var(--space-sm); }
+  .panel li::marker { color: var(--color-accent); }
+  .panel a { text-decoration-color: var(--color-accent); }
+
+  .chart-frame { max-width: 46rem; background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-md) var(--space-md); }
+  .chart { position: relative; width: 100%; }
+  .chart svg { display: block; overflow: visible; }
+  .chart svg text { font-family: var(--font-mono); font-size: 11px; fill: var(--color-muted); }
+  .chart svg text.lab { font-family: var(--font-display); font-size: 13px; font-weight: 700; fill: var(--color-ink); paint-order: stroke; stroke: var(--color-paper-2); stroke-width: 3px; stroke-linejoin: round; }
+  .chart svg text.ax { fill: var(--color-neutral); }
+  .chart svg text.pin { fill: var(--color-ink); paint-order: stroke; stroke: var(--color-paper-2); stroke-width: 3px; }
+  .chart svg .grid { stroke: var(--color-rule); stroke-width: 1; }
+
+  .panel .sources li { font-family: var(--font-display); font-size: var(--text-sm); line-height: 1.5; color: var(--color-muted); margin-bottom: var(--space-xs); overflow-wrap: anywhere; }
+  .sources a { color: var(--color-muted); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<nav class="wrap storynav" aria-label="Semiconductors into Russia"><ul>
+  <li><a href="index.html">Routes</a></li>
+  <li><a href="coverage.html">Who reports</a></li>
+  <li><a href="listing_lag.html">Time to list</a></li>
+  <li><a href="river.html" aria-current="page">Kyrgyzstan and Kazakhstan</a></li>
+</ul></nav>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Semiconductors into Russia · Kyrgyzstan and Kazakhstan</p>
+  <h1>Semiconductors into Russia: <span>what the middle countries reported.</span></h1>
+  <p class="take">Kyrgyzstan and Kazakhstan reported almost no chip exports to Russia before the invasion. In 2022 and 2023 they reported millions of dollars a year.</p>
+  <p class="hero-sub">Semiconductor chips (customs code HS 8542, "electronic integrated circuits"), as each country itself declared its exports to Russia to the UN. Armenia shows the same jump: about $0 a year before 2022, then $13.1M in 2022 and $15.7M in 2023. Turkey, the UAE, China and Hong Kong also kept exporting chips to Russia after 2022 (see the findings).</p>
+</section>
+
+<div class="story-body">
+  <p class="note"><b>How to read this.</b> Declared export values in US dollars, from each country's own report to UN Comtrade (summary rows only, so nothing is counted twice). This is what the paperwork declares, not a traced physical route, and the latest year may be incomplete. Hover over a point to see its value.</p>
+  <p id="err" class="note">Could not load river.js.</p>
+
+  <section id="p3" class="panel">
+    <h2>Chip exports to Russia, as each country reported them</h2>
+    <p class="h2sub">Declared values, USD million per year. Both countries jump in 2022 and 2023, then fall back.</p>
+    <div class="chart-frame"><div class="chart" id="need"></div></div>
+  </section>
+
+  <section class="panel">
+    <h2>Official listings in the same two countries</h2>
+    <p class="h2sub">US lists later named companies based in Kyrgyzstan and Kazakhstan under Russia-related programmes. Two examples, with dates from official pages:</p>
+    <ul>
+      <li><b>RM Design and Development</b> (Bishkek, Kyrgyzstan): listed by the US Treasury (OFAC) on 20 July 2023. The US Treasury's own entry gives the company's founding date as 17 March 2022, three weeks after the invasion, so the listing came about 16 months after it was set up. <a href="https://www.federalregister.gov/documents/2023/08/08/2023-16934/notice-of-ofac-sanctions-action">Federal Register 2023-16934</a></li>
+      <li><b>ELEM GROUP</b> (Almaty, Kazakhstan): added to the US Commerce Department's Entity List on 7 December 2023 (88 FR 85097), then listed by the US Treasury on 23 February 2024. <a href="https://ofac.treasury.gov/recent-actions/20240223">OFAC recent actions, 23 Feb 2024</a></li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <p class="label">Official statistics and official lists only</p>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li><a href="https://comtradeplus.un.org/">UN Comtrade (database home; figures from its public API)</a>: countries' own reported chip exports to Russia, aggregate rows, queried 25 Sep 2026.</li>
+      <li>Listing dates: US Treasury (OFAC) recent actions and the Federal Register.</li>
+      <li>Full write-up: <a href="../FINDINGS.md">FINDINGS.md</a></li>
+    </ul>
+  </section>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>An independent research project</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../../sources/METHODS_LOG.md">Methods</a>
+  <span>Not legal advice</span>
+</footer>
+<script src="river.js"></script>
+<script>
+(function(){
+  const D = window.RIVER;
+  if(!D){ document.getElementById('err').style.display='block'; return; }
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(parent, tag, attrs, text){
+    const e = document.createElementNS(NS, tag);
+    for(const k in attrs) if(attrs[k] != null) e.setAttribute(k, attrs[k]);
+    if(text != null) e.textContent = text;
+    if(parent) parent.appendChild(e);
+    return e;
+  }
+  const title = (e, t) => { el(e, 'title', {}, t); return e; };
+  // ---------- chart ----------
+  function drawNeed(){
+    const N = D.need, box = document.getElementById('need'); box.innerHTML = '';
+    const W = Math.min(box.clientWidth, 640), H = 150, ml = 34, mr = 90, top = 10, B = top + H;
+    const svg = el(box, 'svg', {width: W, height: B + 24, role: 'img', 'aria-label': 'Chip exports to Russia by Kyrgyzstan and Kazakhstan, 2021 to 2025'});
+    const vmax = 20;
+    const x = i => ml + i / (N.years.length - 1) * (W - ml - mr);
+    const y = v => B - v / vmax * H;
+    [0, 10, 20].forEach(v => { el(svg, 'line', {class: 'grid', x1: ml, x2: W - mr, y1: y(v), y2: y(v)}); el(svg, 'text', {class: 'ax', x: ml - 4, y: y(v) + 4, 'text-anchor': 'end'}, '$' + v + 'M'); });
+    N.years.forEach((yr, i) => el(svg, 'text', {class: 'ax', x: x(i), y: B + 15, 'text-anchor': 'middle'}, yr));
+    N.series.forEach((s, k) => {
+      const c = k === 0 ? 'var(--chart-kgz)' : 'var(--chart-kaz)';
+      title(el(svg, 'path', {d: s.values.map((v, i) => `${i ? 'L' : 'M'}${x(i)},${y(v)}`).join(' '), fill: 'none', stroke: c, 'stroke-width': 2, 'stroke-dasharray': k ? '6 3' : null}),
+        `${s.label}: chip exports to Russia, declared values. Source: ${N.source_file}`);
+      s.values.forEach((v, i) => {
+        const g = el(svg, 'g', {});
+        title(g, `${s.label} ${N.years[i]}: $${v >= 1 ? v.toFixed(1) : v.toFixed(2)} million (declared). Source: ${N.source_file}`);
+        el(g, 'circle', {cx: x(i), cy: y(v), r: 12, fill: 'transparent'});
+        el(g, 'circle', {cx: x(i), cy: y(v), r: 4, fill: c, stroke: 'var(--color-paper-2)', 'stroke-width': 2});
+      });
+      const last = s.values.length - 1;
+      el(svg, 'text', {class: 'lab', x: x(last) + 8, y: y(s.values[last]) + (k ? 4 : -8)}, s.label);
+      const pk = s.values.indexOf(Math.max(...s.values));
+      el(svg, 'text', {class: 'pin', x: x(pk) + (k ? -8 : 8), y: y(s.values[pk]) - 7, 'text-anchor': k ? 'end' : 'start'}, '$' + s.values[pk].toFixed(1) + 'M');
+    });
+    el(svg, 'text', {class: 'ax', x: ml, y: B + 15 + 0, 'text-anchor': 'start', opacity: 0}, '');
+  }
+
+  drawNeed();
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(drawNeed, 120); });
+})();
+</script>
+</body>
+</html>

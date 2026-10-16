@@ -1,0 +1,366 @@
+{
+ "generated": "2026-09-25T15:49",
+ "angles": [
+  "company-anatomy",
+  "enforcement",
+  "eu-acts",
+  "lobbying",
+  "manifests",
+  "parent-groups",
+  "russia-actions",
+  "service-providers",
+  "ship-histories",
+  "studies",
+  "treasury-iran"
+ ],
+ "verified_angles": [
+  "company-anatomy",
+  "enforcement",
+  "eu-acts",
+  "lobbying",
+  "manifests",
+  "parent-groups",
+  "russia-actions",
+  "service-providers",
+  "ship-histories",
+  "studies",
+  "treasury-iran"
+ ],
+ "counts": {
+  "ships": 1724,
+  "companies": 1007,
+  "people": 25,
+  "countries": 74,
+  "edges": 7700,
+  "documented_edges": 7665,
+  "lead_edges": 35,
+  "ships_russia_and_iran": 54
+ },
+ "findings": [
+  {
+   "angle": "enforcement",
+   "text": "1. Five tankers carry documented 2023-2026 enforcement action against the shadow fleet: Bella 1 and Skipper (US DOJ forfeiture/plea, justice.gov), Eventin (German customs/Bundesfinanzhof, zdfheute.de), Boracay/Pushpa/Kiwala (France boarding + Estonia detention, france24.com / news.err.ee), and Eagle S (Finnish prosecution, valtioneuvosto.fi)."
+  },
+  {
+   "angle": "enforcement",
+   "text": "2. One vessel, IMO 9332810, was detained twice in 2025 under two different names eight months apart: as 'Kiwala' by Estonia's Navy on April 11 for lacking a flag state, then as 'Boracay' (also called 'Pushpa') by the French Navy on September 30, leading to a Brest prosecutor's investigation. (Source: Ukraine War and Sanctions database ua_war_sanctions.csv, record NK-ZHdpKQLko7n8ZSsM2RS37N, whose own primary listed name is 'Phoenix'; joined with news.err.ee and france24.com.)"
+  },
+  {
+   "angle": "enforcement",
+   "text": "3. Germany's Federal Fiscal Court (Bundesfinanzhof) blocked customs from confiscating the Eventin on Dec 11, 2025, citing 'reasonable doubts about the legality' of the confiscation measures - enforcement against shadow-fleet ships is being actively contested in European courts even after a physical seizure (source: zdfheute.de, directly quoting the court's own statement)."
+  },
+  {
+   "angle": "enforcement",
+   "text": "4. Finland's Helsinki District Court ruled Oct 3, 2025 that Finnish criminal law could not reach the Eagle S cable-cutting case under UNCLOS restrictions, even though it found Finland could be the place where the alleged crime was committed; the Deputy Prosecutor General appealed on Oct 9, 2025 (source: valtioneuvosto.fi, the Finnish Prosecution Service's own press release)."
+  },
+  {
+   "angle": "enforcement",
+   "text": "5. DOJ's Skipper forfeiture complaint alleges a scheme running since at least 2021 and documents roughly 3 million barrels of Iran-origin crude delivered to Syria in 2024 alone, to benefit the IRGC and IRGC-Qods Force, a designated Foreign Terrorist Organization (source: justice.gov, confirmed by direct extract)."
+  },
+  {
+   "angle": "enforcement",
+   "text": "6. DOJ's Criminal Division separately filed civil forfeiture complaints against $15M in funds tied to the 'Shamkhani Network' led by Mohammad Hossein Shamkhani, who is himself individually OFAC-designated (SDN entity #54787). Algae Ship Charter - FZCO, the company OFAC's list links to the Eventin, is itself OFAC-linked directly to Shamkhani (entity #54897) - tying the Eventin's charterer to the network by the list's own text, not by inference."
+  },
+  {
+   "angle": "enforcement",
+   "text": "7. Two of the five ships carry an OFAC SDN 'Linked To' company that neither government press release names directly: Louis Marine Shipholding Enterprises S.A. (Bella 1, itself linked by OFAC to the IRGC-Qods Force) and Algae Ship Charter - FZCO (Eventin) - both from the list join, not from DOJ or German court text (source: sanctionslist.ofac.treas.gov, via consolidated.csv)."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "1. Act numbers resolved: the EU's 23 July 2026 asset-freeze act naming 7 shipping firms is the Council Implementing Regulation (EU) 2026/1843, which implements Council Regulation (EU) No 269/2014 (adds 48 persons + 168 entities to Annex I; entries 938-979 include the 7 shipping firms). OpenSanctions' eu_fsf.csv cites 2026/1845 for the same entries because 2026/1845 is the twin Council Decision (CFSP) 2026/1845, which amends Decision 2014/145/CFSP (the political-decision half of the same package; Reg 269/2014 gives it direct legal effect). They are not different acts targeting different things - they are the Decision+Regulation pair of one 23 July 2026 listing, and both correctly identify the same 7 shipping firms with the same entry-into-force date."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "2. Separately, the EU's 23 July 2026 vessel/entity package under the Russia sectoral regime (Reg (EU) No 833/2014) is Council Regulation (EU) 2026/1848 (paired with Council Decision (CFSP) 2026/1849) - a different legal basis (833/2014, not 269/2014) that added 41 vessels (Annex XXV, entries 652-692) and, with entry into force 13.8.2026, added 5 oil-trading FZE/FZCO entities to the 'frustrating the ban' list (Annex XLV Part C): Vistula Delta Global FZE, Estrella Integrated FZE, Linglong Trading Group FZE, Arcadia International FZE, Nexus Oil Trading FZCO."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "3. Of the 41 new vessels in the 23 July 2026 package (2026/1848), 5 were listed specifically as service providers under the new Article 3s(2) point (h) - vessels that bunker or tug listed tankers, not tankers themselves: KUMANA (IMO 9809538), BILAL BEY (IMO 8984848), BEBEK-E (IMO 7808401), LADY JASMINE (IMO 1031537), OCEAN FORTUNE 18 (IMO 1064493)."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "4. The 7 shipping firms named in 2026/1843/1845: White Agate Marine SPC (Oman, ship owner), Zulu Ships Management (UAE, manages 8 tankers, also OFAC-designated 12 Aug 2025), Peninsular Maritime India Pvt Ltd (India, technical manager of Marabella Sun and Sinar G), Astute Maritime Services (Singapore, technical manager), Hua Xia Shipmanagement (China, technical manager), Lukoil-Marinbunker (Russia, operates Aginskoye, G. Rossini, G. Puccini), and Aquamarine Ship Management (Russia, crew-recruitment agency for tankers, registered 17.1.2022)."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "5. EU vessel-listing counts by package (Council press releases): 16th package (24.2.2025) +74 vessels; 18th package (18.7.2025) +105 vessels; 19th package (23.10.2025) +189 vessels; 20th package (23.4.2026) +46 vessels, bringing the running total to 632; 21st package (23.7.2026) +41 vessels. The Council's own explainer page states: 'As of 23 July 2026, the EU has placed over 670 vessels on this list' (consilium.europa.eu/en/policies/sanctions-against-russia-explained). The Annex XXV entry numbering in the 21st-package text itself runs from 652 to 692, i.e. cumulative slot numbers reach 692 - about 20 higher than the Council's rounded '670+' figure and the 632+41=673 arithmetic from the press releases, a gap likely explained by delistings/renumbering between packages that this pass did not chase down further (flag as unresolved, not a contradiction to hide)."
+  },
+  {
+   "angle": "eu-acts",
+   "text": "6. A grep of eu_fsf.csv for shipping-sounding entities under the EU-UKR (Ukraine territorial-integrity) sanctions programme turns up 28 additional shipping-related firms/registries beyond the 7 in finding 4, spanning acts from 2023/1765 (25.7.2014 entry into force, Sevastopol seaport) through 2026/509 (23.4.2026, Lark Shipmanagement, Lumen Ship Management, Gazpromneft Marine Bunker) - see nodes/edges. Most are UAE free-zone ship managers (Lark, Lumen, Starfish, Nova, Moonlight, Eiger, Citrine, Intershipping, Tarabya, Admiral, Sapang) or Russian shipping companies (Volga Shipping, Volgotanker, Far-Eastern Shipping, Asia Shipping, Marine Trans Shipping, Prime Shipping), plus three flag/registry firms added together on 23.10.2025 (International Maritime Ship Registry - UK-registered; Aruba Maritime Administration & Offshore Company Registry; MSTA-International Maritime Registries & Regulatory Inc.)."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "1. OFAC and the UK sanctioned Gazprom Neft and Surgutneftegas on the same day, 10 January 2025; OFAC's release states this explicitly ('The UK is also sanctioning Gazprom Neft and Surgutneftegas today'), and the UK CSV's Date Designated column confirms 10/01/2025 for both."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "2. In the same 10 Jan 2025 action, OFAC identified 69 Sovcomflot-owned vessels (54 oil/product tankers, 4 LNG carriers) as blocked property and designated two UAE ship managers, Fornax and Stream, that Treasury says Sovcomflot moved tanker management to in order to evade sanctions. CORRECTED: neither Fornax nor Stream is itself a UK-designated entity, but both ARE present in the UK sanctions-list CSV as 'Current owner/operator' of UK-sanctioned tankers -- Fornax on 5 ship rows, Stream on 18 -- all designated from 31/07/2024, before OFAC's own action. The earlier claim that they were 'not on the UK list' was wrong; the correct statement is that the UK has not designated them as entities in their own right."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "3. The same action named a UAE-centred oil-trading cluster around Black Pearl Energy Trading LLC (>$2bn of Russian crude sold since 2023, some above the $60 price cap), with Conmar Maritime DMCC providing financial services on its behalf, and two named Black Pearl employees, Denis Deryushkin and Alexander Nemirovskiy."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "4. Four more UAE/Hong Kong oil-trading shells were named in the same action for specific shipment counts and dollar values: Arctos Shipping And Trade DMCC, Demex Trading Limited DMCC (>700 shipments, ~$8bn in 2023), Eterra Crude Oil Abroad Trading LLC (>300 shipments), Sunrise X Trading Co Limited (Hong Kong, >30 shipments, >$800m), and Zion Trade Limited."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "5. Mining the UK sanctions CSV directly for Russia-regime entities whose reasons mention shipping/tankers/vessels/oil trading (independent of the deterministic ship-to-owner join) surfaced a run of UAE/Turkey/Russia ship-manager and trading shells the UK designated between Dec 2023 and Aug 2026: Oil Tankers (SCF) Management, K&O Ship Management, Radiating World Shipping, Star Voyages Shipping, Beks Ship Management and Trading, AZIA Shipping, IBEX Shipping, Eko Shipping, White Fox Ship Management, Rhodania Shipping, Intershipping Services and Frion Ship Management."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "6. A separate UK-only cluster centres on Tahir Garayev: the UK designated Coral Energy Group's Singapore and UAE entities (rebranded 2Rivers Group) on 17/12/2024, Garayev himself on 09/05/2025 (the day the UK's '100 ships' shadow-fleet package began; Garayev's own designation date falls right in that window), and three more firms -- Arctos Shipping and Trade DMCC, Venturia Shipping Limited, Rockoil Trading Limited -- on 24/02/2026 as associated with him. This is not part of the 10 Jan 2025 US/UK joint action; it is a distinct, UK-led chain."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "7. The UK's 06/08/2026 designation of Frion Ship Management LLP (India) is unusual among these matches: instead of the generic 'benefit to the Government of Russia' boilerplate, it gives a specific, dated act -- supporting the sale of the LNG tanker ARCTIC EXPRESS, IMO 9333591, into Russian ownership and control -- and is the one CSV match in this pass carrying its own IMO number in the reason text itself, not just the ship-row join."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "8. Aleksejs Halavins, a Latvian national OFAC names as 'deeply involved in Black Pearl's Russian oil trade' and designated the same day (10 Jan 2025) alongside Deryushkin and Nemirovskiy, was confirmed on the SDN list but omitted from the prior pass's nodes; added here."
+  },
+  {
+   "angle": "russia-actions",
+   "text": "9. OFAC's SDN entry for Arctos Shipping And Trade DMCC gives the address '3O-01-5033 Jewellery & Gemplex 3, Dubai' -- identical to the address on the UK's 24/02/2026 Garayev-linked listing of the same name. Per the brief's merge rule (address/ID match required), these are the SAME legal entity; the two nodes were merged into one."
+  },
+  {
+   "angle": "service-providers",
+   "text": "US Treasury (press release jy2777, action of 2025-01-10) designated Ingosstrakh Insurance Company and Alfastrakhovanie Group, both Moscow-based, for having 'insured oil tankers transporting Russian petroleum products', and states both 'were previously sanctioned by the UK' - the UK list confirms designation dates of 13/06/2024 (Ingosstrakh, RUS2150) and 25/11/2024 (Alfastrakhovanie, RUS2339). Neither appears in the EU's FSF sanctions file we hold. RE-VERIFIED: quote and both UK dates confirmed byte-for-byte against the local files."
+  },
+  {
+   "angle": "service-providers",
+   "text": "The classification society Russian Maritime Register of Shipping (RS Class) is EU-sanctioned (added to Council Reg 833/2014 Annex XIII by Regulation (EU) 2022/394 of 9 March 2022, confirmed against the EUR-Lex text itself, correcting the researcher's undated 'designated_by 2022' edge which had cited only the later court-case notice) and was excluded from the International Association of Classification Societies (IACS, based in the UK); RS Class is challenging its EU listing before the EU General Court (Case T-535/24, brought 16 Oct 2024). RS Class is confirmed ABSENT from the local eu_fsf.csv snapshot, by name and by OpenSanctions id."
+  },
+  {
+   "angle": "service-providers",
+   "text": "IMO's own legal-affairs page documents a formal 'false flag' status inside its GISIS database: a ship is marked false-flagged when confirmed to be trading under a flag it has no right to, and the status clears only once it registers under a genuine new flag. (Kept as a plain-language finding, not a graph node/edge - see 'Must drop or correct'.)"
+  },
+  {
+   "angle": "service-providers",
+   "text": "US OFAC's own SDN vessel record for the tanker STELLAR BEVERLY (IMO 9208069, Iran program E.O. 13902, linked to Yegua Trading Limited) literally tags its flags as fraudulent: current flag 'Mozambique (False)', former flag 'Gambia (False)' - RE-VERIFIED directly against local consolidated.csv, entity_number 57452. Note: the same record also lists a second, non-flagged former flag, Panama."
+  },
+  {
+   "angle": "service-providers",
+   "text": "Locally re-derived from the UK Sanctions List (report date 21-Sep-2026): 658 Russia-regime ship ROWS carry an IMO number, but those 658 rows resolve to only 625 UNIQUE IMOs (33 ships appear on more than one row) - the base graph's 625-unique-IMO count is correct; the researcher's '658' figure is the row count, not the ship count. On a unique-IMO basis, the top current flags are Panama (118 ships), Russia (106), Gabon (51), Barbados (45) and Comoros (37); 138 ships (22%) carry no current flag. Only 26 unique ships carry both a previous and a current flag; the top moves are Liberia -> Gabon (8 ships), then Gabon -> Russia (3) and Liberia -> Russia (2)."
+  },
+  {
+   "angle": "service-providers",
+   "text": "Locally re-derived from the US CSL consolidated list: 2,094 vessel rows carry a parseable 7-digit IMO number, resolving to 2,093 unique IMOs (one IMO, 1991835, appears on two rows under two different associated entity names, both from the same source list - not a cross-source duplicate). Current flags (row and unique-IMO bases match, since the one duplicate has a blank flag on both rows): Panama (267), Russia (241), Iran (192), China (157), North Korea (72). The dominant former-to-current move is Tanzania -> Iran (19 ships), then Malta -> Iran (17) and Tuvalu -> Iran (14) - consistent with vessels re-flagging into Iran's own registry after losing a flag-of-convenience registration."
+  },
+  {
+   "angle": "service-providers",
+   "text": "The EU's point (h) category (Reg 2026/1848, in force 24 Jul 2026) names five 'service ships' used for ship-to-ship transfers/refuelling of already-listed vessels: KUMANA (IMO 9809538), BILAL BEY (IMO 8984848), BEBEK-E (IMO 7808401), LADY JASMINE (IMO 1031537) and OCEAN FORTUNE 18 (IMO 1064493). None of the five appears on the UK, US or EU-entity lists we hold by name; their IMO numbers and identifying data come from Ukraine's war-sanctions database (a database, not itself a sanctions list)."
+  },
+  {
+   "angle": "service-providers",
+   "text": "Lukoil-Marinbunker LLC (Russia) is EU-listed as of 23 Jul 2026 (Reg 2026/1845) and named as operator of the newly listed tanker G.ROSSINI - RE-VERIFIED directly against the local eu_fsf.csv row - a bunkering/STS firm named directly in an official EU act, distinct from the unofficial 'hub' reporting found for other firms."
+  },
+  {
+   "angle": "studies",
+   "text": "Windward: approximately 1,100 dark-fleet vessels identified; the practice originated with Iran and Venezuela trade before Russia's war (windward.ai/glossary/what-is-the-dark-fleet; saved search snippet pulls\\tavily\\20260925T182102087896Z_8084_search.json). CONFIRMED."
+  },
+  {
+   "angle": "studies",
+   "text": "Windward: dark-fleet flags are led by Panama, Liberia, Marshall Islands, Russia and Malta; 5% fly an Iran flag (up 4 points from the prior report) and 0.7% fly a Venezuela flag, evidence some hulls are dedicated to those trades too (windward.ai/knowledge-base/illuminating-russias-shadow-fleet; saved extract pulls\\tavily\\20260925T182107115295Z_17364_extract.json). CONFIRMED verbatim."
+  },
+  {
+   "angle": "studies",
+   "text": "S&P Global Market Intelligence / Commodity Insights: approximately 591 tankers in the Russia-oil shadow fleet, up 33% from its 2023 estimate; 1,431 vessels total have shipped Russian oil since 5 Dec 2022; about 24% of all in-service crude/product tankers have carried Russian oil, of which 10% are shadow-fleet; a Tier 1 (highest-risk) group of 271 tankers totals 37.8 million dwt, near 6% of the global tanker fleet by capacity (pulls\\tavily\\20260925T182128037964Z_26476_extract.json). CONFIRMED verbatim, all five numbers."
+  },
+  {
+   "angle": "studies",
+   "text": "Atlantic Council, citing S&P Global: about one in five oil tankers worldwide (20%) are estimated to be used to smuggle oil from sanctioned countries generally (Russia, Iran, and, since a Venezuelan oil blockade, Venezuela too) -- a cross-regime estimate, not Russia-only (pulls\\tavily\\20260925T182212776926Z_14020_extract.json). CONFIRMED."
+  },
+  {
+   "angle": "studies",
+   "text": "Atlantic Council: US authorities have seized at least seven vessels linked to the Venezuelan oil trade since late last year, part of a broader shadow-fleet crackdown (same source). CONFIRMED."
+  },
+  {
+   "angle": "studies",
+   "text": "RUSI: flag-hopping undermines enforcement gains -- Panama has de-registered more than 650 vessels since 2019 under diplomatic pressure and will no longer register tankers/bulk carriers over 15 years old, but smaller registries (Cameroon, Comoros, Gambia, Honduras, Mongolia, Sao Tome and Principe, Sierra Leone, Tanzania) have stepped in to flag shadow-fleet ships instead (pulls\\tavily\\20260925T182141044675Z_15248_extract.json). CONFIRMED."
+  },
+  {
+   "angle": "studies",
+   "text": "OCCRP / Follow the Money (4 Feb 2025): Western shipowners have earned at least $6.3 billion selling hundreds of aging tankers on to shell companies that feed the shadow fleet, tracing the case of the tanker Aris, which went dark in the Singapore Strait in 2023 (pulls\\tavily\\20260925T182155657201Z_6324_extract.json). CONFIRMED, with added detail: OCCRP quantifies the shadow fleet at ~600 ships and these sales as ~40% (~230 ships) of it."
+  },
+  {
+   "angle": "studies",
+   "text": "CENTCOM strike, corrected and independently confirmed: on 8 Sept 2026 (not 9 Sept as HUR's press comment implied), CENTCOM forces destroyed five Iranian crude oil tankers -- Kaviz, Charminar, Horizon 1 and Riesco in the Gulf of Oman, and Derya near Iran's Kharg Island -- after IRGC attempts to target a US Navy warship with ballistic missiles. Source: official CENTCOM press release (centcom.mil/MEDIA/PUBLIC-RELEASES/Article/4593050) and CENTCOM's own video-gallery caption confirming the Riesco specifically sank ('M/T Riesco sinks in the Gulf of Oman, Sept. 8'). This upgrades the strike/sinking fact itself from Lead to Documented (official source); the DUAL Russia/Iran cargo characterization of Charminar and Riesco remains HUR's claim (Lead), not CENTCOM's."
+  },
+  {
+   "angle": "studies",
+   "text": "Ukraine's HUR (via Kyiv Independent): the Charminar (IMO 9318022, US-designated 2025-07-30) is officially 'Linked To: ALGAE SHIP CHARTER - FZCO' on the US SDN consolidated list, but HUR separately links it to Fractal Marine DMCC (US- and UK-designated) and to a network run by UK-designated individual Hossein Shamkhani -- treated as Lead since it is a foreign-government claim relayed by press, not itself an official designation record. NEW on verify: Fractal Marine DMCC's OWN US SDN record officially links it to Shamkhani directly ('Linked To: SHAMKHANI, Mohammad Hossein'), so that specific two-party link is Documented even though the three-way Charminar-Fractal Marine-Shamkhani chain HUR describes is not."
+  },
+  {
+   "angle": "studies",
+   "text": "The Riesco (IMO 9251822, formerly Afra Willow / Aquaris / British Willow / Willowy): NEW on verify -- its US designation is independently confirmed on the official SDN consolidated list under the former name AQUARIS (2025-11-20, IRAN-EO13846), officially linked to Arkadia Maritime Incorporated, correcting the researcher's citation (which relied only on a press paraphrase for this fact). HUR's claim that it transported both Russian and Iranian crude/products, including ship-to-ship transfers with sanctioned vessels, remains Lead. Struck and sunk by CENTCOM in the Gulf of Oman 8 Sept 2026 (Documented, official CENTCOM source). A HUR claim of 'Ukrainian sanctions since Feb 2026' could not be corroborated against the local Ukraine war-sanctions file (which shows a first_seen of 2026-06-09) and has been dropped."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "1. sb0215 (30 Jul 2025) designated 24 shipping/trading shells tied to Hossein Shamkhani in one release, including Zulu Ships Management (11 vessels blocked) and a 6-firm Fractal Marine sister-shell cluster."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "2. sb0443 (15 Apr 2026) added Fleet Tanqo Private Limited (India), which Treasury says transported more than 20 cargoes of Russian petroleum products in 2025 on 5 named tankers."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "3. sb0562 (Jul 2026) named 10 individuals (nationalities: Iranian, Russian dual, British, Indian x2, Danish, Italian) and set out Ali Rakhbarmadani's role as 'head of shipping' who told the Russian side of the trade how to dodge the oil price cap."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "4. Treasury states the three actions together have now sanctioned more than 200 individuals, entities, and vessels 'operating under Shamkhani's patronage' since July 2025."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "5. Buyer side: China's Hengli Petrochemical (Dalian) refinery ('teapot') received Iranian crude from 3 named shadow-fleet tankers that alone delivered over 5 million barrels (sb0472)."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "6. Hong Kong traders Jiandi HK Limited and Max Honor International Trade bought Iranian oil directly from the IRGC in 2025; Dubai's Universal Fortune Trading was 'used as a front company' by Iran's state oil company NIOC (sb0498)."
+  },
+  {
+   "angle": "treasury-iran",
+   "text": "7. UAE-registered entities dominate the shipping-shell layer (at least 15 of the sb0215/sb0562 companies are UAE DMCC/FZCO/LLC forms), consistent with the earlier team finding that management shells rotate through UAE registrations."
+  }
+ ],
+ "study_counts": [
+  {
+   "what": "Windward dark-fleet vessel count",
+   "value": "~1,100 vessels",
+   "source_url": "https://windward.ai/glossary/what-is-the-dark-fleet",
+   "angle": "studies"
+  },
+  {
+   "what": "Windward: dark-fleet vessels flying an Iran flag",
+   "value": "5% (up 4 points from prior report)",
+   "source_url": "https://windward.ai/knowledge-base/illuminating-russias-shadow-fleet",
+   "angle": "studies"
+  },
+  {
+   "what": "Windward: dark-fleet vessels flying a Venezuela flag",
+   "value": "0.7%",
+   "source_url": "https://windward.ai/knowledge-base/illuminating-russias-shadow-fleet",
+   "angle": "studies"
+  },
+  {
+   "what": "Windward: dark-fleet vessels flying an EU-member flag",
+   "value": "12%",
+   "source_url": "https://windward.ai/knowledge-base/illuminating-russias-shadow-fleet",
+   "angle": "studies"
+  },
+  {
+   "what": "S&P Global: shadow-fleet tankers carrying Russian oil",
+   "value": "~591 tankers (up 33% from S&P's 2023 estimate)",
+   "source_url": "https://pages.marketintelligence.spglobal.com/1187-Russias-Shadow-Fleet-01-CD-Request.html",
+   "angle": "studies"
+  },
+  {
+   "what": "S&P Global: total tankers that have shipped Russian oil since 5 Dec 2022",
+   "value": "1,431 tankers",
+   "source_url": "https://pages.marketintelligence.spglobal.com/1187-Russias-Shadow-Fleet-01-CD-Request.html",
+   "angle": "studies"
+  },
+  {
+   "what": "S&P Global: share of all in-service crude/product tankers that have carried Russian oil",
+   "value": "~24% (of which 10% are shadow-fleet)",
+   "source_url": "https://pages.marketintelligence.spglobal.com/1187-Russias-Shadow-Fleet-01-CD-Request.html",
+   "angle": "studies"
+  },
+  {
+   "what": "S&P Global: Tier 1 (highest-risk) shadow tankers and their share of global tanker capacity",
+   "value": "271 tankers, 37.8 million dwt, ~6% of global fleet capacity",
+   "source_url": "https://pages.marketintelligence.spglobal.com/1187-Russias-Shadow-Fleet-01-CD-Request.html",
+   "angle": "studies"
+  },
+  {
+   "what": "S&P Global (via Atlantic Council): oil tankers worldwide estimated used to smuggle sanctioned-country oil (Russia+Iran+Venezuela combined)",
+   "value": "~1 in 5 (20%)",
+   "source_url": "https://www.atlanticcouncil.org/dispatches/when-economic-warfare-meets-gunboat-diplomacy-what-to-know-about-the-us-seizures-of-shadow-fleet-tankers",
+   "angle": "studies"
+  },
+  {
+   "what": "US-seized vessels linked to the Venezuelan oil trade (since late 2025)",
+   "value": "at least 7 vessels",
+   "source_url": "https://www.atlanticcouncil.org/dispatches/when-economic-warfare-meets-gunboat-diplomacy-what-to-know-about-the-us-seizures-of-shadow-fleet-tankers",
+   "angle": "studies"
+  },
+  {
+   "what": "RUSI: Panama flag de-registrations of shadow/suspect vessels since 2019",
+   "value": "650+ vessels",
+   "source_url": "https://www.rusi.org/explore-our-research/publications/insights-papers/countering-shadow-fleet-activity-through-flag-state-reform",
+   "angle": "studies"
+  },
+  {
+   "what": "OCCRP/Follow the Money: earnings by Western shipowners selling tankers into the shadow fleet",
+   "value": "at least $6.3 billion, hundreds of tankers",
+   "source_url": "https://www.occrp.org/en/investigation/european-ships-keep-russias-shadow-fleet-afloat",
+   "angle": "studies"
+  },
+  {
+   "what": "CENTCOM: Iranian crude tankers destroyed in the 8 Sept 2026 strike",
+   "value": "5 vessels (Kaviz, Charminar, Horizon 1, Riesco, Derya)",
+   "source_url": "https://www.centcom.mil/MEDIA/PUBLIC-RELEASES/Article/4593050/us-destroys-5-irgc-tankers-after-iran-targets-another-american-warship",
+   "angle": "studies"
+  }
+ ],
+ "title": "Shadow Fleet Network",
+ "subtitle": "Who owns, runs, flags and sanctions the tankers moving Russian and Iranian oil, joined by each ship's permanent hull number",
+ "patterns": [
+  {
+   "id": "names",
+   "title": "New name, same hull",
+   "text": "A ship's name can be changed with paperwork. Its IMO number, a 7-digit hull number issued by the International Maritime Organization, stays for life. 16 of the 42 tankers on both the UK Russia list and a US Iran list carry a different name on each list. IMO 9282792 was listed by the UK as CLYDE NOBLE and later by the US as AQUA LIVE.",
+   "examples": [
+    "IMO9282792",
+    "IMO9422988",
+    "IMO9236248"
+   ]
+  },
+  {
+   "id": "shells",
+   "title": "One ship, one company",
+   "text": "Many owners and managers run a single tanker and are named after it. Of 18 manager firms with a set-up date in the US list file, 10 were set up in 2024 or 2025, most 9 to 19 months before their ship was listed. One-ship companies are also normal in legal shipping, so on its own this is a pattern, not proof.",
+   "examples": [
+    "IMO9282792",
+    "IMO9388027"
+   ]
+  },
+  {
+   "id": "managers",
+   "title": "Managers shuffle after a listing",
+   "text": "Treasury says the Shamkhani network's firms \"regularly shuffle in and out of management and operator roles\". The UK list named Clyde Chartering as manager of CLYDE NOBLE in May 2025; the US later listed the same hull as AQUA LIVE. The EU listed three of Zulu Ships Management's tankers about 9 months before it froze Zulu itself.",
+   "examples": [
+    "co:zulu-ships-management-and-operation-l-l-c",
+    "IMO9282792"
+   ]
+  },
+  {
+   "id": "flags",
+   "title": "Flag hopping",
+   "text": "A ship's flag is the country it is registered in, which is responsible for checking it. When a registry drops a listed ship, it moves to another. OFAC recorded Panama or Liberia for Zulu's 11 tankers when it listed them; ship-tracking IDs now point to Cameroon, Guinea and Madagascar.",
+   "examples": [
+    "cc:cm",
+    "cc:pa"
+   ]
+  },
+  {
+   "id": "overlap",
+   "title": "One fleet, two programmes",
+   "text": "The same hulls appear in both sanctions stories. 54 tankers are on a Russia ship list (UK or EU) and also on a US list under an Iran-related programme. Using the UK list alone gives 46; the strict filter in our published analysis gives 42. For 39 of the 54, the US Iran listing came first. Treasury says Fleet Tanqo's tankers carried more than 20 cargoes of Russian oil products in 2025 for an Iran-linked network.",
+   "examples": [
+    "co:fleet-tanqo"
+   ]
+  }
+ ],
+ "coverage": [
+  "Ships and companies come from the UK sanctions list (report of 21 Sep 2026), the US OFAC list and US Consolidated Screening List, and the EU Official Journal ship list and EU financial-sanctions file (OpenSanctions exports, downloaded 25 Sep 2026). All are joined by IMO number.",
+  "US listing dates are the date the ship first appeared on the OFAC list in the OpenSanctions export; they match Treasury's releases on the dates we checked.",
+  "Ukraine's War and Sanctions database (run by Ukraine's military intelligence) supplies former names and flag history. It is a government database, not a sanctions list.",
+  "No line between two points does not mean no relationship. Our sources cover listed ships and firms, and the companies named next to them.",
+  "Documented = stated by an official list, government release or court record. Lead = our own inference or a non-official source; treat as a question, not a finding."
+ ],
+ "credits": "Map layout originally after God's Eye View by Bilawal Sidhu (MIT licence). Data: UK FCDO/OFSI, US Treasury OFAC, US trade.gov, EU, OpenSanctions exports, Ukraine GUR War and Sanctions database, studies as cited."
+}

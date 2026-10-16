@@ -1,0 +1,406 @@
+{
+ "_about": "Hand-edited. Firms outside Russia and Belarus that a US Treasury press release names for supplying chips, microelectronics or electronic components to Russia. Each firm was checked against the cited release. Joined to OFAC's list by OFAC id; bis_name is the exact BIS Entity List name, if any.",
+ "releases": {
+  "jy1102": {
+   "date": "2022-11-14",
+   "title": "Treasury Sanctions Global Russian Military Supply Chain, Kremlin-linked Networks, and Elites with Western Fortunes",
+   "url": "https://home.treasury.gov/news/press-releases/jy1102",
+   "ofac_action_url": "https://ofac.treasury.gov/recent-actions/20221114",
+   "federal_register": null
+  },
+  "jy1402": {
+   "date": "2023-04-12",
+   "title": "Treasury Targets Russian Financial Facilitators and Sanctions Evaders Around the World",
+   "federal_register": {
+    "cite": "88 FR 32278",
+    "url": "https://www.federalregister.gov/documents/2023/05/19/2023-10698/notice-of-ofac-sanctions-actions"
+   },
+   "url": "https://home.treasury.gov/news/press-releases/jy1402",
+   "ofac_action_url": "https://ofac.treasury.gov/recent-actions/20230412"
+  },
+  "jy1636": {
+   "date": "2023-07-20",
+   "title": "Treasury Sanctions Impede Russian Access to Battlefield Supplies and Target Revenue Generators",
+   "federal_register": {
+    "cite": "88 FR 53595",
+    "url": "https://www.federalregister.gov/documents/2023/08/08/2023-16934/notice-of-ofac-sanctions-action"
+   },
+   "url": "https://home.treasury.gov/news/press-releases/jy1636",
+   "ofac_action_url": "https://ofac.treasury.gov/recent-actions/20230720"
+  },
+  "jy2546": {
+   "date": "2024-08-23",
+   "title": "As Russia Feels Effects of Multilateral Sanctions Campaign, Treasury Takes Further Action Against Russia's International Supply Chains",
+   "url": "https://home.treasury.gov/news/press-releases/jy2546",
+   "ofac_action_url": "https://ofac.treasury.gov/recent-actions/20240823",
+   "federal_register": null
+  },
+  "jy2700": {
+   "date": "2024-10-30",
+   "title": "Treasury Takes Aim at Third-Country Sanctions Evaders and Russian Producers Supporting Russia's Military Industrial Base",
+   "url": "https://home.treasury.gov/news/press-releases/jy2700",
+   "ofac_action_url": "https://ofac.treasury.gov/recent-actions/20241030",
+   "federal_register": null
+  }
+ },
+ "firms": [
+  {
+   "ofac_id": "38796",
+   "release": "jy1102",
+   "reason": "Armenia-based affiliate of Milandr set up to order and sell integrated microchips"
+  },
+  {
+   "ofac_id": "38797",
+   "release": "jy1102",
+   "reason": "Taiwan-based front company used to buy microelectronic components"
+  },
+  {
+   "ofac_id": "41861",
+   "release": "jy1402",
+   "reason": "supplier of microelectronics to Russia's military-industrial complex",
+   "bis_name": "King Pai Technology Co., Ltd.",
+   "bis_federal_register": "87 FR 38925"
+  },
+  {
+   "ofac_id": "41936",
+   "release": "jy1402",
+   "reason": "intermediary that sought U.S.-origin electronic components",
+   "bis_name": "Dexias Industrial Products and Trade Limited Company",
+   "bis_federal_register": "88 FR 12171"
+  },
+  {
+   "ofac_id": "42033",
+   "release": "jy1402",
+   "reason": "shipped foreign-origin electronics such as computer chips to Russia",
+   "bis_name": "Azu International Bilgi Teknolojileri Ve Dis Ticaret Limited Sirketi",
+   "bis_federal_register": "89 FR 14388"
+  },
+  {
+   "ofac_id": "41277",
+   "release": "jy1402",
+   "reason": "shipped electronics, including U.S. export-controlled semiconductors",
+   "bis_name": "Hulm al Sahra Elect Devices TR",
+   "bis_federal_register": "88 FR 70352"
+  },
+  {
+   "ofac_id": "44000",
+   "release": "jy1636",
+   "reason": "shipped semiconductor devices and electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "44028",
+   "release": "jy1636",
+   "reason": "shipped tantalum capacitors and electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "44301",
+   "release": "jy1636",
+   "reason": "shipped electronics, including integrated circuits, to Russia"
+  },
+  {
+   "ofac_id": "49876",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits to Russian companies",
+   "bis_name": "Siliborn Technology Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "49783",
+   "release": "jy2546",
+   "reason": "supplied electronic integrated circuits to a Russian company"
+  },
+  {
+   "ofac_id": "49927",
+   "release": "jy2546",
+   "reason": "supplied electronic integrated circuits to Russian companies"
+  },
+  {
+   "ofac_id": "49784",
+   "release": "jy2546",
+   "reason": "supplied electronic integrated circuits to a Russian company"
+  },
+  {
+   "ofac_id": "50128",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits and ceramic capacitors",
+   "bis_name": "LL Electronic Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "49786",
+   "release": "jy2546",
+   "reason": "supplied electronic integrated circuits to a Russian wholesaler",
+   "bis_name": "Allchips Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "50116",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits and ceramic capacitors"
+  },
+  {
+   "ofac_id": "49926",
+   "release": "jy2546",
+   "reason": "made thousands of shipments including electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50129",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits and capacitors"
+  },
+  {
+   "ofac_id": "50127",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits and capacitors",
+   "bis_name": "Cinty Int’l (HK) Industry Co., Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "50115",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "49780",
+   "release": "jy2546",
+   "reason": "supplied electronic integrated circuits to a Russian importer"
+  },
+  {
+   "ofac_id": "49779",
+   "release": "jy2546",
+   "reason": "sent electronic components to a Russian military contractor"
+  },
+  {
+   "ofac_id": "50133",
+   "release": "jy2546",
+   "reason": "shipped electronic integrated circuits and ceramic capacitors"
+  },
+  {
+   "ofac_id": "50300",
+   "release": "jy2546",
+   "reason": "worked to procure foreign- and U.S.-made electronic components"
+  },
+  {
+   "ofac_id": "51025",
+   "release": "jy2700",
+   "reason": "exported CHPL items including electronic integrated circuits"
+  },
+  {
+   "ofac_id": "51026",
+   "release": "jy2700",
+   "reason": "exported electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "51027",
+   "release": "jy2700",
+   "reason": "exported electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "51166",
+   "release": "jy2700",
+   "reason": "supplied microelectronics to U.S.-designated Russian entities",
+   "bis_name": "Allparts Trading Co., Ltd.",
+   "bis_federal_register": "88 FR 23332"
+  },
+  {
+   "ofac_id": "51168",
+   "release": "jy2700",
+   "reason": "supplied microelectronics to U.S.-designated Russian entities"
+  },
+  {
+   "ofac_id": "51165",
+   "release": "jy2700",
+   "reason": "made thousands of microelectronics shipments to Russia"
+  },
+  {
+   "ofac_id": "51170",
+   "release": "jy2700",
+   "reason": "made thousands of microelectronics shipments to Russia",
+   "bis_name": "Maxtronic International Co., Ltd.",
+   "bis_federal_register": "88 FR 23332"
+  },
+  {
+   "ofac_id": "51169",
+   "release": "jy2700",
+   "reason": "made thousands of microelectronics shipments to Russia",
+   "bis_name": "Avtex Semiconductor Limited",
+   "bis_federal_register": "88 FR 23332"
+  },
+  {
+   "ofac_id": "51151",
+   "release": "jy2700",
+   "reason": "made thousands of microelectronics shipments to Russia"
+  },
+  {
+   "ofac_id": "51172",
+   "release": "jy2700",
+   "reason": "shipped to a U.S.-designated Russian electronic components importer"
+  },
+  {
+   "ofac_id": "50923",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "51090",
+   "release": "jy2700",
+   "reason": "shipped electronic integrated circuits to Russian end-users",
+   "bis_name": "Abhar Technologies and Services Private Limited",
+   "bis_federal_register": "88 FR 70352"
+  },
+  {
+   "ofac_id": "51101",
+   "release": "jy2700",
+   "reason": "shipped electronic integrated circuits and storage units"
+  },
+  {
+   "ofac_id": "50942",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50945",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50935",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50786",
+   "release": "jy2700",
+   "reason": "used to procure U.S.-origin microelectronics"
+  },
+  {
+   "ofac_id": "50755",
+   "release": "jy2700",
+   "reason": "shipped electronic integrated circuits and tantalum capacitors"
+  },
+  {
+   "ofac_id": "50926",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50922",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50941",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50939",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits",
+   "bis_name": "Hong Kong Qisu Electronic Technology Co. Ltd.",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "50775",
+   "release": "jy2700",
+   "reason": "shipped electronic integrated circuits and ceramic capacitors",
+   "bis_name": "Innovio Ventures",
+   "bis_federal_register": "88 FR 70352"
+  },
+  {
+   "ofac_id": "50763",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50921",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50925",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50924",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits",
+   "bis_name": "Shenzhen One World International Logistics Co., Limited",
+   "bis_federal_register": "88 FR 70352"
+  },
+  {
+   "ofac_id": "50927",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50817",
+   "release": "jy2700",
+   "reason": "shipped electronic integrated circuits to Russia"
+  },
+  {
+   "ofac_id": "51164",
+   "release": "jy2700",
+   "reason": "shipped microelectronics on the CHPL to Russian end-users"
+  },
+  {
+   "ofac_id": "50943",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits",
+   "bis_name": "Chipgoo Electronics Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "50979",
+   "release": "jy2700",
+   "reason": "facilitated shipments of U.S.-origin microelectronics"
+  },
+  {
+   "ofac_id": "50953",
+   "release": "jy2700",
+   "reason": "acquired Western electronic components for Russian customers"
+  },
+  {
+   "ofac_id": "50944",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "51287",
+   "release": "jy2700",
+   "reason": "shipments included solid state drives and integrated circuits"
+  },
+  {
+   "ofac_id": "50933",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "50937",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits"
+  },
+  {
+   "ofac_id": "51264",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits",
+   "bis_name": "Midas Lighting Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "50940",
+   "release": "jy2700",
+   "reason": "shipments included electronic integrated circuits",
+   "bis_name": "Minhoo Logistics Limited",
+   "bis_federal_register": "89 FR 68548"
+  },
+  {
+   "ofac_id": "51262",
+   "release": "jy2700",
+   "reason": "exported U.S.-made radio frequency transceivers",
+   "bis_name": "Ace Electronics (HK) Co., Limited",
+   "bis_federal_register": "88 FR 70352"
+  }
+ ]
+}

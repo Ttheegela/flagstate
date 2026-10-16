@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semiconductors into Russia: time to list · Flagstate</title>
+<meta name="description" content="How long US lists took to name semiconductor chip and electronics suppliers set up after Russia's invasion: founding date from the US Treasury's own entry to the listing date.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<link rel="stylesheet" href="chips.css">
+<style>
+  .headline { display: grid; gap: var(--space-lg) var(--space-2xl); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); max-width: 52rem; }
+  .stat .big { display: block; font-weight: 800; font-size: var(--text-3xl); letter-spacing: -0.035em; line-height: 1; }
+  .stat .big small { font-size: 0.4em; font-weight: 500; letter-spacing: 0; color: var(--color-muted); }
+  .stat p { margin: var(--space-xs) 0 0; font-size: var(--text-sm); color: var(--color-muted); max-width: 32ch; }
+
+  .lanes { list-style: none; margin: 0; padding: 0; }
+  .lane, .axis { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs) var(--space-md); align-items: center; }
+  @media (min-width: 48rem) { .lane, .axis { grid-template-columns: 15rem minmax(0, 1fr); } }
+  .lane { padding: var(--space-xs) 0; border-top: var(--rule-hair) solid var(--color-rule); }
+  .who { min-width: 0; font-size: var(--text-sm); line-height: 1.3; }
+  .who a { font-weight: 700; color: var(--color-ink); text-decoration: none; overflow-wrap: anywhere; }
+  .who a:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .who span { display: block; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-neutral); }
+  .track { position: relative; height: 1.6rem; }
+  .track .span { position: absolute; top: calc(50% - 1px); height: 2px; background: var(--color-muted); }
+  .track .dot { position: absolute; top: 50%; width: 0.7rem; height: 0.7rem; margin: -0.35rem 0 0 -0.35rem; border-radius: 50%; }
+  .track .f { background: var(--viz-stage); border: 2px solid var(--color-muted); }
+  .track .l { background: var(--color-accent); }
+  .track .b { width: 0.6rem; height: 0.6rem; margin: -0.3rem 0 0 -0.3rem; border-radius: 1px; transform: rotate(45deg); background: var(--viz-other); }
+  .track { height: 2.2rem; }
+  .track .span, .track .dot { top: 70%; }
+  .track .span { top: calc(70% - 1px); }
+  .track .mo { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-ink); white-space: nowrap; }
+  .track .mo.left { top: 70%; padding-right: 0.7rem; transform: translate(-100%, -50%); }
+  .track .inv { position: absolute; top: -0.2rem; bottom: -0.2rem; width: 0; border-left: 1px dashed var(--color-accent); }
+  .axis { padding-bottom: var(--space-xs); }
+  .axis .track { height: 1.2rem; }
+  .axis .tick:first-child { transform: none; }
+  .axis .tick:nth-last-child(3) { transform: translateX(-100%); }
+  .axis .tick { position: absolute; bottom: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-neutral); }
+  .axis .tick.inv-l { color: var(--color-accent); bottom: auto; top: -0.9rem; white-space: nowrap; }
+  .sw.f { border-radius: 50%; border: 2px solid var(--color-muted); }
+  .sw.l { border-radius: 50%; background: var(--color-accent); }
+  .sw.b { transform: rotate(45deg) scale(0.8); background: var(--viz-other); }
+  table.data td a { color: var(--color-muted); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<nav class="wrap storynav" aria-label="Semiconductors into Russia"><ul>
+  <li><a href="index.html">Routes</a></li>
+  <li><a href="coverage.html">Who reports</a></li>
+  <li><a href="listing_lag.html" aria-current="page">Time to list</a></li>
+  <li><a href="river.html">Kyrgyzstan and Kazakhstan</a></li>
+</ul></nav>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Semiconductors into Russia · time to list</p>
+  <h1>Semiconductors into Russia: <span>new suppliers, listed late.</span></h1>
+  <div class="headline">
+    <div class="stat"><span class="big" data-k="median">… <small>months</small></span><p data-k="median-note">Median time from founding to US Treasury listing, for chip suppliers set up after the invasion.</p></div>
+    <div class="stat"><span class="big" data-k="wide">… <small>months</small></span><p data-k="wide-note">The same measure for every company on the Russia sanctions programme founded after the invasion and based outside Russia and Belarus.</p></div>
+  </div>
+  <p class="hero-sub">Firms named by US Treasury press releases for sending chips, microelectronics or electronic components to Russia. The founding date is the "Organization Established Date" in the US Treasury's own list entry; the listing date is the day the firm was added to the US Treasury (OFAC) list.</p>
+</section>
+
+<div class="story-body">
+  <p class="note"><b>How to read this.</b> Each line runs from the founding date to the US Treasury listing. Where the US Commerce Department's Entity List named the firm first or later, a blue diamond marks that date. The firms come from five Treasury press releases (2022 to 2024); this is a hand-checked set, not every chip supplier, so the median describes these firms only. Hover or focus a mark for its date.</p>
+  <p id="err" class="note err">Could not load the listing data.</p>
+
+  <section class="panel">
+    <h2>Founded after the invasion</h2>
+    <p class="h2sub" data-k="lanes-sub">One line per firm, ordered by founding date.</p>
+    <ul class="legend">
+      <li><span class="sw f"></span>Founded (US Treasury entry)</li>
+      <li><span class="sw l"></span>Listed by the US Treasury (OFAC)</li>
+      <li><span class="sw b"></span>Added to the Entity List (US Commerce, BIS)</li>
+    </ul>
+    <div class="axis" aria-hidden="true"><div></div><div class="track" id="axis"></div></div>
+    <ul class="lanes" id="lanes"></ul>
+    <h3>No founding date in the US Treasury entry</h3>
+    <p class="body" data-k="nodate-sub">These firms are in the same releases, but their entries give no founding date, so only the listing is shown and they are left out of the median.</p>
+    <ul class="lanes" id="nodate"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>Every firm in the set</h2>
+    <p class="h2sub" data-k="older-sub">Including the firms founded before the invasion, which are left out of the median.</p>
+    <details class="tbl"><summary>Show all firms with their official sources</summary><div class="tblwrap" id="tbl"></div></details>
+  </section>
+
+  <section class="panel">
+    <p class="label">Official lists and releases only</p>
+    <h2>Sources</h2>
+    <ul class="sources" id="sources">
+      <li><a href="https://ofac.treasury.gov/sanctions-list-service">US Treasury (OFAC) Sanctions List Service</a>, SDN advanced XML: listing dates (entry events), founding dates ("Organization Established Date") and addresses. Firms are joined to the list by their OFAC id.</li>
+      <li><a href="https://www.trade.gov/consolidated-screening-list">Consolidated Screening List</a> (US Commerce): Entity List dates, matched on the exact Entity List name.</li>
+    </ul>
+    <p class="stamp" id="stamp"></p>
+  </section>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>An independent research project</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../../sources/METHODS_LOG.md">Methods</a>
+  <span>Not legal advice</span>
+</footer>
+<script type="module" src="lag.js"></script>
+</body>
+</html>

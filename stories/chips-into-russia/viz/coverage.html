@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semiconductors into Russia: who reports · Flagstate</title>
+<meta name="description" content="World map of which countries reported a semiconductor chip (HS 8542) export row to Russia to UN Comtrade, which reported trade without one, and which did not report, by year.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<link rel="stylesheet" href="chips.css">
+<style>
+  .years { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin: 0 0 var(--space-md); }
+  .years .btn { padding: 0.5rem 0.75rem; font-family: var(--font-mono); }
+  .years .btn[aria-pressed="true"] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+  .map svg { width: 100%; height: auto; display: block; }
+  .map path, .map circle { stroke: var(--viz-stage); stroke-width: 0.5; }
+  .map .row { fill: var(--viz-hkcn); }
+  .map .none { fill: var(--viz-none); stroke: var(--color-neutral); stroke-width: 0.4; }
+  .map .absent { fill: url(#hatch); stroke: var(--color-rule); }
+  .map .rus { fill: var(--color-paper); stroke: var(--color-ink); stroke-width: 1; }
+  .map [data-tip]:hover, .map [data-tip]:focus-visible { stroke: var(--color-ink); stroke-width: 1.2; outline: none; }
+  .legend b { color: var(--color-ink); font-family: var(--font-mono); font-weight: 500; }
+  .names { columns: 14rem; column-gap: var(--space-lg); font-size: var(--text-sm); color: var(--color-muted); margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+  .names li { break-inside: avoid; padding: 0.1rem 0; }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<nav class="wrap storynav" aria-label="Semiconductors into Russia"><ul>
+  <li><a href="index.html">Routes</a></li>
+  <li><a href="coverage.html" aria-current="page">Who reports</a></li>
+  <li><a href="listing_lag.html">Time to list</a></li>
+  <li><a href="river.html">Kyrgyzstan and Kazakhstan</a></li>
+</ul></nav>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Semiconductors into Russia · who reports</p>
+  <h1>Semiconductors into Russia: <span>what the records can see.</span></h1>
+  <p class="take">Every chip figure on these pages exists only because a country chose to report it. <span data-k="drop">Fewer countries report a chip row to Russia each year.</span></p>
+  <p class="hero-sub">For each year, a country is in one of three states in UN Comtrade: it reported a chip export row to Russia, it reported its trade but with no chip row to Russia, or it has not reported that year at all. A missing row is not proof of zero trade, and recent years fill in as countries report late.</p>
+</section>
+
+<div class="story-body">
+  <p id="err" class="note err">Could not load the coverage data.</p>
+  <section class="panel">
+    <h2 id="maptitle">Chip export rows to Russia</h2>
+    <p class="h2sub">Pick a year. Russia is outlined: it is the destination, and it stopped reporting its own trade after 2021. Hover over a country for its state; the list below the map names every country with a chip row.</p>
+    <div class="years" role="group" aria-label="Year" id="years"></div>
+    <ul class="legend" id="legend"></ul>
+    <div class="frame map" id="map"></div>
+    <h3>Countries with a chip row to Russia in <span data-k="year"></span></h3>
+    <ul class="names" id="names"></ul>
+  </section>
+
+  <section class="panel">
+    <p class="label">Official statistics only</p>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li><a href="https://comtradeplus.un.org/">UN Comtrade (database home; figures from its public API)</a>: data availability list (<code>comtradeapi.un.org/public/v1/getDA/C/A/HS</code>) for who reported each year, and the HS 8542 export rows to Russia for who had a chip row. Used under the <a href="https://uncomtrade.org/docs/policy-on-comtrade-data-use/">Comtrade data-use policy</a>.</li>
+      <li>Country shapes: <a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/">Natural Earth 1:110m Admin 0 – Countries</a> (public domain), via world-atlas 2.0.2. Hong Kong, Singapore, Malta, Bahrain, Macao, Mauritius, Andorra and the Maldives are too small at this scale and are drawn as dots.</li>
+      <li>Taiwan's trade appears in Comtrade as "Other Asia, nes" and is shown on Taiwan.</li>
+      <li>Data file: <a href="../data/coverage.json">coverage.json</a>, rebuilt nightly by <code>scripts/build_chips.py</code>.</li>
+    </ul>
+    <p class="stamp" id="stamp"></p>
+  </section>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>An independent research project</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../../sources/METHODS_LOG.md">Methods</a>
+  <span>Not legal advice</span>
+</footer>
+<script type="module" src="coverage.js"></script>
+</body>
+</html>

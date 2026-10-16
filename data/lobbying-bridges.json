@@ -1,0 +1,187 @@
+{
+ "about": "Hand-checked links between the lobbying side and the fleet, and companies searched with no US lobbying found, from the VeilTrace knowledge graph (veil-trace@88dcaa2, 25 Sep 2026). Grade 'lead' means our inference, not an official finding.",
+ "links": [
+  {
+   "from": "Gazprom",
+   "relation": "owns",
+   "to": "Gazprom Neft (PJSC Gazprom Neft)",
+   "grade": "documented",
+   "date": "2014-09-12",
+   "source_url": "https://home.treasury.gov/news/press-releases/jl2629",
+   "quote": "Gazprom Neft is majority owned by Gazprom."
+  },
+  {
+   "from": "Gazprom Neft (PJSC Gazprom Neft)",
+   "relation": "owns",
+   "to": "GAZPROMNEFT MARINE BUNKER LIMITED LIABILITY COMPANY",
+   "grade": "documented",
+   "date": "2025-01-10",
+   "source_url": "https://home.treasury.gov/news/press-releases/jy2777",
+   "quote": "Russia-based fleet and bunker operator Gazpromneft Marine Bunker ... a Gazprom Neft subsidiary"
+  },
+  {
+   "from": "Gazprom",
+   "relation": "owns",
+   "to": "Gazpromexport",
+   "grade": "documented",
+   "date": "2005",
+   "source_url": "https://lda.senate.gov/filings/public/filing/a790e61d-e32a-4907-b827-b8112a617526/print/",
+   "quote": "Client: GAZPROMEXPORT LTD (FORMERLY GAZEXPORT LTD) A SUBSIDIARY OF OAO GAZPROM"
+  },
+  {
+   "from": "Sberbank",
+   "relation": "owns",
+   "to": "Sberbank CIB USA",
+   "grade": "lead",
+   "date": "",
+   "source_url": "",
+   "quote": "Inferred from the name and the Sberbank group holding companies listed as foreign entities on the filings; not stated on an official page we saved."
+  },
+  {
+   "from": "Hangzhou Hikvision",
+   "relation": "owns",
+   "to": "Hikvision USA",
+   "grade": "lead",
+   "date": "",
+   "source_url": "",
+   "quote": "US subsidiary of the Hangzhou parent (inferred from the name; the filings list CETC and CETHIK, the parent's state owners, as foreign entities)."
+  },
+  {
+   "from": "China Electronics Technology Group (CETC)",
+   "relation": "owns",
+   "to": "Hangzhou Hikvision",
+   "grade": "lead",
+   "date": "",
+   "source_url": "",
+   "quote": "The Hikvision USA filings list CETC as a foreign entity; control of the parent is widely reported but not re-checked here."
+  },
+  {
+   "from": "En+ Group",
+   "relation": "hired",
+   "to": "Mercury Public Affairs",
+   "grade": "documented",
+   "date": "2019-02",
+   "source_url": "https://efile.fara.gov/docs/6170-Exhibit-AB-20200316-80.pdf",
+   "quote": "Foreign-agent (FARA) contract between Mercury Public Affairs and En+ Group, $108,500 per month, during the 2019 delisting."
+  },
+  {
+   "from": "Hikvision USA",
+   "relation": "foreign agent for",
+   "to": "Sidley Austin LLP",
+   "grade": "reported",
+   "date": "2025-04-30",
+   "source_url": "https://efile.fara.gov/docs/3731-Supplemental-Statement-20250430-53.pdf",
+   "quote": "Sidley Austin registered as a foreign agent (FARA 3731) for Hikvision USA; about $573,619 in one six-month period (not re-checked)."
+  },
+  {
+   "from": "Government of Russia",
+   "relation": "owns",
+   "to": "SOVCOMFLOT",
+   "grade": "documented",
+   "date": "2025-01-10",
+   "source_url": "https://home.treasury.gov/news/press-releases/jy2777",
+   "quote": "Joint Stock Company Sovcomflot (Sovcomflot), Russia's state-owned shipping company and fleet operator"
+  },
+  {
+   "from": "Gazprom Neft (PJSC Gazprom Neft)",
+   "relation": "owns",
+   "to": "Gazpromneft Shipping LLC",
+   "grade": "lead",
+   "date": "",
+   "source_url": "",
+   "quote": "Inferred from the name; no official text we saved states the owner."
+  },
+  {
+   "from": "Gazprom",
+   "relation": "owns",
+   "to": "Gazprom Flot LLC",
+   "grade": "lead",
+   "date": "",
+   "source_url": "",
+   "quote": "Inferred from the name; no official text we saved states the owner (EU listed Gazprom Flot on 23 Apr 2026)."
+  },
+  {
+   "from": "Ocean Speedstar Solutions OPC PVT LTD",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=50521",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "ZARA SHIPHOLDING CO",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=50524",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "GOTIK SHIPPING CO",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=50626",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "PLIO ENERGY CARGO SHIPPING OPC PRIVATE LIMITED",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=50627",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "SKYHART MANAGEMENT SERVICES PRIVATE LIMITED",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=51967",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "Avision Shipping Services Pvt",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=51972",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  },
+  {
+   "from": "HONGKONG YAQING SHIPPING CO LIMITED",
+   "relation": "linked to",
+   "to": "Arctic LNG 2",
+   "grade": "documented",
+   "date": "",
+   "source_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=52250",
+   "quote": "US sanctions list entry: (Linked To: LIMITED LIABILITY COMPANY ARCTIC LNG 2)"
+  }
+ ],
+ "no_lobbying_found": [
+  "Sovcomflot",
+  "Zulu Ships Management",
+  "Fleet Tanqo",
+  "Orchid Shipmanagement",
+  "Glory Shipping",
+  "Lukoil",
+  "Rosneft",
+  "Nayara",
+  "Litasco",
+  "Rusal",
+  "Megasan",
+  "Alrosa",
+  "Kaspersky",
+  "YMTC",
+  "CXMT",
+  "RM Design and Development",
+  "ELEM Group",
+  "Keremet Bank"
+ ]
+}

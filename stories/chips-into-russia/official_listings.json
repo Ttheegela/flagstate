@@ -1,0 +1,80 @@
+{
+ "_about": "Companies from our chip research that are on an official US or UK list, with their first official listing (dates from official pages: OFAC recent actions, Federal Register, UK Sanctions List). Official facts only.",
+ "companies": [
+  {
+   "id": "elem",
+   "name": "ELEM GROUP",
+   "place": "Almaty, Kazakhstan",
+   "first_listing": {
+    "date": "2023-12-07",
+    "authority": "US Commerce (BIS Entity List)",
+    "source_url": "https://www.federalregister.gov/documents/2023/12/07/2023-26935/addition-of-entities-to-the-entity-list"
+   }
+  },
+  {
+   "id": "rm",
+   "name": "RM Design and Development (RM Dizayn)",
+   "ofac_id": "44000",
+   "place": "Bishkek, Kyrgyzstan",
+   "first_listing": {
+    "date": "2023-07-20",
+    "authority": "US Treasury (OFAC)"
+   }
+  },
+  {
+   "id": "streloi",
+   "name": "STRELOI EKOMMERTS (Streloy E-Commerce)",
+   "place": "St Petersburg, Russia",
+   "first_listing": {
+    "date": "2023-12-12",
+    "authority": "US Treasury (OFAC)"
+   }
+  },
+  {
+   "id": "itic",
+   "name": "ITIC LLC FZ",
+   "place": "Dubai, United Arab Emirates",
+   "first_listing": {
+    "date": "2024-06-12",
+    "authority": "US Treasury (OFAC)"
+   }
+  },
+  {
+   "id": "enkor",
+   "name": "OOO Enkor Grupp",
+   "place": "Kaliningrad, Russia",
+   "first_listing": {
+    "date": "2023-09-14",
+    "authority": "US Treasury (OFAC)"
+   }
+  },
+  {
+   "id": "titan",
+   "name": "OOO Titan-Micro",
+   "place": "Moscow, Russia",
+   "first_listing": {
+    "date": "2023-05-19",
+    "authority": "US Treasury (OFAC)"
+   }
+  },
+  {
+   "id": "sinno",
+   "name": "Sinno Electronics",
+   "place": "Hong Kong",
+   "first_listing": {
+    "date": "2022-06-28",
+    "authority": "US Commerce (BIS Entity List)",
+    "source_url": "https://www.federalregister.gov/documents/2022/06/30/2022-14069/addition-of-entities-revision-and-correction-of-entries-and-removal-of-entities-from-the-entity-list"
+   }
+  },
+  {
+   "id": "testk",
+   "name": "LLC Testkomplekt",
+   "place": "Moscow, Russia",
+   "first_listing": {
+    "date": "2023-05-19",
+    "authority": "US Treasury (OFAC)"
+   }
+  }
+ ]
+}

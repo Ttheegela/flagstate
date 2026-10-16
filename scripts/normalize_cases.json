@@ -1,0 +1,25 @@
+{
+  "names": [
+    {"in": "TASSOS", "out": "TASSOS"},
+    {"in": "Sovcomflot PJSC", "out": "SOVCOMFLOT"},
+    {"in": "  Hongkong Yaqing Shipping Co., Limited ", "out": "HONGKONG YAQING SHIPPING"},
+    {"in": "OOO \"Elem Group\"", "out": "ELEM GROUP"},
+    {"in": "Müller GmbH & Co. KG", "out": "MULLER"},
+    {"in": "Al-Tikriti", "out": "AL TIKRITI"},
+    {"in": "Société Générale S.A.", "out": "SOCIETE GENERALE S A"},
+    {"in": "Ya Qing Hai Yang", "out": "YA QING HAI YANG"},
+    {"in": "Совкомфлот", "out": ""},
+    {"in": "LLC", "out": ""},
+    {"in": "...", "out": ""},
+    {"in": "", "out": ""}
+  ],
+  "imos": [
+    {"in": "9408695", "out": "9408695"},
+    {"in": " 9408695 ", "out": "9408695"},
+    {"in": "IMO 9408695", "out": "9408695"},
+    {"in": "imo9408695", "out": "9408695"},
+    {"in": "940869", "out": null},
+    {"in": "94086951", "out": null},
+    {"in": "TASSOS", "out": null}
+  ]
+}

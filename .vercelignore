@@ -1,0 +1,14 @@
+node_modules
+tests
+scripts
+docs
+test-results
+playwright-report
+playwright.config.js
+requirements-dev.txt
+.github
+.env*
+.vercel
+.venv
+.superpowers
+build

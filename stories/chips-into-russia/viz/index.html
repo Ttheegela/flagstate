@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semiconductors into Russia: routes · Flagstate</title>
+<meta name="description" content="Semiconductor chip exports to Russia (HS 8542) as each country reported them to UN Comtrade, 2019 to the latest year, with EU totals from Eurostat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../app/style.css">
+<link rel="stylesheet" href="chips.css">
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true"></span>Flagstate</a>
+  <nav aria-label="Primary"><ul>
+    <li><a href="../../../#research">Research</a></li>
+    <li><a href="../../about-the-data.html">About the data</a></li>
+  </ul></nav>
+</header>
+
+<nav class="wrap storynav" aria-label="Semiconductors into Russia"><ul>
+  <li><a href="index.html" aria-current="page">Routes</a></li>
+  <li><a href="coverage.html">Who reports</a></li>
+  <li><a href="listing_lag.html">Time to list</a></li>
+  <li><a href="river.html">Kyrgyzstan and Kazakhstan</a></li>
+</ul></nav>
+
+<main class="wrap">
+<section class="hero">
+  <p class="label">Semiconductors into Russia · routes</p>
+  <h1>Semiconductors into Russia: <span>who reported sending them.</span></h1>
+  <p class="take">Before 2022, European countries were among the largest reported senders of chips to Russia. From 2023, Hong Kong and mainland China reported <span data-k="share">most</span> of what any country reported sending.</p>
+  <p class="hero-sub">Electronic integrated circuits (customs code HS 8542), as each country declared its own exports to Russia to UN Comtrade, in US dollars. Kazakhstan, Kyrgyzstan and Armenia reported almost none before the invasion and millions of dollars a year in 2022 and 2023. Russia itself reported chip imports until 2021 and has published nothing since.</p>
+</section>
+
+<div class="story-body">
+  <p class="note"><b>How to read this.</b> Each figure is a country's own declared exports to Russia, not a traced shipment and not Russia's imports. Countries report late and revise, and not every country reports every year (the latest year has the fewest reports; see <a href="coverage.html">who reports</a>). Hong Kong's figures include re-exports of goods made elsewhere. Hover or focus a bar for its value.</p>
+  <p id="err" class="note err">Could not load the chip trade data.</p>
+
+  <section class="panel">
+    <h2>All reported chip exports to Russia, by group of senders</h2>
+    <p class="h2sub">Sum of every country's declared chip exports to Russia, per year. The dashed line is what Russia itself reported importing from the whole world, which it stopped publishing after 2021.</p>
+    <ul class="legend">
+      <li><span class="sw hkcn"></span>Hong Kong and mainland China</li>
+      <li><span class="sw transit"></span>Kazakhstan, Kyrgyzstan, Armenia, Turkey, UAE</li>
+      <li><span class="sw other"></span>Every other reporting country</li>
+      <li><span class="sw ref"></span>Russia's own reported imports</li>
+    </ul>
+    <div class="frame"><div class="chart" id="stack"></div></div>
+  </section>
+
+  <section class="panel">
+    <h2>Country by country</h2>
+    <p class="h2sub">Each country's declared chip exports to Russia per year. The large senders share one scale; the five smaller countries share another, about twenty times finer. A gap marked "n/r" means the country did not report that year.</p>
+    <h3>Large senders before or after 2022</h3>
+    <div class="multiples" id="big"></div>
+    <h3>Kazakhstan, Kyrgyzstan, Armenia, Turkey and the UAE</h3>
+    <div class="multiples" id="small"></div>
+    <details class="tbl"><summary>Show the figures as a table</summary><div class="tblwrap" id="tbl"></div></details>
+  </section>
+
+  <section class="panel">
+    <h2>The EU's own export figures</h2>
+    <p class="h2sub">Eurostat's total for all 27 EU countries' chip exports, in euros. Exports to Russia fell to almost nothing after the 2022 bans. Exports to Turkey and Kazakhstan rose in 2022. Each panel has its own scale.</p>
+    <div class="multiples" id="eu"></div>
+  </section>
+
+  <section class="panel">
+    <p class="label">Official statistics only</p>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li><a href="https://comtradeplus.un.org/">UN Comtrade (database home; figures from its public API)</a>: reporters' annual exports to Russia, HS 8542, from the public preview API (<code>comtradeapi.un.org/public/v1/preview</code>), and Russia's own imports from the world. Used under the <a href="https://uncomtrade.org/docs/policy-on-comtrade-data-use/">Comtrade data-use policy</a>; this page shows a small selection, not a re-distribution of the database.</li>
+      <li><a href="https://ec.europa.eu/eurostat/databrowser/view/ds-045409/default/table?lang=en">Eurostat Comext, dataset DS-045409</a>, EU27 exports of HS 8542 (CC BY 4.0).</li>
+      <li>Taiwan's trade appears in Comtrade as "Other Asia, nes".</li>
+      <li>Full write-up: <a href="../FINDINGS.md">FINDINGS.md</a>. Data file: <a href="../data/routes.json">routes.json</a>, rebuilt nightly by <code>scripts/build_chips.py</code>.</li>
+    </ul>
+    <p class="stamp" id="stamp"></p>
+  </section>
+</div>
+</main>
+
+<footer class="wrap foot">
+  <span>Flagstate</span>
+  <span>An independent research project</span>
+  <a href="../../about-the-data.html">About the data</a>
+  <a href="../../sources/METHODS_LOG.md">Methods</a>
+  <span>Not legal advice</span>
+</footer>
+<script type="module" src="routes.js"></script>
+</body>
+</html>
