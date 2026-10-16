@@ -12,3 +12,5 @@ requirements-dev.txt
 .venv
 .superpowers
 build
+agent
+.memory.json
