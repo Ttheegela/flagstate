@@ -2,6 +2,7 @@ import { prepareQuery, searchResearch, searchLists, loadJson, LIST_IDS, latestOn
 import { setupWalkthrough } from "./walkthrough.js";
 import { connectionsQuery, renderConnections, renderConnectionsLoading } from "./connections.js";
 import { renderStartButton, investigate, togglePlay, setupVoice } from "./investigate.js";
+import { setupScribe } from "./scribe.js";
 import {
   renderResearch, renderLists, renderWider, renderEmpty, renderHint, renderLoading, renderLayerError,
   citation, formatUpdated, medianMonths, escapeHtml, CAVEAT,
@@ -217,6 +218,11 @@ function wire() {
   showListDate();
   showChipsMonths();
   setupVoice();
+  setupScribe({ openDossier: (query) => {
+    input.value = query;
+    runSearch(query);
+    $("#search").scrollIntoView({ behavior: "smooth" });
+  } });
 }
 
 wire();

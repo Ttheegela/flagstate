@@ -24,9 +24,9 @@ normalize_name, parse_imo = _normalize.normalize_name, _normalize.parse_imo
 
 @lru_cache(maxsize=1)
 def _data():
-    research = json.loads((DATA / "research-index.json").read_text())["entries"]
-    meta = json.loads((DATA / "lists" / "meta.json").read_text())["lists"]
-    lists = {l: json.loads((DATA / "lists" / f"{l}.json").read_text())["records"] for l in LIST_IDS}
+    research = json.loads((DATA / "research-index.json").read_text(encoding="utf-8"))["entries"]
+    meta = json.loads((DATA / "lists" / "meta.json").read_text(encoding="utf-8"))["lists"]
+    lists = {l: json.loads((DATA / "lists" / f"{l}.json").read_text(encoding="utf-8"))["records"] for l in LIST_IDS}
     return research, lists, meta
 
 

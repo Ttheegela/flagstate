@@ -37,6 +37,7 @@
     <span class="kbd" aria-hidden="true">/</span>
   </form>
   <a class="voice-entry" href="#voice"><strong>Ask by voice</strong><span>Talk to the investigator →</span></a>
+  <a class="voice-entry" href="#scribe"><strong>Check a recording</strong><span>Find every sanctioned name in it →</span></a>
   </div>
   <div class="hero-meta">
     <span id="lists-date"><span class="live-dot" aria-hidden="true"></span>Checking when the official lists were last updated…</span>
@@ -55,6 +56,30 @@
   <h2 id="voice-h">Talk to the investigator</h2>
   <p class="hero-sub">Ask about a ship, company or person out loud. The voice agent searches the same evidence, checks the same lists and can start a live investigation while you listen.</p>
   <div id="voice-slot"></div>
+</section>
+
+<section class="wrap voice scribe" id="scribe" aria-labelledby="scribe-h" hidden>
+  <p class="label">Check a recording</p>
+  <h2 id="scribe-h">Every name in the tape, checked</h2>
+  <p class="hero-sub">Drop in a radio call, a press conference, a hearing or a podcast. ElevenLabs Scribe transcribes it with speakers and timestamps, tuned to the ship and company names in our data, and every ship, company or person on record is marked and checked against the sanctions lists.</p>
+  <div class="sc-inputs">
+    <label class="sc-drop" id="scribe-drop">
+      <input id="scribe-file" type="file" accept="audio/*,video/*" class="visually-hidden">
+      <strong>Drop an audio or video file</strong><span>or click to choose · up to 25 MB</span>
+      <span class="conn-meta" id="scribe-name"></span>
+    </label>
+    <div class="sc-side">
+      <label class="label" for="scribe-hints">Names to listen for (optional)</label>
+      <input class="sc-field" id="scribe-hints" type="text" placeholder="e.g. Front Balder, Meru" maxlength="500" autocomplete="off" spellcheck="false">
+      <details class="sc-paste"><summary>Or paste a transcript</summary>
+        <form id="scribe-text-form"><label for="scribe-text" class="visually-hidden">Transcript</label>
+          <textarea class="sc-field" id="scribe-text" rows="6" maxlength="200000" placeholder="Paste a transcript or article. A blank line starts a new speaker."></textarea>
+          <button class="btn btn-accent" type="submit">Check transcript</button></form>
+      </details>
+    </div>
+  </div>
+  <audio id="scribe-audio" controls preload="metadata" hidden></audio>
+  <div id="scribe-out" aria-live="polite"></div>
 </section>
 
 <section class="wrap research" id="research">

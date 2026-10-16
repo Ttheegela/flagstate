@@ -17,6 +17,7 @@ so the pipeline and tests run offline. Config comes from env (`agent/.env`, load
 | `browse.py` (Anchor) | tools | `fetch_live(query, imo=None) -> {"facts": {...}, "sources": [url], "live_view_url": str\|None, "available": bool}` |
 | `memory.py` (SurrealDB Agent Memory) | tools | `recall(subject) -> [{"field","value","source","observed_at","superseded_at"}]`; `remember(subject, facts: dict, source: str, observed_at: str) -> [changes]` where a change is `{"field","old","new","old_observed_at"}` (new fact supersedes old, history kept) |
 | `voice.py` (ElevenLabs TTS) | tools | `tts(text) -> bytes` (mp3) |
+| `scribe.py` (ElevenLabs Scribe) | tools | `check_audio(bytes, filename, content_type, hints) -> {segments, entities, ...}` (raises `ScribeUnavailable` with no key); `check_text(text)` same shape, works offline |
 
 ## Routes (server.py)
 - `GET /health`
@@ -24,4 +25,6 @@ so the pipeline and tests run offline. Config comes from env (`agent/.env`, load
 - `GET /jobs/{job_id}` -> `{"status": "running|done|error", "steps": [{"name","status","detail","ms"}], "result": {...}}`
 - `GET /jobs/{job_id}/audio` -> mp3 of the briefing
 - ElevenLabs server tools (JSON in, JSON out, fast): `POST /tools/search {"query"}`, `POST /tools/investigate {"query"}` (starts job, returns job_id + quick lookup), `POST /tools/status {"job_id"}` (returns steps so far + briefing when done)
+- `POST /scribe` (multipart `file`, optional `hints` comma-separated) -> speaker-labelled transcript plus every entity on record mentioned in it; 503 without an ElevenLabs key
+- `POST /scribe/text {"text"}` -> the same for a pasted transcript (no key needed)
 - CORS open to the site origin(s) in env `ALLOWED_ORIGINS` (default `*` for the hackathon)

@@ -23,6 +23,7 @@ Each sponsor integration is optional. If its key is missing, the step falls back
 | `ANCHOR_API_KEY` | `browse.py` | no live facts |
 | `SURREAL_MEMORY_URL`, `SURREAL_MEMORY_TOKEN` | `memory.py` | recall/remember fall back |
 | `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | `voice.py` | `/jobs/{id}/audio` returns 503 |
+| `ELEVENLABS_API_KEY`, `SCRIBE_MODEL` (default `scribe_v2`), `SCRIBE_KEYTERMS` (default 250) | `scribe.py` | `/scribe` returns 503; `/scribe/text` still works |
 | `ALLOWED_ORIGINS` (comma-separated, default `*`) | `server.py` CORS | `*` |
 
 ## Architecture
@@ -58,6 +59,8 @@ Each sponsor integration is optional. If its key is missing, the step falls back
 - `GET /jobs/{job_id}/audio` returns an mp3 of the briefing.
 - `POST /tools/search {"query"}` is a fast lookup. Its `say` line is ready to read aloud.
 - `POST /tools/investigate {"query"}` starts a job and returns the quick lookup, `job_id` and `say`.
+- `POST /scribe` (multipart: `file` up to 25 MB, optional `hints`) transcribes a recording with ElevenLabs Scribe (speakers, word timestamps, keyterms from the research index) and returns `{segments, entities}`: each entity is a ship, company or person on record, with the lists that name it, the names it was heard as and the time of every mention.
+- `POST /scribe/text {"text"}` does the same for a pasted transcript; a blank line starts a new turn.
 - `POST /tools/status {"job_id"?}` returns progress, or the briefing, risk and top flags once the job is done. If `job_id` is omitted, it reports on the latest job.
 
 Analysis flags (`analysis.py`, stdlib only): `on_official_list`, `name_changed`, `flag_changed`, `owner_or_manager_changed`, `dark_fleet_indicator`, `live_disagrees_with_record`, `changed_since_last_check`. Each flag has a `severity`, `evidence` and `source` URL.
