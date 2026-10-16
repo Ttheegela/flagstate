@@ -91,12 +91,13 @@ test("TASSOS timeline at 375px: stacked, full text, same colour, no toggle", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
-test("Investigate live button appears; voice section stays hidden without an agent id", async ({ page }) => {
+test("Investigate live button appears; voice section shows the ElevenLabs widget", async ({ page }) => {
   const errors = watchErrors(page);
   await page.goto("/");
   await search(page, "TASSOS");
   await expect(page.locator("[data-investigate]")).toHaveText("Investigate live");
-  await expect(page.locator("#voice")).toBeHidden();
+  await expect(page.locator("#voice")).toBeVisible();
+  await expect(page.locator("#voice elevenlabs-convai")).toHaveAttribute("agent-id", /^agent_/);
   expect(errors).toEqual([]);
 });
 

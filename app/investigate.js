@@ -182,6 +182,10 @@ export function setupVoice() {
   if (!id || !section) return;
   const widget = document.createElement("elevenlabs-convai");
   widget.setAttribute("agent-id", id);
+  // The voice agent's webhook tools call https://{agent_host}/tools/*, so hand it the agent's host.
+  try {
+    widget.setAttribute("dynamic-variables", JSON.stringify({ agent_host: new URL(agentBase()).host }));
+  } catch { /* no usable agent URL: the voice agent will say its tools are unavailable */ }
   section.querySelector("#voice-slot").append(widget);
   const script = document.createElement("script");
   script.src = "https://unpkg.com/@elevenlabs/convai-widget-embed@0.18.3/dist/index.js";
