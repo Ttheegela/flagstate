@@ -123,6 +123,8 @@ def investigate(query: str, on_step=None) -> dict:
         ev = run("eval", evaluate, "EVALUATOR")
         if ev:
             tracing.log_eval(ev["name"], ev["score"], ev["label"], ev["explanation"])  # also on the root span
-        result.update(live=live, memory=memory, analysis=analysis, changes=changes, briefing=briefing, eval=ev)
+        result.update(live=live, memory=memory, analysis=analysis, changes=changes, briefing=briefing, eval=ev,
+                      flags=analysis.get("flags") or [],
+                      sandbox={"ran_in": analysis.get("ran_in"), "sandbox_id": analysis.get("sandbox_id")})
         tracing.set_output(root, {"briefing": briefing.get("text"), "risk": analysis.get("risk")})
     return result

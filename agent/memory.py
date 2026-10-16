@@ -59,8 +59,18 @@ def _remote_append(c: httpx.Client, key: str, subject: str, rows: list[dict]) ->
             "infer": "none",  # literal store: keeps the row exact and traceable to its source
             "memory_category": "knowledge",
             "labels": [f"subject={key}", f"field={row['field']}"],
-            "observed_at": row["observed_at"],
-        }).raise_for_status()
+        }).raise_for_status()  # observed_at is not allowed on literal writes; it lives inside the row
+        # Same fact as a sentence for Agent Memory's knowledge graph (entities, relations, known-time).
+        # Best effort: the literal row above is what recall depends on.
+        try:
+            c.post("/facts", json={
+                "text": f"{subject} {row['field']} is {row['value']} (source: {row.get('source') or 'unknown'})",
+                "infer": "full",
+                "labels": [f"subject={key}", f"field={row['field']}"],
+                "observed_at": row["observed_at"],
+            }).raise_for_status()
+        except httpx.HTTPError as e:
+            log.warning("agent memory graph write failed: %s", type(e).__name__)
 
 
 def _local_read() -> dict:

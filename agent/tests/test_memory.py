@@ -39,7 +39,10 @@ def test_supersede_agent_memory(monkeypatch):
         assert req.headers["Authorization"] == "Bearer tok"
         body = json.loads(req.content)
         if req.url.path == "/api/v1/flagstate/facts":
-            assert body["infer"] == "none"
+            if body["infer"] == "full":  # knowledge-graph sentence: carries known-time
+                assert body["observed_at"]
+                return httpx.Response(200, json={"mode": "full"})
+            assert body["infer"] == "none" and "observed_at" not in body  # API rejects it on literal writes
             stored.append(body)
             return httpx.Response(200, json={"mode": "none", "session_id": "x", "chunk_id": "c"})
         assert req.url.path == "/api/v1/flagstate/query"
@@ -50,6 +53,7 @@ def test_supersede_agent_memory(monkeypatch):
 
     monkeypatch.setenv("SURREAL_MEMORY_URL", "https://mem.example")
     monkeypatch.setenv("SURREAL_MEMORY_TOKEN", "tok")
+    monkeypatch.setenv("SURREAL_MEMORY_CONTEXT", "flagstate")
     real = memory._client
     monkeypatch.setattr(memory, "_client", lambda: httpx.Client(
         base_url=real().base_url, headers={"Authorization": "Bearer tok"}, transport=httpx.MockTransport(handler)))
