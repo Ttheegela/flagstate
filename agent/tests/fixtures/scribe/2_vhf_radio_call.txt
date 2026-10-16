@@ -1,0 +1,9 @@
+Coast guard: Motor tanker Maria, motor tanker Maria, this is coast guard, channel one six. State your last port of call.
+
+Vessel: Coast guard, this is Maria. Last port Ust-Luga. Our IMO is eight five one seven eight three nine.
+
+Coast guard: Maria, our records show this hull sailed as Lev Yashin. Confirm your flag.
+
+Vessel: Flag is Russia. Over.
+
+Coast guard: Understood. Be advised, the tanker Enisey, formerly Federal Baffin, is anchored two miles to your north. Out.
