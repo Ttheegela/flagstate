@@ -41,7 +41,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' blob: https://unpkg.com/@elevenlabs/convai-widget-embed@0.18.3/ https://cdn.jsdelivr.net/npm/@alexanderolsen/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://storage.googleapis.com; connect-src 'self' http://localhost:8787 https://*.proxy.daytona.works https://*.proxy.daytona.work https://*.daytonaproxy01.net https://*.elevenlabs.io wss://*.elevenlabs.io; media-src 'self' blob: http://localhost:8787 https://*.proxy.daytona.works https://*.proxy.daytona.work https://*.daytonaproxy01.net; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' blob: https://unpkg.com/@elevenlabs/convai-widget-embed@0.18.3/ https://cdn.jsdelivr.net/npm/@alexanderolsen/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://storage.googleapis.com; connect-src 'self' http://localhost:8787 https://*.proxy.daytona.works https://*.proxy.daytona.work https://*.daytonaproxy01.net https://*.trycloudflare.com https://*.elevenlabs.io wss://*.elevenlabs.io; media-src 'self' blob: http://localhost:8787 https://*.proxy.daytona.works https://*.proxy.daytona.work https://*.daytonaproxy01.net https://*.trycloudflare.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
         }
       ]
     },
