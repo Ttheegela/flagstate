@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import threading
+from functools import lru_cache
 import uuid
 
 from fastapi import FastAPI, HTTPException
@@ -86,8 +87,16 @@ def _compact_lookup(lk: dict) -> dict:
 @app.get("/health")
 def health():
     keys = {"daytona": "DAYTONA_API_KEY", "anchor": "ANCHOR_API_KEY", "arize": "ARIZE_API_KEY",
-            "elevenlabs": "ELEVENLABS_API_KEY", "surreal": "SURREAL_MEMORY_URL", "bedrock": "AWS_ACCESS_KEY_ID"}
-    return {"ok": True, "configured": {name: bool(env(var)) for name, var in keys.items()}}
+            "elevenlabs": "ELEVENLABS_API_KEY", "surreal": "SURREAL_MEMORY_URL"}
+    configured = {name: bool(env(var)) for name, var in keys.items()}
+    configured["bedrock"] = _aws_credentials()  # env keys locally, the instance role on EC2
+    return {"ok": True, "configured": configured}
+
+
+@lru_cache(maxsize=1)
+def _aws_credentials() -> bool:
+    import boto3
+    return boto3.Session().get_credentials() is not None
 
 
 @app.post("/investigate")

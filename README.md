@@ -42,7 +42,7 @@ browser (static site, Vercel)            ElevenLabs voice agent
    |  search: data/ + /api/*                 |  webhook tools
    |  investigate: POST /investigate         |  /tools/search, /tools/investigate, /tools/status
    v                                         v
-        agent service (FastAPI, Python 3.12)
+        agent service (FastAPI, Python 3.12, on AWS EC2)
           lookup ─ recall ─ browse ─ analyse ─ remember ─ brief ─ eval
                     │        │        │          │         │       │
               SurrealDB   Anchor   Daytona   SurrealDB  Bedrock  Arize
@@ -72,7 +72,9 @@ cp agent/.env.example agent/.env   # fill in keys; never commit agent/.env
 agent/.venv/bin/python -m uvicorn agent.server:app --port 8787
 ```
 
-Open the site and add `?agent=http://localhost:8787`. `agent/deploy_daytona.py` deploys the agent service into a public Daytona sandbox; see `agent/README.md` for routes and env vars.
+Open the site and add `?agent=http://localhost:8787`. See `agent/README.md` for routes and env vars.
+
+Deploy: `agent/.venv/bin/python -m agent.deploy_ec2` puts the agent on one EC2 instance (Amazon Linux, Caddy with an automatic HTTPS certificate on `<ip>.sslip.io`, Bedrock through an instance role so no AWS keys leave your machine) and prints its URL; set it in `<meta name="flagstate-agent">`. `agent/deploy_daytona.py` does the same in a public Daytona sandbox, for a Daytona tier with open outbound network.
 
 ## Tests
 
@@ -83,7 +85,7 @@ python3 -m pytest -q scripts && agent/.venv/bin/python -m pytest -q agent/tests 
 ## Limits
 
 - **Registry coverage**: live facts come from one public registry page. It shows flag, name and particulars, but not owner or manager, which sit behind a paywall.
-- **Agent hosting**: on Daytona's free tier, sandboxes can't reach Anchor or SurrealDB, so during the hackathon the agent service ran outside Daytona and only the analysis ran in a sandbox. The deploy script is ready for a tier with open egress.
+- **Agent hosting**: the agent service runs on AWS EC2. Daytona's free tier blocks sandboxes from reaching Anchor and SurrealDB, so Daytona runs the analysis sandbox rather than the whole service; `agent/deploy_daytona.py` is ready for a tier with open outbound network.
 - **Matching**: a name match is a possible match, not proof. Check the numbered source before you publish. Flagstate describes documented conduct and makes no legal findings.
 
 ## Data and credit

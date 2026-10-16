@@ -23,7 +23,7 @@ Journalists, researchers and compliance teams tracking the shadow fleet face shi
 - **Daytona**: the risk analysis (flag hopping, renames, owner changes, list hits, live facts contradicting the lists) runs as code inside a Daytona sandbox, reused across runs, with the sandbox id shown in the UI. `agent/deploy_daytona.py` deploys the whole agent service into a public Daytona sandbox with a preview URL.
 - **Anchor Browser**: reads each ship's public registry page (VesselFinder) through Anchor's Web Unlocker, falling back to an Anchor browser session running an AI web task with a JSON schema, with proxy and stealth on. Companies and people go through the AI task.
 - **SurrealDB Agent Memory**: every fact is stored per ship with its source and the time it was observed. A new value supersedes the old one and history is kept, so the agent can say "flag changed from Liberia to Cameroon, first seen at ...". Each fact is also written as a sentence with `observed_at` so Agent Memory's knowledge graph tracks it over time.
-- **AWS (Bedrock)**: Claude Haiku 4.5 on Bedrock writes a short spoken-style briefing grounded only in the gathered context, returning each claim with its source URL.
+- **AWS**: Claude Haiku 4.5 on Bedrock writes a short spoken-style briefing grounded only in the gathered context, returning each claim with its source URL. The agent service itself runs on EC2 (Caddy HTTPS, Bedrock through an instance role), deployed by `agent/deploy_ec2.py`.
 - **Arize AX**: every investigation is one trace with AGENT, CHAIN, TOOL, LLM and EVALUATOR spans; Bedrock calls are auto-instrumented. A grounding eval (`claims_grounded`: share of claims whose source was actually gathered) is logged on every run. <!-- Rajanee: add the faithfulness eval + dashboard sentence here -->
 - **ElevenLabs**: text-to-speech reads the briefing aloud (Play button), and a Conversational AI agent with webhook tools answers by voice. <!-- Adish: add voice/prompt details here -->
 
@@ -33,7 +33,7 @@ browser (static site, Vercel)            ElevenLabs voice agent
    |  search: data/ + /api/*                 |  webhook tools
    |  investigate: POST /investigate         |  /tools/search, /tools/investigate, /tools/status
    v                                         v
-        agent service (FastAPI, Python 3.12)
+        agent service (FastAPI, Python 3.12, on AWS EC2)
           lookup ─ recall ─ browse ─ analyse ─ remember ─ brief ─ eval
                     │        │        │          │         │       │
               SurrealDB   Anchor   Daytona   SurrealDB  Bedrock  Arize
@@ -41,7 +41,7 @@ browser (static site, Vercel)            ElevenLabs voice agent
 Each sponsor step fails on its own: a missing key or failed call marks that step and the investigation carries on.
 
 ## Challenges
-- Daytona's free tier blocks outbound traffic from sandboxes to most domains, and it can't be lifted per sandbox, so the agent service itself couldn't reach Anchor or SurrealDB from inside Daytona. We kept the analysis in Daytona and served the agent through a tunnel for the demo; the deploy script is ready for a higher tier.
+- Daytona's free tier blocks outbound traffic from sandboxes to most domains, and it can't be lifted per sandbox, so the agent service itself couldn't reach Anchor or SurrealDB from inside Daytona. We kept the analysis in Daytona and moved the agent service to AWS EC2; the Daytona deploy script is ready for a higher tier.
 - SurrealDB Agent Memory rejects `observed_at` on literal writes, so we store an exact literal row for recall plus a known-time sentence for the knowledge graph.
 - Anchor browse takes seconds to a minute, too long for a voice turn, so the voice tools start a job and poll it.
 
