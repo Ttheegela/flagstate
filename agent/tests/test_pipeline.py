@@ -65,4 +65,4 @@ def test_history_changes_pairs_superseded_facts():
     ]
     assert pipeline.history_changes(mem) == [{"field": "flag", "old": "Liberia", "new": "Cameroon",
                                                "old_observed_at": "2026-09-25T00:00:00+00:00",
-                                               "changed_at": "2026-10-16T16:50:00+00:00"}]
+                                               "detected_at": "2026-10-16T16:50:00+00:00"}]

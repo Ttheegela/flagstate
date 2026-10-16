@@ -68,13 +68,13 @@ export function renderSteps(steps) {
   return `<ol class="inv-steps">${rows}</ol>`;
 }
 
-/** "Liberia seen 25 Sep 2026 · changed 16 Oct 2026" from ISO timestamps. */
+/** "Liberia seen 25 Sep 2026 · new value first seen 16 Oct 2026" from ISO timestamps. */
 export function changeNote(c) {
   const day = (iso) => {
     const d = new Date(iso);
     return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
   };
-  return `${c.old ?? "Old value"} seen ${day(c.old_observed_at)}${c.changed_at ? ` · changed ${day(c.changed_at)}` : ""}`;
+  return `${c.old ?? "Old value"} seen ${day(c.old_observed_at)}${c.detected_at ? ` · new value first seen ${day(c.detected_at)}` : ""}`;
 }
 
 export function renderChanges(changes) {

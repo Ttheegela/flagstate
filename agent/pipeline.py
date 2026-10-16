@@ -75,7 +75,7 @@ def history_changes(memory: list[dict]) -> list[dict]:
                     and m.get("observed_at") == old["superseded_at"]), None)
         if new:
             out.append({"field": old["field"], "old": old.get("value"), "new": new.get("value"),
-                        "old_observed_at": old.get("observed_at"), "changed_at": old["superseded_at"]})
+                        "old_observed_at": old.get("observed_at"), "detected_at": old["superseded_at"]})
     return out
 
 

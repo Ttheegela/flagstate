@@ -92,6 +92,6 @@ test("job: running shows steps and live link, done shows results, error offers r
 
 test("change note shows readable dates", async () => {
   const { changeNote } = await import("../app/investigate.js");
-  assert.equal(changeNote({ old: "Liberia", old_observed_at: "2026-09-25T00:00:00+00:00", changed_at: "2026-10-16T16:54:40+00:00" }),
-    "Liberia seen 25 Sept 2026 · changed 16 Oct 2026".replace("Sept", new Date("2026-09-25").toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" })));
+  assert.equal(changeNote({ old: "Liberia", old_observed_at: "2026-09-25T00:00:00+00:00", detected_at: "2026-10-16T16:54:40+00:00" }),
+    "Liberia seen 25 Sept 2026 · new value first seen 16 Oct 2026".replace("Sept", new Date("2026-09-25").toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" })));
 });
