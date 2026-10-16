@@ -60,17 +60,28 @@ def _remote_append(c: httpx.Client, key: str, subject: str, rows: list[dict]) ->
             "memory_category": "knowledge",
             "labels": [f"subject={key}", f"field={row['field']}"],
         }).raise_for_status()  # observed_at is not allowed on literal writes; it lives inside the row
-        # Same fact as a sentence for Agent Memory's knowledge graph (entities, relations, known-time).
-        # Best effort: the literal row above is what recall depends on.
-        try:
-            c.post("/facts", json={
-                "text": f"{subject} {row['field']} is {row['value']} (source: {row.get('source') or 'unknown'})",
-                "infer": "full",
-                "labels": [f"subject={key}", f"field={row['field']}"],
-                "observed_at": row["observed_at"],
-            }).raise_for_status()
-        except httpx.HTTPError as e:
-            log.warning("agent memory graph write failed: %s", type(e).__name__)
+    # Same facts as sentences for Agent Memory's knowledge graph (entities, relations, known-time).
+    # Extraction is slow (~5 s a fact), so it runs in the background; recall only needs the literal rows.
+    graph = [{
+        "text": f"{subject} {row['field']} is {row['value']} (source: {row.get('source') or 'unknown'})",
+        "infer": "full",
+        "labels": [f"subject={key}", f"field={row['field']}"],
+        "observed_at": row["observed_at"],
+    } for row in rows if row["field"] in GRAPH_FIELDS]
+    if graph:
+        threading.Thread(target=_graph_write, args=(str(c.base_url), dict(c.headers), graph), daemon=True).start()
+
+
+GRAPH_FIELDS = {"name", "flag", "manager", "owner", "operator", "ship_type", "callsign", "mmsi"}
+
+
+def _graph_write(base: str, headers: dict, payloads: list[dict]) -> None:
+    try:
+        with httpx.Client(base_url=base, headers=headers, timeout=60) as c:
+            for body in payloads:
+                c.post("/facts", json=body).raise_for_status()
+    except httpx.HTTPError as e:
+        log.warning("agent memory graph write failed: %s", type(e).__name__)
 
 
 def _local_read() -> dict:
