@@ -56,7 +56,7 @@ test("steps: all seven in contract order, status icons, ms, unknown steps append
 });
 
 test("changes and flags render, escape, and handle empty or missing", () => {
-  assert.ok(renderChanges(DONE.result.changes).includes("Panama → <b>Cameroon</b>"));
+  assert.ok(renderChanges(DONE.result.changes).includes('<s class="inv-old">Panama</s>') && renderChanges(DONE.result.changes).includes('<b class="inv-new">Cameroon</b>'));
   assert.ok(renderChanges([]).includes("No changes"));
   assert.equal(renderChanges(undefined), "");
   const flags = renderFlags([{ flag: "<img src=x>", severity: "HIGH", source: "javascript:alert(1)" }]);
@@ -88,4 +88,10 @@ test("job: running shows steps and live link, done shows results, error offers r
   assert.ok(failed.includes('data-investigate="TASSOS"'));
   assert.ok(renderJob({ status: "done" }).includes("Investigation done"), "result missing entirely");
   assert.ok(!renderJob({ status: "running", result: { live: { live_view_url: "javascript:alert(1)" } } }).includes("Watch the browser"));
+});
+
+test("change note shows readable dates", async () => {
+  const { changeNote } = await import("../app/investigate.js");
+  assert.equal(changeNote({ old: "Liberia", old_observed_at: "2026-09-25T00:00:00+00:00", changed_at: "2026-10-16T16:54:40+00:00" }),
+    "Liberia seen 25 Sept 2026 · changed 16 Oct 2026".replace("Sept", new Date("2026-09-25").toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" })));
 });

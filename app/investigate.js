@@ -68,10 +68,19 @@ export function renderSteps(steps) {
   return `<ol class="inv-steps">${rows}</ol>`;
 }
 
+/** "Liberia seen 25 Sep 2026 · changed 16 Oct 2026" from ISO timestamps. */
+export function changeNote(c) {
+  const day = (iso) => {
+    const d = new Date(iso);
+    return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+  };
+  return `${c.old ?? "Old value"} seen ${day(c.old_observed_at)}${c.changed_at ? ` · changed ${day(c.changed_at)}` : ""}`;
+}
+
 export function renderChanges(changes) {
   if (!Array.isArray(changes)) return "";
-  const rows = changes.map((c) => `<li><span class="conn-rel">${escapeHtml(c?.field)}</span>${escapeHtml(c?.old ?? "—")} → <b>${escapeHtml(c?.new ?? "—")}</b>${c?.old_observed_at ? ` <span class="conn-meta">was seen ${escapeHtml(c.old_observed_at)}</span>` : ""}</li>`).join("");
-  return `<div class="block"><h3>What changed since last check</h3>${rows ? `<ul class="conn-list">${rows}</ul>` : `<p class="muted">No changes since the last check.</p>`}</div>`;
+  const rows = changes.map((c) => `<li class="inv-change"><span class="conn-rel">${escapeHtml(c?.field)}</span><s class="inv-old">${escapeHtml(c?.old ?? "—")}</s> <span class="inv-arrow" aria-label="changed to">→</span> <b class="inv-new">${escapeHtml(c?.new ?? "—")}</b>${c?.old_observed_at ? ` <span class="conn-meta">${escapeHtml(changeNote(c))}</span>` : ""}</li>`).join("");
+  return `<div class="block inv-changes"><h3>What changed since last check</h3>${rows ? `<ul class="conn-list">${rows}</ul>` : `<p class="muted">No changes since the last check.</p>`}</div>`;
 }
 
 export function renderFlags(flags) {
@@ -81,7 +90,7 @@ export function renderFlags(flags) {
     const cls = ["high", "medium", "low"].includes(sev) ? sev : "info";
     return `<li><span class="sev sev-${cls}">${escapeHtml(sev.toUpperCase())}</span> <b>${escapeHtml(f?.flag)}</b>${f?.evidence ? `<span class="inv-detail">${escapeHtml(f.evidence)}</span>` : ""}${f?.source ? `<span class="conn-meta">${sourceLink(f.source)}</span>` : ""}</li>`;
   }).join("");
-  return `<div class="block"><h3>Risk flags · ${flags.length}</h3>${rows ? `<ul class="conn-list">${rows}</ul>` : `<p class="muted">No risk flags raised.</p>`}</div>`;
+  return `<div class="block inv-flags"><h3>Risk flags · ${flags.length}</h3>${rows ? `<ul class="conn-list">${rows}</ul>` : `<p class="muted">No risk flags raised.</p>`}</div>`;
 }
 
 /** "12/12 claims sourced" from the briefing, plus the Arize eval label and score when present. */
@@ -99,7 +108,7 @@ export function renderBriefing(briefing, ev, audioSrc) {
   const claims = Array.isArray(briefing.claims) ? briefing.claims : [];
   const play = audioSrc ? `<button class="btn" type="button" data-play>Play briefing</button><audio preload="none" src="${escapeHtml(audioSrc)}"></audio>` : "";
   const line = evalLine(briefing, ev);
-  return `<div class="block reported"><h3>Briefing</h3>
+  return `<div class="block reported inv-brief"><h3>Briefing</h3>
     ${briefing.text ? `<p>${escapeHtml(briefing.text)}</p>` : ""}
     ${claims.length ? `<ol class="src">${claims.map((c) => `<li>${escapeHtml(c?.text)}${c?.source ? ` · ${sourceLink(c.source)}` : " · <span class=\"is-stale\">no source</span>"}</li>`).join("")}</ol>` : ""}
     <div class="d-actions">${play}${line ? `<span class="inv-eval">Eval (Arize): ${escapeHtml(line)}</span>` : ""}</div>
@@ -182,6 +191,8 @@ export function setupVoice() {
   if (!id || !section) return;
   const widget = document.createElement("elevenlabs-convai");
   widget.setAttribute("agent-id", id);
+  widget.setAttribute("action-text", "Ask Flagstate by voice");
+  widget.setAttribute("start-call-text", "Start a call");
   // The voice agent's webhook tools call https://{agent_host}/tools/*, so hand it the agent's host.
   try {
     widget.setAttribute("dynamic-variables", JSON.stringify({ agent_host: new URL(agentBase()).host }));

@@ -9,7 +9,7 @@
 <meta name="flagstate-voice-agent" content="agent_9901m52q5vc1f11scmf3gv6pvfwy">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app/style.css">
 <script type="module" src="app/main.js"></script>
 </head>
@@ -26,18 +26,25 @@
 
 <main>
 <section class="wrap hero" id="search">
-  <h1>Names change. <span>The hull doesn't.</span></h1>
-  <p class="hero-sub">Check any ship, company or person against our sanctions-evasion research and the US, UK, EU and UN sanctions lists. Every answer comes with its source.</p>
+  <p class="label hero-kicker">Sanctions intelligence, traced over time</p>
+  <h1>The lists say who. <span>We show what changed.</span></h1>
+  <p class="hero-sub">Search any ship, company or person. Flagstate joins official US, UK, EU and UN records to live evidence, then shows the <strong>names, flags and relationships that changed since the last check.</strong></p>
+  <div class="entry-points">
   <form class="search" role="search" id="search-form">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     <label for="q" class="visually-hidden">Search a ship, IMO number, company or person</label>
-    <input id="q" name="q" type="search" placeholder="Ship name, IMO number, company or person" autocomplete="off" spellcheck="false" maxlength="200">
+    <input id="q" name="q" type="search" placeholder="Ship, IMO number, company or person" autocomplete="off" spellcheck="false" maxlength="200">
     <span class="kbd" aria-hidden="true">/</span>
   </form>
+  <a class="voice-entry" href="#voice"><strong>Ask by voice</strong><span>Talk to the investigator →</span></a>
+  </div>
   <div class="hero-meta">
     <span id="lists-date"><span class="live-dot" aria-hidden="true"></span>Checking when the official lists were last updated…</span>
     <span>Try <a href="#" data-example="TASSOS">TASSOS</a> · <a href="#" data-example="Sovcomflot">Sovcomflot</a> · <a href="#" data-example="9408695">9408695</a></span>
     <button class="btn btn-accent" type="button" id="start-walk">Follow one tanker, 5 steps</button>
+  </div>
+  <div class="powered" aria-label="Technology partners">
+    <span class="powered-label">Powered by</span><span class="powered-badge">Daytona</span><span class="powered-badge">Anchor Browser</span><span class="powered-badge">SurrealDB</span><span class="powered-badge">AWS Bedrock</span><span class="powered-badge">Arize</span><span class="powered-badge">ElevenLabs</span>
   </div>
 </section>
 
@@ -46,7 +53,7 @@
 <section class="wrap voice" id="voice" aria-labelledby="voice-h" hidden>
   <p class="label">Ask by voice</p>
   <h2 id="voice-h">Talk to the investigator</h2>
-  <p class="hero-sub">Ask about a ship, company or person out loud. The voice agent searches the same research and lists, and can start a live investigation. Press the call button to start.</p>
+  <p class="hero-sub">Ask about a ship, company or person out loud. The voice agent searches the same evidence, checks the same lists and can start a live investigation while you listen.</p>
   <div id="voice-slot"></div>
 </section>
 
