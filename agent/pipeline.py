@@ -142,12 +142,14 @@ def investigate(query: str, on_step=None) -> dict:
             ev = grounding_eval(briefing, context)
             faith = llm.judge_faithfulness(briefing, context)
             for e in (ev, faith):
-                tracing.log_eval(e["name"], e["score"] if e["score"] is not None else 0.0, e["label"], e["explanation"])
+                if e["score"] is not None:  # an unavailable judge is not a score of 0
+                    tracing.log_eval(e["name"], e["score"], e["label"], e["explanation"])
             return [ev, faith]
 
         evs = run("eval", evaluate, "EVALUATOR") or []
         for e in evs:
-            tracing.log_eval(e["name"], e["score"] if e["score"] is not None else 0.0, e["label"], e["explanation"])  # also on the root span
+            if e["score"] is not None:
+                tracing.log_eval(e["name"], e["score"], e["label"], e["explanation"])  # also on the root span
         ev = evs[0] if evs else None
         result.update(live=live, memory=memory, analysis=analysis, changes=changes, briefing=briefing, eval=ev,
                       evals=evs, flags=analysis.get("flags") or [],
